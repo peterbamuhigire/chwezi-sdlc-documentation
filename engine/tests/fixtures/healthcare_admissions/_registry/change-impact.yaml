@@ -1,0 +1,11 @@
+entries:
+  - id: CIA-001
+    raised_on: 2026-09-27
+    affected_baseline_ids: ["FR-001"]
+    downstream_artifacts:
+      - "05-testing-documentation/TC-001-facility-denial.md"
+      - "03-design-documentation/decision-log.md"
+    decision: deferred
+    decision_body: "A proposed change from facility-specific permission to shared admissions access changes the authorization boundary. Defer until the facility access owner supplies and approves the role matrix."
+    decision_date: 2026-09-27
+    rollback_plan: "Restore the synthetic facility-specific FR-001 baseline, remove the candidate access change, and rerun the traceability and acceptance-oracle checks."

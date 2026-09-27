@@ -1,0 +1,28 @@
+{
+  "fixture_name": "healthcare_admissions",
+  "classification": "behavioural",
+  "data_classification": "synthetic-test-only",
+  "coverage": [
+    "facility-scope-denial",
+    "interrupted-intake-duplicate",
+    "unavailable-reference-data",
+    "billing-handoff",
+    "missing-signoff",
+    "controlled-change-impact",
+    "open-contradiction-is-not-approved"
+  ],
+  "evidence": {
+    "decision_id": "HEALTHCARE-ADMISSIONS-FIXTURE-001",
+    "decision": "synthetic-fixture-only; not-client-approved",
+    "evidence_paths": [
+      "02-requirements-engineering/requirements.md",
+      "03-design-documentation/decision-log.md",
+      "05-testing-documentation/TC-001-facility-denial.md",
+      "05-testing-documentation/TC-002-interrupted-duplicate.md",
+      "05-testing-documentation/TC-003-unavailable-reference-data.md",
+      "05-testing-documentation/TC-004-missing-signoff.md",
+      "_registry/change-impact.yaml"
+    ],
+    "review_status": "synthetic-only; no Medic8 source, patient data, clinical claim, jurisdiction rule, or stakeholder approval"
+  }
+}
