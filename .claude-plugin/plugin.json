@@ -1,4 +1,5 @@
 {
+  "name": "srs",
   "version": "1.0.0",
   "skills": [
     "./01-strategic-vision/01-prd-generation/",
