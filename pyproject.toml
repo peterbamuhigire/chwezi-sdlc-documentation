@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Validation kernel for srs-skills project workspaces."
 requires-python = ">=3.11"
 dependencies = [
-  "click>=8.1",
+  "click>=8.3.3",
   "ruamel.yaml>=0.18",
   "mistune>=3.0",
   "jsonschema>=4.21",
@@ -21,7 +21,7 @@ testpaths = ["engine/tests"]
 addopts = "-q --strict-markers --cov=engine --cov-report=term-missing --cov-fail-under=90"
 
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=83.0.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
