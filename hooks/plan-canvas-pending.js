@@ -30,6 +30,8 @@
 
 'use strict';
 
+if (!require('./plugin-hook-config').isEnabled()) process.exit(0);
+
 const fs = require('fs');
 const http = require('http');
 const os = require('os');
