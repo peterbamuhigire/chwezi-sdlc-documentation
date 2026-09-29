@@ -22,7 +22,7 @@ cd srs-skills
 #   https://github.com/peterbamuhigire/chwezi-accounting-doctrine
 pip install -e ".[dev]"
 python -m engine doctor
-python -m engine new-project Acme --methodology waterfall --domain healthcare --example healthcare-saas
+python -m engine new-project Acme --methodology waterfall --domain government --example uganda-public-sector
 python -m engine validate projects/Acme
 ```
 
