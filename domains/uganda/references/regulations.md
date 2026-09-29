@@ -11,7 +11,9 @@
 | PPDA Act (Cap 305) | All procurement classified by category; threshold-based approval matrix; full documentation on file before payment released; public procurement register |
 | Uganda Companies Act | 7-year company record retention; director obligations; annual returns |
 | Electronic Signatures Act | Legal recognition of electronic records and signatures |
-| Computer Misuse Act 2011 | Unauthorised computer access; data interference offences; system-generated evidence admissibility |
+| Computer Misuse Act 2011 (principal Act only; see the note below) | Unauthorised computer access; data interference offences; system-generated evidence admissibility |
+
+**Computer Misuse Act: legal currency (checked 29 Sep 2026; factual reporting, not legal advice).** On 17 Mar 2026 the Constitutional Court declared the whole Computer Misuse (Amendment) Act 2022 void (quorum defect: Rule 24(3) of the Rules of Procedure; Articles 88 and 89 of the Constitution). Per secondary reports it also struck ss.11, 23 and 26 to 29 of the principal Act (2023 revised edition numbering) and criminal libel (Penal Code ss.162 and 163); s.25 was struck earlier, on 11 Jan 2023. The Attorney General halted prosecutions under the struck provisions. The rest of the principal Act remains in force. In an SRS, cite the principal Act without 2022-amendment obligations, and verify every section number against the judgment on ULII before it appears in a requirement. Sources (accessed 29 Sep 2026): CPJ, 19 Mar 2026, https://cpj.org/2026/03/uganda-declares-criminal-defamation-unconstitutional-strikes-down-cybercrime-law/ ; The Independent (Uganda), https://www.independent.co.ug/court-castrates-computer-misuse-act-2022-amendment-declared-illegal/ ; Daily Monitor, 26 Mar 2026, https://www.monitor.co.ug/uganda/news/national/ag-halts-arrests-based-on-nullified-computer-misuse-law-5403596 . Register records `UG-CMA-*`: https://github.com/peterbamuhigire/social-media-skills/blob/main/docs/source-registers/source-register.json .
 
 ## Regulatory Bodies
 
