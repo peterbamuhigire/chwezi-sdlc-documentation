@@ -1,6 +1,6 @@
 ---
 name: 19-game-software-requirements-specification
-description: "Use when specifying testable game software requirements for player experience, gameplay state, platforms, multiplayer, saves, content, performance, accessibility, telemetry, security, builds, release, or live operations."
+description: "Use when a video game needs testable GREQ requirements for the game loop, levels, player progression, saves, multiplayer, monetisation, platform certification, content budgets, accessibility, telemetry, builds or live operations; use 01-initialize-srs for a non-game system SRS."
 metadata: {portable: true, compatible_with: [claude-code, codex]}
 ---
 # Game Software Requirements Specification

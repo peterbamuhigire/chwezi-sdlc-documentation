@@ -19,7 +19,10 @@ jobs:
       - run: pytest --cov=engine --cov-fail-under=90
       - run: python scripts/validate_engine.py
       - run: python scripts/validate_skill_engine.py --baseline tests/skill-quality-baseline.json
-      - run: python scripts/routing_smoke_test.py
+      - name: Routing smoke test (top-3, owned negatives, precision@1 floor, fixture lint; M10-03)
+        run: python scripts/routing_smoke_test.py --min-rank1 83 --lint-fixtures
+      - name: Routing and Tier-1 lint unit tests (M10-03)
+        run: python -m pytest -q -o addopts="" tests/test_routing_smoke_owned_negatives.py tests/test_validate_skill_engine_tier1.py
       - run: python -m engine validate-skills
       - name: Validate SDD phase-boundary contract
         run: python scripts/validate_sdd_phase_boundaries.py --feature-dir engine/tests/fixtures/sdd_feature

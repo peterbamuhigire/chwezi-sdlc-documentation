@@ -165,7 +165,7 @@
   "template_count": 1,
   "failure_counts": {},
   "routing": {
-    "fixture_count": 56,
+    "fixture_count": 71,
     "top_k": 3,
     "minimum_precision": 1.0
   }

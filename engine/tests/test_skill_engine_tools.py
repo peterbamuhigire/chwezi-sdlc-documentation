@@ -37,6 +37,7 @@ def test_zero_debt_baseline_and_routing_fixture_contract() -> None:
         "collision",
         "limited-capability",
         "failure-path",
+        "negative",  # M10-03-T08 owned negatives
     }
     assert len({item["id"] for item in fixtures["fixtures"]}) == len(fixtures["fixtures"])
 

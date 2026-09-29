@@ -48,6 +48,19 @@ REQUIRED_HEADINGS = (
 )
 AUDIT_WORDS = re.compile(r"\b(audit|review|critique|analysis|assessment|planning|evaluation)\b", re.I)
 
+# Tier-1 lint refinements (M10-03-T12), adapted from addyosmani/agent-skills (MIT,
+# https://github.com/addyosmani/agent-skills, commit 2686b62), paraphrased.
+# 1. CommonMark fences are stripped before section checks, so a heading inside a code sample
+#    never satisfies a section contract.
+FENCE_RE = re.compile(r"^[ ]{0,3}(`{3,}|~{3,})[^\n]*\n.*?^[ ]{0,3}\1[`~]*[ \t]*$", re.M | re.S)
+# 2. Negated triggers are stripped from the whole description before the "Use when" check.
+NEGATED_TRIGGER_RE = re.compile(r"\b(?:do not|don't|never|not)\s+use\s+(?:this\s+)?when\b[^;.]*[;.]?", re.I)
+# 3. Exemptions are owned by this validator, never by skill frontmatter:
+#    {relative SKILL.md path: {finding code: reason}}. Every entry needs a reason and a live path.
+EXEMPTIONS: dict[str, dict[str, str]] = {}
+# 4. Host-strict YAML subset: hosts can parse frontmatter more strictly than ruamel/PyYAML.
+UNQUOTED_COLON_RE = re.compile(r"""^\s*[A-Za-z0-9_-]+:\s+(?!["'\[{>|&*!])[^#\n]*:\s""")
+
 
 def arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
@@ -101,6 +114,44 @@ def parse_skill(path: Path) -> tuple[dict, str, str | None]:
     return dict(frontmatter), raw[match.end():], None
 
 
+def strip_fences(body: str) -> str:
+    """Remove fenced code blocks (``` or ~~~) so section checks see only prose headings."""
+    return FENCE_RE.sub("", body)
+
+
+def strip_negated_triggers(description: str) -> str:
+    return NEGATED_TRIGGER_RE.sub("", description).strip()
+
+
+def host_strict_findings(raw: str) -> list[str]:
+    """Flag frontmatter a strict host parser may reject: tabs, unclosed quotes, unquoted ': '."""
+    match = FRONTMATTER_RE.match(raw)
+    if not match:
+        return []
+    findings: list[str] = []
+    for line in match.group(1).splitlines():
+        if "\t" in line:
+            findings.append("frontmatter_tab")
+        value = line.split(":", 1)[1].strip() if ":" in line else ""
+        for quote in ('"', "'"):
+            if value.startswith(quote) and (len(value) < 2 or not value.endswith(quote)):
+                findings.append("frontmatter_unclosed_quote")
+        if UNQUOTED_COLON_RE.match(line):
+            findings.append("frontmatter_unquoted_colon")
+    return sorted(set(findings))
+
+
+def stale_exemptions(root: Path) -> list[str]:
+    problems: list[str] = []
+    for rel, codes in EXEMPTIONS.items():
+        if not (root / rel).is_file():
+            problems.append(f"exemption path missing: {rel}")
+        for code, reason in codes.items():
+            if not str(reason).strip():
+                problems.append(f"exemption without reason: {rel}:{code}")
+    return problems
+
+
 def section(body: str, heading: str) -> str | None:
     match = re.search(rf"^##\s+{re.escape(heading)}\s*$([\s\S]*?)(?=^##\s|\Z)", body, re.M | re.I)
     return match.group(1).strip() if match else None
@@ -120,7 +171,9 @@ def assess(path: Path, root: Path) -> list[str]:
     raw = path.read_text(encoding="utf-8", errors="replace")
     findings: list[str] = []
     if parse_error:
-        return [parse_error]
+        return sorted({parse_error, *host_strict_findings(raw)})
+    body = strip_fences(body)
+    findings.extend(host_strict_findings(raw))
     if set(fm) - ALLOWED_KEYS:
         findings.append("unsupported_frontmatter_keys")
     if fm.get("name") != path.parent.name:
@@ -128,6 +181,8 @@ def assess(path: Path, root: Path) -> list[str]:
     description = fm.get("description")
     if not isinstance(description, str) or not description.startswith("Use when") or "\n" in description or len(description) > 350:
         findings.append("description_contract")
+    elif len(re.findall(r"\w+", re.sub(r"^Use when", "", strip_negated_triggers(description)))) < 3:
+        findings.append("description_trigger_negated_only")
     metadata = fm.get("metadata") if isinstance(fm.get("metadata"), dict) else {}
     if metadata.get("portable") is not True or list(metadata.get("compatible_with", [])) != ["claude-code", "codex"]:
         findings.append("portable_metadata")
@@ -182,7 +237,11 @@ def assess(path: Path, root: Path) -> list[str]:
     refs = sections.get("References") or ""
     if not markdown_links(refs):
         findings.append("references_not_directly_linked")
-    return sorted(set(findings))
+    try:
+        exempt = EXEMPTIONS.get(path.resolve().relative_to(root.resolve()).as_posix(), {})
+    except ValueError:
+        exempt = {}
+    return sorted(set(findings) - set(exempt))
 
 
 def baseline_mismatches(payload: dict, baseline: dict) -> list[str]:
@@ -253,6 +312,10 @@ def main() -> int:
             rel = template.relative_to(root).as_posix()
             results[rel] = found
             failures.update("template_" + item for item in found)
+    exemption_problems = stale_exemptions(root)
+    if exemption_problems:
+        failures["stale_exemptions"] = len(exemption_problems)
+        results["<exemptions>"] = exemption_problems
     missing_resources = [resource for resource in MANDATORY_ENGINE_RESOURCES if not (root / resource).exists()]
     if missing_resources:
         failures["missing_engine_resources"] = len(missing_resources)

@@ -1,6 +1,6 @@
 ---
 name: 02-business-case
-description: Use when decision-makers need a go/no-go business case with cost, benefit, risk, timing, assumptions, and sensitivity evidence; use vision-statement for direction, lean-canvas for early hypotheses, and PRD generation only after investment approval.
+description: "Use when decision-makers need a business case with ROI for a new system or ERP: costs, benefits, ROI, payback, NPV, risks, assumptions, sensitivity and a go/no-go call; use vision-statement for direction, lean-canvas for early hypotheses, and PRD generation after approval."
 metadata:
   portable: true
   compatible_with:

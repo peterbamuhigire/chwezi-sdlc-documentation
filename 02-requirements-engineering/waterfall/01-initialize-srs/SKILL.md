@@ -1,6 +1,6 @@
 ---
 name: 01-initialize-srs
-description: "Use when creating the Waterfall SRS workspace, selecting the specification structure, and establishing identifiers and source context; use context-engineering after initialisation to model boundaries and actors."
+description: "Use when writing a new SRS (software requirements specification) for a business system or module: create the Waterfall SRS workspace, IEEE structure, identifiers and source context; use context-engineering next for boundaries and actors."
 metadata:
   portable: true
   compatible_with:
