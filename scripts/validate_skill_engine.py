@@ -54,6 +54,12 @@ def arguments() -> argparse.Namespace:
     parser.add_argument("--root", type=Path, default=ROOT)
     parser.add_argument("--baseline", type=Path)
     parser.add_argument("--json", action="store_true")
+    parser.add_argument(
+        "--max-skill-bytes",
+        type=int,
+        default=20480,
+        help="report-only SKILL.md size warning threshold in bytes (M10-04-T07); never changes the exit status",
+    )
     return parser.parse_args()
 
 
@@ -258,6 +264,13 @@ def main() -> int:
         "template_count": len(template_files(root)),
         "failure_counts": dict(sorted(failures.items())),
         "results": {path: found for path, found in results.items() if found},
+        # Report-only size warnings beside the 500-line cap (M10-04-T07, Caveman CV-06);
+        # they never enter failure_counts, so the baseline and exit status are unchanged.
+        "size_warnings": [
+            {"path": path.relative_to(root).as_posix(), "bytes": path.stat().st_size}
+            for path in files
+            if path.stat().st_size > args.max_skill_bytes
+        ],
     }
     baseline_errors: list[str] = []
     if args.baseline:
@@ -276,6 +289,8 @@ def main() -> int:
             print(f"- {rel}: {', '.join(found)}")
         for error in baseline_errors:
             print(f"- baseline: {error}")
+        for item in payload["size_warnings"]:
+            print(f"WARN skill-bytes {item['path']}: {item['bytes']} bytes > {args.max_skill_bytes} (report-only)")
     return 1 if failures or baseline_errors else 0
 
 
