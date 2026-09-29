@@ -1,0 +1,13 @@
+{
+  "name": "srs-diagram-render",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pinned local Mermaid renderer for scripts/render_diagrams.py. Uses the machine's Chrome or Edge through PUPPETEER_EXECUTABLE_PATH; no browser download and no hosted renderer.",
+  "license": "MIT",
+  "dependencies": {
+    "@mermaid-js/mermaid-cli": "12.0.0"
+  },
+  "overrides": {
+    "lodash-es": "4.18.1"
+  }
+}

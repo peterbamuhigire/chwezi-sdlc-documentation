@@ -1,0 +1,24 @@
+{
+  "$comment": "Single source for diagram rendering settings used by scripts/render_diagrams.py (M10-01-T09). diagram_font_family is checked against the design engine's ai-slop-banned-fonts.json at render time; the final diagram typography standard is set by AR-12 in M10-07.",
+  "diagram_font_family": "Public Sans",
+  "diagram_font_fallback": "sans-serif",
+  "font_file_candidates": [
+    "../design-system-skills/fonts/08-body-ui-workhorses/public-sans/PublicSans-VF.ttf"
+  ],
+  "banned_fonts_json_candidates": [
+    "../design-system-skills/doctrine/references/ai-slop-banned-fonts.json"
+  ],
+  "browser_candidates": [
+    "C:/Program Files/Google/Chrome/Application/chrome.exe",
+    "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe",
+    "C:/Program Files/Microsoft/Edge/Application/msedge.exe",
+    "/usr/bin/google-chrome",
+    "/usr/bin/chromium",
+    "/usr/bin/chromium-browser",
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+  ],
+  "min_ppi": 300,
+  "body_measure_in": 6.25,
+  "max_figure_height_in": 8.0,
+  "mermaid_theme": "neutral"
+}

@@ -6,6 +6,7 @@ from engine.checks.design_sufficiency import DesignSufficiencyCheck
 from engine.findings import Finding, FindingCollection, Severity
 from engine.gates.base import Gate
 from engine.gates._shared import ClauseRef, attach_clause
+from engine.figures import figures_in, load_manifest_index
 
 _CLAUSE_ADR = ClauseRef("ISO/IEC/IEEE 42010:2011", "5.3")
 _CLAUSE_INTERFACES = ClauseRef("ISO/IEC/IEEE 42010:2011", "5.4")
@@ -14,6 +15,7 @@ _CLAUSE_NFR_LINKS = ClauseRef("ISO/IEC/IEEE 42010:2011", "5.3.1")
 _CLAUSE_SUFFICIENCY = ClauseRef("ISO/IEC/IEEE 42010:2011", "5.3.1")
 _CLAUSE_THREAT = ClauseRef("ISO/IEC/IEEE 42010:2011", "5.3.2")
 _CLAUSE_IOT = ClauseRef("ISO/IEC/IEEE 42010:2011", "5.5")
+_CLAUSE_VIEWS = ClauseRef("ISO/IEC/IEEE 42010:2011", "5.6")
 
 _ADR_DIR_TOKEN = "/adr/"
 _ADR_ID_PREFIX = "ADR-"
@@ -25,6 +27,10 @@ _IOT_DIR_TOKEN = "/07-iot-system-design/"
 _IOT_ROOT = "07-iot-system-design/"
 _SIGNAL_INVENTORY_SUFFIXES = ("signal-inventory.md", "signals.md")
 _NFR_PREFIX = "NFR-"
+# HLD/LLD documents: a path segment or file name carrying one of these tokens.
+_DESIGN_DOC_TOKEN_RE = re.compile(
+    r"(?<![a-z])(hld|lld|high-level-design|low-level-design)(?![a-z])"
+)
 
 _HTTP_METHOD_RE = re.compile(r"\b(GET|POST|PUT|PATCH|DELETE)\b")
 _RESPONSE_RE = re.compile(
@@ -58,6 +64,7 @@ class Phase03Gate(Gate):
         self._check_requirements_have_design_evidence(graph, findings)
         self._check_security_threat_model_present(graph, findings)
         self._check_iot_signal_inventory_present(graph, findings)
+        self._check_design_docs_have_figures(graph, findings)
 
     # -- Check 1: architecture decisions recorded ------------------------
     def _check_architecture_decisions_recorded(
@@ -223,3 +230,44 @@ class Phase03Gate(Gate):
             location=None,
             line=None,
         ), _CLAUSE_IOT))
+
+    # -- Check 8: HLD/LLD documents carry a rendered design figure -------
+    def _check_design_docs_have_figures(
+        self, graph: ArtifactGraph, findings: FindingCollection
+    ) -> None:
+        """Each HLD/LLD document needs at least one figure a reader can see.
+
+        A document is the directory (or file) whose name carries an HLD/LLD
+        token under 03-design-documentation/. A Mermaid code block alone does
+        not count; see engine/figures.py for what does (M10-01-T12, AR-03).
+        """
+        groups: dict = {}
+        for art in graph.artifacts:
+            posix = _posix(art.path)
+            if not posix.startswith(_PHASE03_ROOT):
+                continue
+            parts = posix[len(_PHASE03_ROOT):].split("/")
+            for depth, part in enumerate(parts):
+                if _DESIGN_DOC_TOKEN_RE.search(part.lower()):
+                    key = _PHASE03_ROOT + "/".join(parts[: depth + 1])
+                    groups.setdefault(key, []).append(art)
+                    break
+        if not groups:
+            return
+        root = graph.root
+        index = load_manifest_index(root) if root is not None else {}
+        for key in sorted(groups):
+            if any(figures_in(art, root, index) for art in groups[key]):
+                continue
+            findings.add(attach_clause(Finding(
+                gate_id=f"{self.id}.design_docs_have_figures",
+                severity=Severity.HIGH,
+                message=(
+                    f"Design document '{key}' has no rendered design figure: "
+                    f"expected an image whose file exists, or a Mermaid block "
+                    f"rendered by scripts/render_diagrams.py (a code block "
+                    f"alone is not a figure)"
+                ),
+                location=None,
+                line=None,
+            ), _CLAUSE_VIEWS))

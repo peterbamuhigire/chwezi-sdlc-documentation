@@ -32,6 +32,7 @@ This document is validated by `scripts/validate_engine.py`: every check ID that 
 | `phase03.nfrs_link_to_design_choices` | ISO/IEC/IEEE 42010:2011 | §5.3 | `engine/gates/phase03.py` |
 | `phase03.security_threat_model_present` | ISO/IEC/IEEE 42010:2011 | §5.3 | `engine/gates/phase03.py` |
 | `phase03.iot_signal_inventory_present` | ISO/IEC/IEEE 42010:2011 | §5.3 | `engine/gates/phase03.py` |
+| `phase03.design_docs_have_figures` | ISO/IEC/IEEE 42010:2011 | §5.6 | `engine/gates/phase03.py` |
 
 ## Phase 04 — Development Artifacts
 

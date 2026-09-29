@@ -155,6 +155,9 @@ def test_passes_when_infra_doc_has_ir_diagram(tmp_path):
             "![IR diagram](diagrams/incident-response.png)\n"
         ),
     })
+    png = tmp_path / "06-deployment-operations" / "diagrams" / "incident-response.png"
+    png.parent.mkdir(parents=True, exist_ok=True)
+    png.write_bytes(b"\x89PNG\r\n\x1a\n")
     findings = FindingCollection()
     Phase06Gate().evaluate(graph, findings)
     assert findings.for_gate("phase06.infra_has_ir_diagram") == []
@@ -181,7 +184,7 @@ def test_flags_infra_doc_without_ir_diagram(tmp_path):
     msgs = [f.message for f in findings
             if f.gate_id == "phase06.infra_has_ir_diagram"]
     assert msgs, "expected an infra_has_ir_diagram finding"
-    assert "no incident-response diagram reference" in msgs[0]
+    assert "no incident-response figure" in msgs[0]
 
 
 # -- go_live_readiness_checklist_complete ---------------------------------

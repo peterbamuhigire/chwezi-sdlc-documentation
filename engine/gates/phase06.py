@@ -5,6 +5,7 @@ from engine.artifact_graph import Artifact, ArtifactGraph
 from engine.findings import Finding, FindingCollection, Severity
 from engine.gates.base import Gate
 from engine.gates._shared import ClauseRef, attach_clause
+from engine.figures import figures_in, load_manifest_index
 
 _CLAUSE = ClauseRef("IEEE Std 1062-2015", "6.3")
 
@@ -16,9 +17,14 @@ _RUNBOOK_NAMES = ("runbook.md", "operations-runbook.md")
 _ROLLBACK_RE = re.compile(r"\b(rollback|roll\s+back)\b", re.IGNORECASE)
 _ESCALATION_RE = re.compile(r"\b(escalat(e|ion))\b", re.IGNORECASE)
 _SLO_RE = re.compile(r"\b(SLO|SLI|SLA)\b", re.IGNORECASE)
-_IR_DIAGRAM_RE = re.compile(
-    r"\b(incident[- ]?response|\bIR\b)\b.*(diagram|flow|mermaid|plantuml|!\[)",
-    re.IGNORECASE | re.DOTALL,
+# The document must discuss incident response ...
+_IR_MENTION_RE = re.compile(r"(incident[- ]?response|\bIR\b)", re.IGNORECASE)
+# ... and carry a figure (an existing image, or a rendering recorded by
+# scripts/render_diagrams.py; see engine/figures.py) whose label, target or
+# diagram text is about it. The words "mermaid" or "plantuml" are no longer
+# accepted as proof that a figure exists (M10-01-T12, AR-03).
+_IR_FIGURE_LABEL_RE = re.compile(
+    r"(incident|\bIR\b|(?<![a-z])ir[-_.]|escalat)", re.IGNORECASE
 )
 _UNCHECKED_ITEM_RE = re.compile(r"^\s*-\s+\[\s\]", re.MULTILINE)
 _CHANGE_WINDOW_NAME_TOKENS = (
@@ -217,14 +223,21 @@ class Phase06Gate(Gate):
                 line=None,
             ), _CLAUSE))
             return
-        if _IR_DIAGRAM_RE.search(doc.body):
-            return
+        if _IR_MENTION_RE.search(doc.body):
+            root = graph.root
+            index = load_manifest_index(root) if root is not None else {}
+            for fig in figures_in(doc, root, index):
+                if _IR_FIGURE_LABEL_RE.search(fig.label):
+                    return
         findings.add(attach_clause(Finding(
             gate_id=f"{self.id}.infra_has_ir_diagram",
             severity=Severity.HIGH,
             message=(
                 f"Infrastructure doc '{_posix(doc.path)}' has no "
-                f"incident-response diagram reference"
+                f"incident-response figure: expected an image whose file "
+                f"exists, or a Mermaid block rendered by "
+                f"scripts/render_diagrams.py (a code block alone is not "
+                f"a figure)"
             ),
             location=doc.path,
             line=None,

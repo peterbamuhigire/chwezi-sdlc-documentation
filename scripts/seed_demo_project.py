@@ -17,6 +17,22 @@ def write(rel: str, body: str) -> None:
     p.write_text(body, encoding="utf-8")
 
 
+def _placeholder_png() -> bytes:
+    """A valid 1x1 white PNG, built with the standard library."""
+    import struct
+    import zlib
+
+    def chunk(kind: bytes, data: bytes) -> bytes:
+        body = kind + data
+        return (struct.pack(">I", len(data)) + body
+                + struct.pack(">I", zlib.crc32(body) & 0xFFFFFFFF))
+
+    ihdr = struct.pack(">IIBBBBB", 1, 1, 8, 2, 0, 0, 0)
+    idat = zlib.compress(b"\x00\xff\xff\xff")
+    return (b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", ihdr)
+            + chunk(b"IDAT", idat) + chunk(b"IEND", b""))
+
+
 def main() -> None:
     DEMO.mkdir(parents=True, exist_ok=True)
 
@@ -477,6 +493,14 @@ See IR diagram: ![incident response flow](./ir.png)
 
 Capacity planning follows NFR-003 (concurrency) and NFR-007 (throughput).
 """)
+    # The phase06 gate requires the incident-response figure file to exist
+    # (M10-01-T12): a Mermaid code block or a dangling image link is not a
+    # figure. The demo ships a synthetic placeholder PNG, like its manual
+    # screenshots; a real project renders its IR flow with
+    # scripts/render_diagrams.py through scripts/build-doc.sh.
+    ir_png = DEMO / ops / "ir.png"
+    ir_png.parent.mkdir(parents=True, exist_ok=True)
+    ir_png.write_bytes(_placeholder_png())
 
     write(f"{ops}/go-live-readiness.md", """\
 # Go-Live Readiness

@@ -53,16 +53,48 @@ echo "Stitching files:"
 echo "$FILES" | while read -r f; do echo "  + $(basename "$f")"; done
 echo ""
 
+# Render diagrams (M10-01-T09). Every fenced mermaid block becomes a captioned
+# figure with alt text (PNG >= 300 ppi plus SVG in "$DOC_DIR/_figures/",
+# recorded in render-manifest.json) using the pinned local renderer in
+# scripts/diagram-render (local Chrome/Edge; no hosted renderer). A block that
+# fails to render stops the build before Pandoc runs.
+PYTHON="${PYTHON:-python}"
+command -v "$PYTHON" >/dev/null 2>&1 || PYTHON=python3
+STAGE_DIR="$(mktemp -d)"
+trap 'rm -rf "$STAGE_DIR"' EXIT
+STITCHED="$STAGE_DIR/$OUTPUT_NAME.md"
+# shellcheck disable=SC2086
+if ! "$PYTHON" -X utf8 "$SCRIPT_DIR/render_diagrams.py" --doc-dir "$DOC_DIR" \
+     --name "$OUTPUT_NAME" --out "$STITCHED" $FILES; then
+  echo "ERROR: diagram rendering failed; no .docx was written" >&2
+  exit 1
+fi
+
+case "$(uname -s)" in
+  MINGW*|MSYS*|CYGWIN*) PATH_SEP=';' ;;
+  *) PATH_SEP=':' ;;
+esac
+
 # Build
-# -f markdown_github ensures GitHub Flavored Markdown rendering (consistent with
-# how SKILL.md authors preview files on GitHub). Without this flag, Pandoc uses
-# its own Markdown variant which differs in whitespace, footnote, and nested-list
-# handling. (Etter, 2016 — Modern Technical Writing)
-pandoc $FILES \
-  -f gfm \
+# -f gfm keeps GitHub Flavored Markdown rendering (consistent with how
+# SKILL.md authors preview files on GitHub). Without it, Pandoc uses its own
+# Markdown variant, which differs in whitespace, footnote, and nested-list
+# handling. (Etter, 2016 — Modern Technical Writing) +attributes and
+# +implicit_figures let rendered figures carry a width and a caption;
+# figure-alt.lua moves each figure's alt text into the Word image description.
+pandoc "$STITCHED" \
+  -f gfm+attributes+implicit_figures \
+  --resource-path=".${PATH_SEP}${DOC_DIR}" \
+  --lua-filter="$SCRIPT_DIR/diagram-render/figure-alt.lua" \
   --reference-doc="$TEMPLATE" \
   --table-of-contents \
   --toc-depth=3 \
   -o "$OUTPUT_FILE"
+
+# Post-build guard (M10-01-T10): no Mermaid source may survive in the .docx.
+if ! "$PYTHON" -X utf8 "$SCRIPT_DIR/check_docx_diagrams.py" "$OUTPUT_FILE"; then
+  echo "ERROR: $OUTPUT_FILE contains Mermaid source; treat it as not built" >&2
+  exit 1
+fi
 
 echo "Built: $OUTPUT_FILE"

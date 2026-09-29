@@ -111,6 +111,8 @@ def _seed_clean_project(tmp_path: Path) -> None:
         "![incident response flow](./ir.png)",
         encoding="utf-8",
     )
+    # The phase06 gate requires the figure file to exist (M10-01-T12).
+    (ops / "ir.png").write_bytes(b"\x89PNG\r\n\x1a\n")
     (ops / "go-live-readiness.md").write_text(
         "# Go-Live Readiness\n- [x] Backups configured\n"
         "- [x] Runbook complete\n- [x] Monitoring live",
