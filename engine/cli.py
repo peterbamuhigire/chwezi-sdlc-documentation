@@ -41,7 +41,7 @@ def _default_registry() -> GateRegistry:
 
 @click.group()
 def main() -> None:
-    """srs-skills validation kernel."""
+    """chwezi-sdlc-documentation validation kernel."""
 
 @main.command()
 def doctor() -> None:

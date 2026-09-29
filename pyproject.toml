@@ -1,7 +1,7 @@
 [project]
-name = "srs-skills-engine"
+name = "chwezi-sdlc-documentation-engine"
 version = "0.1.0"
-description = "Validation kernel for srs-skills project workspaces."
+description = "Validation kernel for chwezi-sdlc-documentation project workspaces."
 requires-python = ">=3.11"
 dependencies = [
   "click>=8.3.3",

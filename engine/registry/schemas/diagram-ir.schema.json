@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/peterbamuhigire/srs-skills/engine/registry/schemas/diagram-ir.schema.json",
+  "$id": "https://github.com/peterbamuhigire/chwezi-sdlc-documentation/engine/registry/schemas/diagram-ir.schema.json",
   "$comment": "SRS diagram intermediate representation, schema_version 1 (M10-07-T01, AR-04). Pattern adapted from Archify (MIT, https://github.com/tt-a1i/archify, commit 0e4949f910a8e390bd3b4933883a4dcabad571be). Paraphrased; no schema, code or test text copied. The trace pattern checks shape only; engine/checks/diagram_trace.py checks prefixes against engine.idscan.KIND_PREFIXES and existence against _registry/identifiers.yaml. Change this schema only with a schema_version bump and a migration note.",
   "title": "SRS diagram IR",
   "type": "object",

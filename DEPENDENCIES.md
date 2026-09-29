@@ -1,6 +1,6 @@
 # Dependency & Runtime Manifest
 
-This document enumerates the installation and runtime prerequisites for the SRS-Skills engine so it can operate reliably within the IEEE/ISO-aligned workflow and the resource constraints often encountered in Ugandan environments (e.g., intermittent power, mixed local/cloud execution).
+This document enumerates the installation and runtime prerequisites for the Chwezi SDLC Documentation engine so it can operate reliably within the IEEE/ISO-aligned workflow and the resource constraints often encountered in Ugandan environments (e.g., intermittent power, mixed local/cloud execution).
 
 ## Engine Stack
 
@@ -42,7 +42,7 @@ This document enumerates the installation and runtime prerequisites for the SRS-
 ## Repository Architecture Constraints
 
 - The engine **must** have read/write access to the active `projects/<ProjectName>/_context/` and output folders for context ingestion and artefact delivery. Document this during onboarding so project workspaces use the canonical SRS pathing model.
-- The repository is stateless: **no project-specific data** should ever be written under `skills/` or any part of `srs-skills`—all outputs belong to `../output/`, and inputs live in `../project_context/`.
+- The repository is stateless: **no project-specific data** should ever be written under `skills/` or any part of `chwezi-sdlc-documentation`—all outputs belong to `../output/`, and inputs live in `../project_context/`.
 - The seeder skill (`01-initialize-srs`) creates the initial template files but never persists project answers inside this repo.
 
 ## Recommended Baseline Hardware

@@ -1,6 +1,10 @@
 {
-  "name": "srs",
+  "name": "sdlc-documentation",
   "version": "1.1.0",
+  "description": "Chwezi SDLC Documentation: software requirements specifications, PRDs, business cases, design documentation, testing, deployment, end-user and governance artefacts",
+  "author": {
+    "name": "Peter Bamuhigire"
+  },
   "skills": [
     "./01-strategic-vision/01-prd-generation/",
     "./01-strategic-vision/02-business-case/",

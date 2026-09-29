@@ -46,7 +46,7 @@ def render_sarif(findings: FindingCollection) -> str:
         "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
         "runs": [{
             "tool": {"driver": {
-                "name": "srs-skills-engine",
+                "name": "chwezi-sdlc-documentation-engine",
                 "rules": list(rules.values()),
             }},
             "results": results,

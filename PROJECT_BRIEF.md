@@ -73,7 +73,7 @@ Previously called **SRS-Skills** (focused only on IEEE 830 SRS generation), v3.0
 ### 1. Install as Unified Repository
 
 ```bash
-git clone https://github.com/peterbamuhigire/srs-skills.git
+git clone https://github.com/peterbamuhigire/chwezi-sdlc-documentation.git
 cd skills
 ```
 
@@ -324,8 +324,8 @@ See `docs/MIGRATION_V2_TO_V3.md` for complete migration guide.
 
 ## Support & Resources
 
-- **GitHub:** https://github.com/peterbamuhigire/srs-skills
-- **Issues:** https://github.com/peterbamuhigire/srs-skills/issues
+- **GitHub:** https://github.com/peterbamuhigire/chwezi-sdlc-documentation
+- **Issues:** https://github.com/peterbamuhigire/chwezi-sdlc-documentation/issues
 - **Full Documentation:** See `README.md` in root
 - **AI Assistant Guide:** See `CLAUDE.md` for AI-specific protocols
 

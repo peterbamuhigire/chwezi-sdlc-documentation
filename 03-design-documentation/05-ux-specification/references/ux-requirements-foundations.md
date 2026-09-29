@@ -6,7 +6,7 @@ Parent skill: [05-ux-specification](../SKILL.md). Also loaded by
 Load it when a PRD, vision, canvas or UX specification must turn user-experience
 intent into declared scope, evidence-backed personas and verifiable UX
 requirements. Visual design, typography, motion and render proof belong to
-the `design-system-skills` engine; this reference states what the experience
+the `chwezi-design-engine` engine; this reference states what the experience
 must achieve and how that is verified.
 
 ## 1. Declare the experience scope
@@ -127,7 +127,7 @@ consistency with the declared experience scope in section 1.
 - Strategy statement passes section 3.
 - Each of the five outcomes has a measure, threshold and planned test.
 - Cognitive-load and affordance findings are written as testable requirements.
-- Visual and interaction design handed to `design-system-skills`; render,
+- Visual and interaction design handed to `chwezi-design-engine`; render,
   device and accessibility proof recorded as `NOT_ASSESSED` until performed.
 
 ## Sources and currentness

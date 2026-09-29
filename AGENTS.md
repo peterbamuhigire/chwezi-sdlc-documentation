@@ -279,7 +279,7 @@ These categories belong to the external engineering-catalog engine (`C:\wamp64\w
 | `backend-databases` | MySQL and PostgreSQL engineering/administration/operations/performance, database design, internals and reliability, vector databases. |
 | `devops-cloud` | CI/CD (pipeline design, Jenkins, DevSecOps), Docker, Kubernetes (fundamentals/platform/production/SaaS delivery), IaC, cloud architecture, deployment/release, observability, reliability engineering. |
 | `finance-accounting` | Accounting engine, finance/controller, chart of accounts, payroll (Uganda), inventory costing/management, demand forecasting, fixed assets/depreciation, multicurrency/FX, chwezi finance engine skeletons. |
-| `frontend-ux` | Frontend engineering only: React, Next.js App Router, Tailwind, frontend architecture/performance, Avalonia desktop, POS UI engineering standards, image compression, UX content strategy. Visual design, typography, UI/UX audits, motion, accessibility QA and design systems moved to the `design-system-skills` engine. |
+| `frontend-ux` | Frontend engineering only: React, Next.js App Router, Tailwind, frontend architecture/performance, Avalonia desktop, POS UI engineering standards, image compression, UX content strategy. Visual design, typography, UI/UX audits, motion, accessibility QA and design systems moved to the `chwezi-design-engine` engine. |
 | `execution-plan-scripts` | Converting an approved long-running plan into self-contained execution prompts with dependency order, checkpoints and evidence handoff. |
 | `game-development` | Game build engineering: 2D/3D asset pipelines (incl. Blender), audio, AI behaviour, accessibility/localisation, build and platform release. |
 | `gis` | GIS mapping, maps integration, PostGIS backend, platform engineering, enterprise GIS domain. |
@@ -463,25 +463,25 @@ When the trigger fires:
 The `finance-module-audit` skill (in the finance engine at `C:\wamp64\www\chwezi-accounting-doctrine`) auto-runs whenever the user asks to analyse, review, audit, build, propose, or replace any software system with even a slight finance element.
 
 
-<!-- design-system-skills:trigger v3 -->
+<!-- chwezi-design-engine:trigger v4 -->
 ### Design / typography / UI/UX (cross-cutting — consult IN ADDITION)
 
 Any work touching how an artifact LOOKS — font/typeface choice, type scale, colour, layout/grid,
 visual identity, web/desktop/mobile UI screens, or the visual formatting of a DOCX/PPTX/PDF/XLSX
-— routes to the **`design-system-skills`** engine, the single home for ALL design/UI/UX skills
+— routes to the **`chwezi-design-engine`** engine, the single home for ALL design/UI/UX skills
 and the anti-AI-slop doctrine.
 
 **Resolve its location on THIS device from the active runner's global engine-routing table or
 `AGENTS.md`** — never assume an absolute path; it varies per machine. Then read its
 `README.md` → `doctrine/design-doctrine.md` → glob `skills/**/SKILL.md` fresh and route by
 frontmatter (read SKILL.md directly, not via the Skill tool). Content and structure stay in THIS
-engine; presentation comes from design-system-skills. Hard rule: never use a banned AI-slop font
+engine; presentation comes from chwezi-design-engine. Hard rule: never use a banned AI-slop font
 as primary type — hard ban: Inter, Geist, Roboto, Open Sans, Lato, Arial, Fraunces, IBM Plex (all
 faces); secondary ban: Space Grotesk, Instrument Serif, Instrument Sans, Poppins, Montserrat, Nunito, Nunito Sans, Newsreader, Cormorant (all cuts), Crimson Pro, Plus Jakarta Sans, DM Sans, Outfit, Playfair Display, Lora, Space Mono;
 Roboto Mono and IBM Plex Mono are banned as monospace choices; Source Sans 3 only as a paired
 body face; no bare system stacks alone. State the chosen typeface and reason before producing
 any artifact.
-<!-- /design-system-skills:trigger -->
+<!-- /chwezi-design-engine:trigger -->
 
 ## Human-English editorial standard (2026-08 Kaizen)
 

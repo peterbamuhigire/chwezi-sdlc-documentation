@@ -21,7 +21,7 @@ Run a full Kaizen operation on this SDLC documentation product. Documentation mu
 
 ### Routes and authority
 
-Read project instructions. Resolve SRS Skills and read its `README.md`, `AGENTS.md`, the skill matching the document/product type, its references, the applicable validation route, and `09-governance-compliance/31-kaizen-engine-and-product-improvement/SKILL.md`. Read the Digital Research portfolio standard and verify current standards, legal, security, platform, and regulatory claims. Route implementation evidence to Skills Web Dev, finance to Chwezi, research to Digital Research, and rendered visual decisions to Design System Skills.
+Read project instructions. Resolve Chwezi SDLC Documentation and read its `README.md`, `AGENTS.md`, the skill matching the document/product type, its references, the applicable validation route, and `09-governance-compliance/31-kaizen-engine-and-product-improvement/SKILL.md`. Read the Digital Research portfolio standard and verify current standards, legal, security, platform, and regulatory claims. Route implementation evidence to Skills Web Dev, finance to Chwezi, research to Digital Research, and rendered visual decisions to Design System Skills.
 
 This prompt authorises reversible edits to project documentation, local traceability artefacts, templates, and validation fixtures. It does not authorise requirements approval, risk acceptance, production change, certification, stakeholder sign-off, or canonical engine edits. Stop if the product boundary, decision owner, governing baseline, authority, or rollback copy is missing. Mark absent implementation, user, render, security, standards, or reviewer evidence `NOT ASSESSED`.
 

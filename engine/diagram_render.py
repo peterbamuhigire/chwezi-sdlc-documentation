@@ -13,7 +13,7 @@ Output is canonical (elements sorted by id; messages by order then id; LF line
 endings), so two runs over the same IR are byte-identical. Every ``.mmd``
 starts with an ``%%{init}%%`` directive whose ``fontFamily`` is
 ``DIAGRAM_FONT_STACK``. That value applies the design engine's diagram
-standard (design-system-skills
+standard (chwezi-design-engine
 ``skills/13-presentations-and-documents/docx-report-and-document-formatting/references/diagram-visual-standards.md``):
 Public Sans for diagram labels in formal documents, written unquoted because
 Mermaid drops a ``fontFamily`` value that contains quote characters (M10-01

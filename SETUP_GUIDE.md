@@ -14,8 +14,8 @@ If you only need to stand up a new project workspace from a shipped
 example and validate it, run these five commands:
 
 ```bash
-git clone https://github.com/peterbamuhigire/srs-skills.git
-cd srs-skills
+git clone https://github.com/peterbamuhigire/chwezi-sdlc-documentation.git
+cd chwezi-sdlc-documentation
 # Resolve engineering/methodology skills through the Chwezi Dev Engine:
 #   https://github.com/peterbamuhigire/chwezi-dev-engine
 # Resolve finance/accounting doctrine through the Chwezi Accounting Doctrine:
@@ -73,7 +73,7 @@ chmod +x setup-srs-project.sh
 ### What the Script Does
 
 1. Clones your empty repo to the target directory
-2. Adds or links the unified `srs-skills` engine under `skills/` for the target project workflow
+2. Adds or links the unified `chwezi-sdlc-documentation` engine under `skills/` for the target project workflow
 3. Verifies the engine checkout is available
 4. Creates `project_context/` with starter templates:
    - `vision.md` - Project vision and business goals
@@ -87,7 +87,7 @@ chmod +x setup-srs-project.sh
 
 ```
 my-project/
-├── skills/                    # srs-skills engine checkout
+├── skills/                    # chwezi-sdlc-documentation engine checkout
 │   ├── docs/
 │   ├── 02-requirements-engineering/
 │   │   ├── waterfall/         # IEEE 830 SRS pipeline (8 phases)
@@ -223,7 +223,7 @@ The engine includes reusable skills under `skills/<skill-name>/SKILL.md`. These 
 To pull the latest version of the documentation engine when working directly in this repository:
 
 ```bash
-cd srs-skills
+cd chwezi-sdlc-documentation
 git pull origin main
 ```
 

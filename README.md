@@ -1,6 +1,6 @@
-# SRS Skills Engine
+# Chwezi SDLC Documentation
 
-The SRS Skills Engine is a library of 159 skills and a Python validation kernel for software-lifecycle documentation. It covers nine numbered phases, from strategic vision through requirements engineering, design, development, testing, deployment, Agile delivery and end-user documentation to governance and compliance. It produces PRDs, business cases, vision statements, BRDs and IEEE-structured software requirements specifications; high-level and low-level designs, API, database, UX and infrastructure specifications whose diagrams are typed and checked against the requirement registry; test strategies, plans and reports; deployment guides, runbooks and SLO documents; user manuals and release notes; and traceability matrices, ADRs, risk registers, sign-off ledgers and auditor-ready evidence packs. Overlays extend it to SaaS, AI features and agents, embedded accounting, games, hospitality and retail, and eleven domain packs add sector context, among them healthcare, finance, government, agriculture, logistics and Uganda. The kernel checks each project workspace against deterministic phase gates, and a build pipeline renders Mermaid diagrams to captioned figures before Pandoc stitches the Markdown into a styled `.docx`.
+Chwezi SDLC Documentation is a library of 159 skills and a Python validation kernel for software-lifecycle documentation. It covers nine numbered phases, from strategic vision through requirements engineering, design, development, testing, deployment, Agile delivery and end-user documentation to governance and compliance. It produces PRDs, business cases, vision statements, BRDs and IEEE-structured software requirements specifications; high-level and low-level designs, API, database, UX and infrastructure specifications whose diagrams are typed and checked against the requirement registry; test strategies, plans and reports; deployment guides, runbooks and SLO documents; user manuals and release notes; and traceability matrices, ADRs, risk registers, sign-off ledgers and auditor-ready evidence packs. Overlays extend it to SaaS, AI features and agents, embedded accounting, games, hospitality and retail, and eleven domain packs add sector context, among them healthcare, finance, government, agriculture, logistics and Uganda. The kernel checks each project workspace against deterministic phase gates, and a build pipeline renders Mermaid diagrams to captioned figures before Pandoc stitches the Markdown into a styled `.docx`.
 
 The engine follows ISO/IEC/IEEE 29148:2018 for requirements, keeping the IEEE Std 830-1998 layout for SRS structure, and ISO/IEC 25010:2023 for quality attributes. Design work follows ISO/IEC/IEEE 42010 and IEEE Std 1016-2009. Testing and verification follow ISO/IEC/IEEE 29119-3 and IEEE Std 1012-2016, lifecycle processes follow ISO/IEC/IEEE 12207:2017, and user documentation follows ISO/IEC/IEEE 26514. Security and AI governance packs map to ISO/IEC 27001:2022, ISO/IEC 42001, the NIST AI RMF, SOC 2, the HIPAA Security Rule, the EU AI Act and GDPR. API contracts use OpenAPI 3.1 and RFC 9457 problem details, and user interfaces are checked against WCAG 2.2. The engine is for product owners, business analysts, architects, delivery teams, testers, operators and compliance reviewers on waterfall, Agile or hybrid projects. It records missing stakeholder decisions as open questions rather than inventing requirements. It supports engineering, legal and compliance work but does not replace any of them.
 
@@ -12,18 +12,18 @@ Prerequisites:
 - Node.js 18 or later for the scripted installers (`install.sh`, `install.ps1`).
 - For `.docx` builds: Pandoc, plus a local Chrome or Edge for the pinned Mermaid renderer in `scripts/diagram-render` (install it once with `npm ci` and `PUPPETEER_SKIP_DOWNLOAD=1`).
 
-**Claude Code plugin.** The repository ships a marketplace manifest (`.claude-plugin/marketplace.json`, marketplace `chwezi-srs`, plugin `srs`):
+**Claude Code plugin.** The repository ships a marketplace manifest (`.claude-plugin/marketplace.json`, marketplace `chwezi-sdlc-documentation`, plugin `sdlc-documentation`):
 
 ```text
-/plugin marketplace add https://github.com/peterbamuhigire/srs-skills
-/plugin install srs@chwezi-srs
+/plugin marketplace add https://github.com/peterbamuhigire/chwezi-sdlc-documentation
+/plugin install sdlc-documentation@chwezi-sdlc-documentation
 ```
 
 **Scripted install.** The installers delegate to `scripts/install-engine.js`. User scope (`~/.claude`) is the default, `--scope project` installs into `.claude` under the current directory, and `--dry-run` prints the plan without writing anything:
 
 ```sh
-git clone https://github.com/peterbamuhigire/srs-skills
-cd srs-skills
+git clone https://github.com/peterbamuhigire/chwezi-sdlc-documentation
+cd chwezi-sdlc-documentation
 ./install.sh --scope project       # macOS, Linux or Git Bash
 .\install.ps1 --scope project      # Windows PowerShell
 ```

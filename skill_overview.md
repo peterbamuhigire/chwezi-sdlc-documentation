@@ -1,6 +1,6 @@
 # Skill Pipeline Registry
 
-This registry documents the inputs, process logic, governing standards, and outputs for each skill in the SRS-Skills pipeline. It is formatted as an Engineering Interface Control Document to ensure compliance with ISO/IEC 15504 and IEEE 1002 taxonomy requirements.
+This registry documents the inputs, process logic, governing standards, and outputs for each skill in the Chwezi SDLC Documentation pipeline. It is formatted as an Engineering Interface Control Document to ensure compliance with ISO/IEC 15504 and IEEE 1002 taxonomy requirements.
 
 ## Path Interpretation
 

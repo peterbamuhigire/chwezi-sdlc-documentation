@@ -1,6 +1,6 @@
 # Architecture Overview
 
-SRS-Skills uses `projects/<ProjectName>/` as the canonical runtime workspace. The project context source of truth is `projects/<ProjectName>/_context/`, while generated artifacts live under the appropriate phase/document directories inside the same project workspace.
+Chwezi SDLC Documentation uses `projects/<ProjectName>/` as the canonical runtime workspace. The project context source of truth is `projects/<ProjectName>/_context/`, while generated artifacts live under the appropriate phase/document directories inside the same project workspace.
 
 For backward compatibility, many existing skill-local instructions still refer to `../project_context/` and `../output/`. Those relative paths are execution aliases into the active project workspace, not a separate architectural model.
 

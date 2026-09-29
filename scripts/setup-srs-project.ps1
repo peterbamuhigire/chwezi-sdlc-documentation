@@ -22,7 +22,7 @@ param(
 )
 
 # --- Configuration ---
-$SRS_SKILLS_REPO = "https://github.com/peterbamuhigire/srs-skills.git"
+$SRS_SKILLS_REPO = "https://github.com/peterbamuhigire/chwezi-sdlc-documentation.git"
 $SUBMODULE_NAME = "skills"
 
 # --- Helper Functions ---
@@ -110,8 +110,8 @@ Write-Ok "Cloned to $TargetDir"
 Set-Location $TargetDir
 Write-Ok "Working directory: $(Get-Location)"
 
-# Step 3: Add srs-skills as a submodule
-Write-Step "Adding srs-skills as submodule '$SUBMODULE_NAME'..."
+# Step 3: Add chwezi-sdlc-documentation as a submodule
+Write-Step "Adding chwezi-sdlc-documentation as submodule '$SUBMODULE_NAME'..."
 if (Test-Path $SUBMODULE_NAME) {
     Write-Warn "Directory '$SUBMODULE_NAME' already exists. Skipping submodule add."
 }
@@ -310,7 +310,7 @@ else {
     git commit -m @"
 Initialize SRS project with SDLC-Docs-Engine submodule
 
-- Added srs-skills as 'skills' submodule
+- Added chwezi-sdlc-documentation as 'skills' submodule
 - Created project_context/ with starter templates (vision, stakeholders, glossary)
 - Created output/ directory for generated documentation
 - Created export/ plus export-docs scripts for DOCX delivery copies

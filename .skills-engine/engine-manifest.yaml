@@ -1,6 +1,6 @@
 schema_version: "1.0"
-engine_id: srs-skills
-display_name: SRS Skills
+engine_id: chwezi-sdlc-documentation
+display_name: Chwezi SDLC Documentation
 contract_version: "1.0"
 version: "1.1.0"
 router:

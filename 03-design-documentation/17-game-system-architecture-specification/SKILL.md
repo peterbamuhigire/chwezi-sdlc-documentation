@@ -19,7 +19,7 @@ metadata: {portable: true, compatible_with: [claude-code, codex]}
 1. Draw contexts for client, services, platform, content/build, telemetry and operators.
 2. Define state, command/event flow, determinism, saves/migrations and time/randomness ownership.
 3. Establish engine-neutral domain boundaries and Unity, Godot, Unreal or Apple adapters.
-4. Specify content streaming, asset import, graphics/audio/UI/camera budgets, accessibility/localisation settings and fallbacks, consuming approved visual contracts from `design-system-skills`.
+4. Specify content streaming, asset import, graphics/audio/UI/camera budgets, accessibility/localisation settings and fallbacks, consuming approved visual contracts from `chwezi-design-engine`.
 5. Design online topology, replication budget, sessions, persistence and compatibility where applicable.
 6. Design trust, data/economy/ad integrity, separate SDK privacy boundaries, child-safe disabled defaults, build provenance, observability and rollback/kill switches.
 7. Define shared-platform seams as optional capabilities with per-game adoption, identity, performance and simplicity criteria; do not force every package into every game.

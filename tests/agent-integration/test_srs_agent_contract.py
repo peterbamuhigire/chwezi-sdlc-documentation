@@ -3,7 +3,7 @@ import os
 import sys
 import yaml
 
-EXPECTED_ENGINE = "srs-skills"
+EXPECTED_ENGINE = "chwezi-sdlc-documentation"
 ROOT = Path(__file__).resolve().parents[2]
 MANIFEST = ROOT / ".skills-engine" / "engine-manifest.yaml"
 

@@ -43,7 +43,7 @@ Return the narrowest qualified concept, mark unavailable checks `not assessed`, 
 | Target-device risk is material | Require a representative spike. | Editor-only feasibility. |
 | Rights are unresolved | Substitute, obtain permission or remove scope. | Infringement. |
 ## Quality Standards
-- Separate facts, hypotheses, estimates and decisions; defer game implementation craft to the software engine and visual/interaction craft to `design-system-skills`.
+- Separate facts, hypotheses, estimates and decisions; defer game implementation craft to the software engine and visual/interaction craft to `chwezi-design-engine`.
 ## Anti-Patterns
 - Pitch treated as validation. Fix: require player evidence.
 - Content before loop proof. Fix: validate repeated play.

@@ -1,6 +1,17 @@
-# Changelog - SRS-Skills Engine
+# Changelog - Chwezi SDLC Documentation
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [2026-09-29] - Repository renamed to chwezi-sdlc-documentation
+
+- The GitHub repository and local folder `srs-skills` are now `chwezi-sdlc-documentation`
+  (https://github.com/peterbamuhigire/chwezi-sdlc-documentation). Engine id, display name,
+  README, manifest, installers and cross-engine links follow the new name.
+- Claude Code plugin renamed: marketplace `chwezi-srs` is now `chwezi-sdlc-documentation` and
+  plugin `srs` is now `sdlc-documentation` (`/plugin install sdlc-documentation@chwezi-sdlc-documentation`).
+- The Python validation kernel keeps its `engine` import package; its distribution name is now
+  `chwezi-sdlc-documentation-engine`.
+- Dated records (audits, Kaizen logs, plans, evidence) keep the old name as written.
 
 ## [2026-09-24] - OWASP 2026 re-mapping and follow-up fixes
 

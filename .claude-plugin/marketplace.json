@@ -1,16 +1,16 @@
 {
-  "name": "chwezi-srs",
+  "name": "chwezi-sdlc-documentation",
   "owner": { "name": "Peter Bamuhigire", "email": "peter.bamuhigire@gmail.com" },
-  "metadata": { "description": "Chwezi SRS engine — software requirements specifications, PRDs, business cases, system design docs, and IEEE-style requirements & SaaS spec artefacts" },
+  "metadata": { "description": "Chwezi SDLC Documentation engine — software requirements specifications, PRDs, business cases, system design docs, and IEEE-style requirements & SaaS spec artefacts" },
   "plugins": [
     {
-      "name": "srs",
+      "name": "sdlc-documentation",
       "source": "./",
       "description": "159 skills across strategic vision, requirements engineering, design documentation, development artefacts, testing docs, deployment operations, agile artefacts, end-user docs, and governance/compliance",
       "version": "1.1.0",
       "author": { "name": "Peter Bamuhigire" },
-      "homepage": "https://github.com/peterbamuhigire/srs-skills",
-      "repository": "https://github.com/peterbamuhigire/srs-skills",
+      "homepage": "https://github.com/peterbamuhigire/chwezi-sdlc-documentation",
+      "repository": "https://github.com/peterbamuhigire/chwezi-sdlc-documentation",
       "license": "MIT",
       "keywords": ["srs", "requirements", "prd", "system-design", "governance"],
       "category": "requirements",

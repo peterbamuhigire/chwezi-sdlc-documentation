@@ -54,7 +54,7 @@ Acknowledgement: Shared by Peter Bamuhigire, techguypeter.com.
 
 ## Capability and permission boundaries
 
-Read and search are required. Audits are read-only by default; editing project artefacts, publishing, certification, production changes, or risk acceptance require explicit authority and permission. Route implementation to chwezi-dev-engine, visual work to design-system-skills, finance to Chwezi, and current evidence to Digital Research.
+Read and search are required. Audits are read-only by default; editing project artefacts, publishing, certification, production changes, or risk acceptance require explicit authority and permission. Route implementation to chwezi-dev-engine, visual work to chwezi-design-engine, finance to Chwezi, and current evidence to Digital Research.
 
 ## Degraded mode
 

@@ -3,10 +3,10 @@
   "diagram_font_family": "Public Sans",
   "diagram_font_fallback": "sans-serif",
   "font_file_candidates": [
-    "../design-system-skills/fonts/08-body-ui-workhorses/public-sans/PublicSans-VF.ttf"
+    "../chwezi-design-engine/fonts/08-body-ui-workhorses/public-sans/PublicSans-VF.ttf"
   ],
   "banned_fonts_json_candidates": [
-    "../design-system-skills/doctrine/references/ai-slop-banned-fonts.json"
+    "../chwezi-design-engine/doctrine/references/ai-slop-banned-fonts.json"
   ],
   "browser_candidates": [
     "C:/Program Files/Google/Chrome/Application/chrome.exe",
@@ -22,7 +22,7 @@
   "max_figure_height_in": 8.0,
   "mermaid_theme": "neutral",
   "gantt": {
-    "$comment": "Gantt settings (M10-13 follow-up). Mermaid otherwise draws a Gantt chart as wide as the renderer's 4,000 px viewport, so labels print far below 8 pt at the 6.25 in body measure. useWidth 720 px with 13 px labels prints the smallest label at 13 x 450 / 720 = 8.1 pt. Colours map Gantt roles to the neutral document tokens in design-system-skills diagram-visual-standards.md section 3a (Ink #1A1A1A, Muted #5A5A5A, rule #D8D8D8, tints #F4F4F4 / #F7F7F7); critical work is shown by a darker tint plus the heavier Ink border, never by Mermaid's red default.",
+    "$comment": "Gantt settings (M10-13 follow-up). Mermaid otherwise draws a Gantt chart as wide as the renderer's 4,000 px viewport, so labels print far below 8 pt at the 6.25 in body measure. useWidth 720 px with 13 px labels prints the smallest label at 13 x 450 / 720 = 8.1 pt. Colours map Gantt roles to the neutral document tokens in chwezi-design-engine diagram-visual-standards.md section 3a (Ink #1A1A1A, Muted #5A5A5A, rule #D8D8D8, tints #F4F4F4 / #F7F7F7); critical work is shown by a darker tint plus the heavier Ink border, never by Mermaid's red default.",
     "mermaid": {
       "useWidth": 720,
       "fontSize": 13,

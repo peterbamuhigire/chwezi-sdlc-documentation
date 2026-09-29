@@ -15,7 +15,7 @@
 set -euo pipefail
 
 # --- Configuration ---
-SRS_SKILLS_REPO="https://github.com/peterbamuhigire/srs-skills.git"
+SRS_SKILLS_REPO="https://github.com/peterbamuhigire/chwezi-sdlc-documentation.git"
 SUBMODULE_NAME="skills"
 
 # --- Colors ---
@@ -110,8 +110,8 @@ print_ok "Cloned to $TARGET_DIR"
 cd "$TARGET_DIR"
 print_ok "Working directory: $(pwd)"
 
-# Step 3: Add srs-skills as a submodule
-print_step "Adding srs-skills as submodule '$SUBMODULE_NAME'..."
+# Step 3: Add chwezi-sdlc-documentation as a submodule
+print_step "Adding chwezi-sdlc-documentation as submodule '$SUBMODULE_NAME'..."
 if [ -d "$SUBMODULE_NAME" ]; then
     print_warn "Directory '$SUBMODULE_NAME' already exists. Skipping submodule add."
 else
@@ -287,7 +287,7 @@ if git diff --cached --quiet; then
 else
     git commit -m "Initialize SRS project with SDLC-Docs-Engine submodule
 
-- Added srs-skills as 'skills' submodule
+- Added chwezi-sdlc-documentation as 'skills' submodule
 - Created project_context/ with starter templates (vision, stakeholders, glossary)
 - Created output/ directory for generated documentation
 - Created export/ plus export-docs scripts for DOCX delivery copies

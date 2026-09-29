@@ -22,7 +22,7 @@ metadata: {portable: true, compatible_with: [claude-code, codex]}
 4. For online play specify authority, sessions, replication intent, reconnect, version skew and abuse cases.
 5. Add conditioned device performance, memory, loading, thermal, network and storage measures.
 6. Specify telemetry purpose, economy integrity, privacy by SDK, build provenance, rollback and ethical commercial behaviour. If ads are in scope, require clear identification, a predictable genuine break after the requested action, neutral decline/close, cap/pace, no-fill/offline/error and kill switch; prohibit interruption of play, learning, narrative, saving, recovery, stopping and exit.
-7. Specify visual-direction and UI acceptance as observable game outcomes and evidence while deferring craft to the five game skills in `design-system-skills`.
+7. Specify visual-direction and UI acceptance as observable game outcomes and evidence while deferring craft to the five game skills in `chwezi-design-engine`.
 8. Stop on an ownerless transition, unresolved child/cultural/right boundary or unverifiable threshold; recover with a decision request.
 ## Outputs
 | Artefact | Consumer | Acceptance condition |

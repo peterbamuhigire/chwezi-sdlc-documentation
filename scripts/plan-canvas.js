@@ -47,7 +47,7 @@ const {
 // Static — this engine has no package.json at its root to read a version
 // from (unlike ECC's ecc-universal package). Bump by hand if the vendored
 // copy is resynced from a newer ECC checkout.
-const VERSION = '1.0.0-srs-skills';
+const VERSION = '1.0.0-chwezi-sdlc-documentation';
 
 const SAFE_REQUEST_PATHS = new Set([
   '/',

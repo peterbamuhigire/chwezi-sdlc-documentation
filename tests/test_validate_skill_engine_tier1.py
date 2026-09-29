@@ -91,7 +91,7 @@ def _with_reference(link: str) -> str:
 
 
 def test_sibling_engine_link_is_broken_even_when_the_sibling_exists(tmp_path):
-    repo = tmp_path / "srs-skills"
+    repo = tmp_path / "chwezi-sdlc-documentation"
     repo.mkdir()
     sibling = tmp_path / "chwezi-dev-engine" / "references"
     sibling.mkdir(parents=True)
@@ -101,7 +101,7 @@ def test_sibling_engine_link_is_broken_even_when_the_sibling_exists(tmp_path):
 
 
 def test_host_absolute_link_is_broken_even_when_the_target_exists(tmp_path):
-    repo = tmp_path / "srs-skills"
+    repo = tmp_path / "chwezi-sdlc-documentation"
     repo.mkdir()
     target = tmp_path / "outside.md"
     target.write_text("outside", encoding="utf-8")

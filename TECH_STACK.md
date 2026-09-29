@@ -1,4 +1,4 @@
-# SRS-Skills Technology Stack
+# Chwezi SDLC Documentation Technology Stack
 
 - **Primary Language:** Python 3.11 (scripts under each skill directory). All automation leverages the standard library plus Markdown parsing utilities.
 - **Execution Environment:** Skills run inside this unified repository and operate on the active `projects/<ProjectName>/` workspace. No external services or databases are required.

@@ -83,7 +83,7 @@ If any required capability is unavailable, return the narrowest useful qualified
 - [Usability testing](references/usability-testing.md)
 - [Premium UX specification](references/premium-ui-ux-specification.md)
 - [UX content neighbour](../09-ux-content-and-form-specification/SKILL.md)
-- Presentation handoff: typeface, colour, layout, motion and visual QA are owned by the `design-system-skills` engine (resolve via the global engine table); this skill states what the experience must achieve and how it is verified.
+- Presentation handoff: typeface, colour, layout, motion and visual QA are owned by the `chwezi-design-engine` engine (resolve via the global engine table); this skill states what the experience must achieve and how it is verified.
 <!-- dual-compat-end -->
 
 ## Overview
