@@ -2,7 +2,7 @@
 
 Use this reference when improving requirements, architecture, API, testing, deployment,
 governance, or agent-system capabilities. It is an independent synthesis of the 18-source
-study recorded in the central ledger at `skills-web-dev/docs/continuous-improvement/`.
+study recorded in the central ledger at `chwezi-dev-engine/docs/continuous-improvement/`.
 
 Owning skill: [Kaizen owner](../SKILL.md).
 

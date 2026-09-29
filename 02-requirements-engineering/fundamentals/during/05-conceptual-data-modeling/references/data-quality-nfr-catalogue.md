@@ -96,7 +96,7 @@ correction. For any Uganda-scoped dataset containing personal data:
 - Write a functional requirement for the correction request path, with a
   response time taken from the client's legal advice or the domain pack.
 - Trace these requirements to the compliance annex produced by
-  `uganda-dppa-compliance` and to `domains/uganda/references/regulations.md`.
+  `dpia-generator` and to `domains/uganda/references/regulations.md`.
 
 ## Worked Examples (Illustrative Contexts)
 

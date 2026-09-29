@@ -77,7 +77,7 @@ one year, purge after the retention period). Each forbidden transition becomes a
 
 **Privacy controls**: data minimisation, purpose limitation, consent capture and withdrawal,
 data-subject request handling, retention and deletion, masking, pseudonymisation and tokenisation.
-For Uganda, route to `uganda-dppa-compliance` and `dpia-generator`; for other jurisdictions cite the
+For Uganda, route to `dpia-generator`; for other jurisdictions cite the
 applicable law in force.
 
 **Security controls**: least-privilege role model, strong authentication (MFA for privileged and

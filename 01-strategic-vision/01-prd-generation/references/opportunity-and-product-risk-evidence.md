@@ -175,7 +175,7 @@ emergency loans by USSD and a mobile app.
   exception queue (FR-LN-021, FR-LN-022).
 - Viability risk: finance sign-off obtained; the cooperative's compliance
   officer has not reviewed data-protection obligations. Recorded
-  `NOT_ASSESSED`; route to `uganda-dppa-compliance`.
+  `NOT_ASSESSED`; route to `dpia-generator`.
 
 ## 9. Premium versus generic output
 

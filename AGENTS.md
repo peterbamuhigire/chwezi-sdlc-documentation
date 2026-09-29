@@ -297,8 +297,8 @@ To locate a specific skill quickly, resolve the Chwezi Dev Engine through the gl
 
 For Uganda-based projects, two additional compliance skills are available and should be invoked as cross-cutting tasks alongside the main SRS skill flow:
 
-- **`uganda-dppa-compliance`** — Generates the DPPA 2019 compliance annex: PII inventory, classification (financial info = special personal data), consent FRs, data subject rights FRs, breach notification procedure (immediate → PDPO), retention/destruction schedule, DPIA trigger assessment, DPO/PDPO registration requirements. Invoke after Skill 05 (Functional Requirements) for any module that collects personal data.
-- **`dpia-generator`** — Generates a Regulation 12-compliant DPIA document for any processing operation flagged `[DPIA-REQUIRED]`. Invoke when `uganda-dppa-compliance` raises a DPIA flag.
+- **`dpia-generator`** (chwezi-dev-engine; the retired `uganda-dppa-compliance` skill is an inactive alias of it) — Generates the DPPA 2019 compliance annex: PII inventory, classification (financial info = special personal data), consent FRs, data subject rights FRs, breach notification procedure (immediate → PDPO), retention/destruction schedule, DPIA trigger assessment, DPO/PDPO registration requirements. Invoke after Skill 05 (Functional Requirements) for any module that collects personal data.
+- **`dpia-generator`** — Generates a Regulation 12-compliant DPIA document for any processing operation flagged `[DPIA-REQUIRED]`. Invoke when the DPPA compliance annex raises a DPIA flag.
 
 ## Compliance Fail Tags (Uganda)
 
