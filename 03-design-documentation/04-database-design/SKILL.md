@@ -83,6 +83,7 @@ If any required capability is unavailable, return the narrowest useful qualified
 - [API Specification neighbour](../03-api-specification/SKILL.md)
 - [Accounting Engine Design neighbour](../16-accounting-engine-design/SKILL.md)
 - [Diagram IR authoring](../01-high-level-design/references/diagram-ir-authoring.md): load before Step 4; the ERD is authored as IR against `diagram-ir.schema.json`, validated and generated.
+- [As-built recovery](../01-high-level-design/references/as-built-recovery.md): load when recovering a schema design from DDL and migrations of a running system.
 <!-- dual-compat-end -->
 
 

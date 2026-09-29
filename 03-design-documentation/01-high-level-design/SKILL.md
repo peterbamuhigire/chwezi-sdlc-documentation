@@ -1,6 +1,6 @@
 ---
 name: 01-high-level-design
-description: Use when approved requirements need a system-level architecture with boundaries, components, critical flows, deployment topology and ADRs; use system-overview for stakeholder orientation, low-level-design for module internals, and infrastructure-design for scored infrastructure depth.
+description: Use when approved requirements need a system-level architecture with boundaries, components, critical flows, deployment topology and ADRs, or an as-built design must be recovered from existing code; use system-overview for orientation, low-level-design for module internals, and infrastructure-design for infrastructure depth.
 metadata:
   portable: true
   compatible_with:
@@ -84,6 +84,7 @@ If any required capability is unavailable, return the narrowest useful qualified
 - [Practical architecture](references/practical-architecture-knowledge.md)
 - [Solution design views and controls](references/solution-design-views-and-controls.md): load when tracing requirements across experience, process, data and security views, or when specifying input, output, data-quality, workflow, privacy and security controls.
 - [Diagram IR authoring](references/diagram-ir-authoring.md): load before drawing any figure; Step 3, 4, 5 and 7 figures are authored as IR against `diagram-ir.schema.json`, validated and generated, and the Step 11 table is generated from them.
+- [As-built recovery](references/as-built-recovery.md): load when documenting an existing system from its code and schema; tags statements `[AS-BUILT]` or `[VERIFY: reason]` and pins the document to a commit.
 <!-- dual-compat-end -->
 
 

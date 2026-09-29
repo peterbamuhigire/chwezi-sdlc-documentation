@@ -133,6 +133,8 @@ This skill generates regulatory compliance documentation that maps project requi
 | `projects/<ProjectName>/<phase>/<document>/SRS_Draft.md` | Requirements referencing data handling, authentication, and access control | No |
 | `projects/<ProjectName>/<phase>/<document>/HLD.md` | Architecture decisions affecting data flow, storage, and transmission | No |
 
+To find the anchored control for a requirement, run `python -m engine controls search "<query>" [--domain <d>] [--framework <f>]` (read-only; it abstains when nothing matches well). Cite the returned control ID and registry path; do not paraphrase the control.
+
 ## Output Files
 
 | File | Description |

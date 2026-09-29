@@ -18,6 +18,9 @@ _KNOWN_TAGS = {
     "SMART-FAIL", "TRACE-GAP", "VERIFIABILITY-FAIL",
     "DPPA-FAIL", "DPIA-REQUIRED", "CONTROL-GAP",
     "DOMAIN-DEFAULT",
+    # M10-08-T03 (GR-10): as-built provenance tags. Recognised so the graph
+    # reports them; deliberately NOT in checks/markers.py _BLOCKING_TAGS.
+    "AS-BUILT", "VERIFY",
 }
 
 

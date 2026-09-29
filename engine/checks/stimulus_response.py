@@ -4,7 +4,10 @@ import re
 from engine.artifact_graph import ArtifactGraph
 from engine.findings import Finding, FindingCollection, Severity
 
-_FR = re.compile(r"\*\*(FR-\d{3,5})\*\*\s+(.*)")
+# Matches both "**FR-001** When ..." and the titled form
+# "**FR-108 Title.** When ..." (M10-08 hand-off from the M10-07 GarageFlow dry
+# run, where titled FRs were invisible to diagram/unmapped-sequence).
+_FR = re.compile(r"\*\*(FR-\d{3,5})(?:[ \t]+[^*\n]+?)?\*\*\s+(.*)")
 _SHALL = re.compile(r"\bshall\b", re.IGNORECASE)
 
 

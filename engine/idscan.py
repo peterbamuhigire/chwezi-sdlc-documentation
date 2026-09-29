@@ -31,6 +31,7 @@ KIND_PREFIXES: frozenset[str] = frozenset({
     "FR", "NFR", "BG", "US", "TC", "BR", "DC", "GAP", "SP", "STK",
     "CTRL", "RISK", "ADR", "PBI", "CIA", "WAIVE", "OD", "FT", "MAC",
     "EP", "INC", "REC", "OBJ", "MP", "CR", "DEP", "REM", "MNT",
+    "EI",  # external-interface ids (M10-08 hand-off from the M10-07 GarageFlow dry run)
 })
 
 # Longest-first so the alternation prefers e.g. NFR over a hypothetical NF.

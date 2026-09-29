@@ -36,6 +36,9 @@ Before synthesis, present the confirmed goal, actors, scope/non-scope, critical 
 constraints, unresolved decisions, and conflicts. The owner confirms or corrects that summary. A
 silent meeting end, question count, or polished draft is not confirmation.
 
+The gate continues into drafting: classify the engagement and approve one numbered section at a
+time, as set out in `ceremony-and-section-approval.md`.
+
 ## Counter-cases
 
 - If two decisions conflict, keep both attributed and route resolution to the named authority.

@@ -115,7 +115,7 @@ project_context/stakeholders.md # Required - who is involved
 project_context/glossary.md     # Recommended - domain terminology
 ```
 
-## Step 4: Open Claude Code and Brainstorm
+## Step 4: Open Claude Code and Establish Shared Understanding
 
 Open Claude Code in your new project directory:
 
@@ -124,9 +124,9 @@ cd my-project
 claude
 ```
 
-### Brainstorming Prompt
+### Kick-off Prompt
 
-Paste this prompt to kick off the brainstorming session. Replace the placeholders with your actual project details:
+Paste this prompt to open the shared-understanding session. Replace the placeholders with your actual project details:
 
 ```
 I'm starting a new SRS documentation project. Here's what I need to document:
@@ -145,15 +145,16 @@ Please help me:
 3. Create a documentation roadmap
 4. Identify which domain skills from skills/<skill-name>/SKILL.md are relevant
 
-Start by reading my project_context/ files, then use the brainstorming
-skill to explore requirements before we begin generating documentation.
+Start by reading my project_context/ files, then establish shared
+understanding with the decision-frontier method before we begin generating
+documentation.
 ```
 
-Claude will use the `superpowers:brainstorming` skill to explore your requirements before any code or documentation is generated.
+Claude will use the engine's decision-frontier elicitation method (`02-requirements-engineering/fundamentals/before/02-elicitation-toolkit/references/decision-frontier-elicitation.md`) to confirm your intent before any documentation is generated. The `superpowers:brainstorming` skill may be used as an optional aid where it is installed; it is not required.
 
 ## Step 5: Run Meta-Initialization
 
-After brainstorming, run the entry-point skill:
+After the shared-understanding step, run the entry-point skill:
 
 ```
 Run skill: 00-meta-initialization (engineering catalog engine)

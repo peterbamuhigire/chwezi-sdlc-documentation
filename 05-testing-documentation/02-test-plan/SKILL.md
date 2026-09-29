@@ -100,6 +100,7 @@ Given `FR-PAY-014` and a payment retry design, map successful, declined, timeout
 
 - [logic.prompt](logic.prompt) - load only when its template, logic, or detail is needed.
 - [README.md](README.md) - load only when its template, logic, or detail is needed.
+- [references/pairwise-combinatorial-test-design.md](references/pairwise-combinatorial-test-design.md) - load when three or more interacting parameters call for pairwise test design.
 <!-- dual-compat-end -->
 ## Overview
 
@@ -152,7 +153,7 @@ If `acceptance_criteria.md` exists, map each acceptance criterion to its corresp
 
 ### Step 4: Define Test Design Specification & Test Case Format
 
-Document the selected test design techniques (equivalence partitioning, boundary values, state machine testing, decision tables, use case testing) and cite the applicable 29119-3 clause (§7.3.3). Each technique shall reference the requirements it exercises.
+Document the selected test design techniques (equivalence partitioning, boundary values, state machine testing, decision tables, use case testing) and cite the applicable 29119-3 clause (§7.3.3). Each technique shall reference the requirements it exercises. Where three or more parameters interact (configuration, permission, device, locale or currency matrices), add pairwise combinatorial design with a coverage statement per [references/pairwise-combinatorial-test-design.md](references/pairwise-combinatorial-test-design.md).
 
 Establish the test case format using the nine normative 29119-3 fields: TC-ID, Objective/Purpose, Priority, Traceability to requirement ID, Preconditions, Test Input, Expected Result (with deterministic pass/fail), Actual Result (filled at execution), and Test Result (Pass/Incident). Include Steps (numbered actions) beneath the structured fields.
 

@@ -2,11 +2,16 @@
 
 > Distilled from this engine's own `CLAUDE.md` / `AGENTS.md`.
 
-## Brainstorming is mandatory before starting a new project — no exceptions
+## Establish shared understanding before starting a new project
 
-When the user says "start a new project" or equivalent, invoke
-`superpowers:brainstorming` first, then ask the five setup questions (name,
-description, methodology, owner, team size) one at a time — never as a list.
+When the user says "start a new project" or equivalent, first apply the
+decision-frontier method in
+`02-requirements-engineering/fundamentals/before/02-elicitation-toolkit/references/decision-frontier-elicitation.md`:
+ask only the questions whose prerequisites are settled, write the stated
+intent back, and stop until the owner confirms it. Then ask the five setup
+questions (name, description, methodology, owner, team size) one at a time —
+never as a list. `superpowers:brainstorming` may be used as an optional aid
+where it is installed; it is not required.
 
 ## Run the hybrid-detection heuristic on the methodology answer
 

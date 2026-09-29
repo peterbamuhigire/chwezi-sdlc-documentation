@@ -31,6 +31,7 @@ metadata:
 ## Workflow
 
 1. Inspect the required inputs and log the exact sources, versions, unresolved assumptions, and decision owners.
+   State and record the ceremony class (bounded, architectural or spike); draft and approve one numbered section at a time (`references/ceremony-and-section-approval.md`).
 2. Build a dependency graph of open decisions. Resolve discoverable facts from project or verified external evidence instead of asking stakeholders to retrieve them.
 3. Ask only the current decision frontier: unresolved choices whose prerequisites are satisfied. Batch independent questions; do not ask a dependent choice early.
 4. Apply the selected elicitation technique and update the decision graph, glossary, confirmed facts, conflicts, and open issues after each round.
@@ -88,6 +89,7 @@ Fallback: if a required file, reviewer, standard source, network check, renderer
 - [Prototyping For Elicitation](references/prototyping-for-elicitation.md)
 - [Questionnaires Surveys](references/questionnaires-surveys.md)
 - [Decision-frontier elicitation](references/decision-frontier-elicitation.md)
+- [Ceremony classification and section-scoped approval](references/ceremony-and-section-approval.md)
 <!-- dual-compat-end -->
 <!-- local-contract-end -->
 

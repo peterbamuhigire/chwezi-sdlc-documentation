@@ -55,6 +55,8 @@
     {"id":"game-blender-pipeline-positive","kind":"positive","prompt":"Specify the Blender source to engine pipeline with rigs animation clips UV bakes materials collision LOD export import lineage runtime budgets and clean reimport evidence.","expected":"18-game-3d-content-and-blender-pipeline-specification"},
     {"id":"game-blender-pipeline-neighbour","kind":"collision","prompt":"The game architecture is approved; define GASSET asset class Blender source export import and runtime acceptance contracts rather than whole-system components.","expected":"18-game-3d-content-and-blender-pipeline-specification"},
     {"id": "attribute-mapping-positive", "kind": "positive", "prompt": "Write the SRS non-functional quality attribute requirements for performance, reliability, availability and security.", "expected": "07-attribute-mapping"},
-    {"id": "data-quality-governance-positive", "kind": "positive", "prompt": "Write data quality and data governance requirements.", "expected": "05-conceptual-data-modeling"}
+    {"id": "data-quality-governance-positive", "kind": "positive", "prompt": "Write data quality and data governance requirements.", "expected": "05-conceptual-data-modeling"},
+    {"id": "as-built-recovery-positive", "kind": "positive", "prompt": "Produce as-built design documentation for an existing PHP ERP.", "expected": "01-high-level-design", "comment": "M10-08-T03 (GR-10): the as-built recovery reference routes through the HLD skill."},
+    {"id": "as-built-schema-neighbour", "kind": "collision", "prompt": "Recover the as-built database schema design from the MySQL migrations and DDL of an existing PHP ERP.", "expected": "04-database-design", "comment": "M10-08-T03 (GR-10) owned negative for 01-high-level-design: schema recovery belongs to 04-database-design. M10-03-T08 may convert this to an owner-field negative."}
   ]
 }

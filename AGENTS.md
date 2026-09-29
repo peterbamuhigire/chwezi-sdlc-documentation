@@ -207,17 +207,17 @@ You are an expert Systems Architect. You are assisting in developing and executi
 ## New Project Protocol
 
 When the user says "start a new project" or equivalent:
-1. Invoke `superpowers:brainstorming` first — mandatory, no exceptions
+1. Establish shared understanding before scaffolding. Use the decision-frontier method in `02-requirements-engineering/fundamentals/before/02-elicitation-toolkit/references/decision-frontier-elicitation.md`: ask only the questions whose prerequisites are settled, write the stated intent back, and stop until the owner confirms it. State the ceremony classification (bounded, architectural or spike) as set out in `02-requirements-engineering/fundamentals/before/02-elicitation-toolkit/references/ceremony-and-section-approval.md`. `superpowers:brainstorming` may be used as an optional aid where it is installed; it is not required.
 2. Ask 5 questions (name, description, methodology, owner, team size) — one at a time
 3. After the methodology answer, run the **hybrid-detection heuristic**: if the user answers "Agile" or "Scrum" but also describes formal documentation gates, detailed up-front requirements, or testing at the end — flag this as a potential Water-Scrum-Fall pattern and note it in `_context/vision.md`. Ask: "Does your team have a formal requirements sign-off before development begins?" A "yes" answer confirms the hybrid.
 4. Deduce domain automatically from the project description using `domains/INDEX.md` keyword signals. **Uganda domain keyword signals:** `Uganda`, `BIRDC`, `PIBID`, `URA`, `EFRIS`, `PPDA`, `OAG`, `NSSF Uganda`, `NIRA`, `NIN`, `matooke`, `cooperative farmers`, `Kampala`, `Bushenyi`, `MTN MoMo`, `Airtel Money`, `parliamentary budget vote`, `ICPAU`, `DPPA`. If 2 or more Uganda signals are present, select the `uganda` domain automatically.
-5. If domain is ambiguous, ask during brainstorming session only
-5. Scaffold the full directory structure under `projects/<ProjectName>/`
-6. Pre-populate `_context/` files with interview answers and guided TODO prompts
-7. Copy `domains/<domain>/INDEX.md` into `_context/domain.md`
-8. Inject `[DOMAIN-DEFAULT]` blocks from `domains/<domain>/references/nfr-defaults.md` into section stubs
-9. Print scaffold summary showing pre-populated files and outstanding TODOs
-10. Run `python -m engine new-project <Name> --methodology <m> --domain <d> --example <e>` -- the kernel handles the mechanical scaffolding including copying the chosen golden-path example into `projects/<Name>/`.
+5. If domain is ambiguous, ask during the shared-understanding step only
+6. Scaffold the full directory structure under `projects/<ProjectName>/`
+7. Pre-populate `_context/` files with interview answers and guided TODO prompts
+8. Copy `domains/<domain>/INDEX.md` into `_context/domain.md`
+9. Inject `[DOMAIN-DEFAULT]` blocks from `domains/<domain>/references/nfr-defaults.md` into section stubs
+10. Print scaffold summary showing pre-populated files and outstanding TODOs
+11. Run `python -m engine new-project <Name> --methodology <m> --domain <d> --example <e>` -- the kernel handles the mechanical scaffolding including copying the chosen golden-path example into `projects/<Name>/`.
 
 ## Hybrid Cross-Cutting Trigger
 

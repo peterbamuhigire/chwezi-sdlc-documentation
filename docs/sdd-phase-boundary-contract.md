@@ -51,3 +51,7 @@ When work stops or a phase is blocked, pair the validator result with
 `python scripts/create_sdd_handoff.py --feature-dir <dir> --stage <stage>
 --status blocked --owner <owner> --next-step <step>`. The handoff record is
 the resumable stop-hook evidence; it does not replace the phase validator.
+
+Beside the handoff record, `python scripts/create_agent_build_brief.py --project <project-dir> --feature-dir <dir>`
+writes `agent-build-brief.md`: a six-area agent brief derived from the approved SRS, every entry traced to its
+source, with untraceable areas marked `CONTEXT-GAP` so the kernel blocks them. It never replaces or edits the SRS.

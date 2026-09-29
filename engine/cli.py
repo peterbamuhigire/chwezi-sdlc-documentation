@@ -26,6 +26,8 @@ def _default_registry() -> GateRegistry:
     from engine.gates.phase09 import Phase09Gate
     reg = GateRegistry()
     reg.register(NoUnresolvedFailMarkersGate())
+    from engine.checks.generation_staleness import GenerationStalenessGate
+    reg.register(GenerationStalenessGate())  # M10-08-T06: report-only (MEDIUM/INFO)
     reg.register(Phase01Gate())
     reg.register(Phase02Gate())
     reg.register(Phase03Gate())
@@ -453,6 +455,37 @@ def pack(project: str, out: str) -> None:
     from engine.pack import build_evidence_pack
     build_evidence_pack(Path(project), Path(out))
     click.echo(f"Wrote evidence pack to {out}")
+
+
+@main.group()
+def controls() -> None:
+    """Domain control-register commands (read-only; M10-08-T10)."""
+
+
+@controls.command("search")
+@click.argument("query")
+@click.option("--domain", default=None, help="Limit to one domain, e.g. finance.")
+@click.option("--framework", default=None,
+              help="Case-insensitive substring of the regulatory framework, e.g. PCI.")
+@click.option("--top", type=int, default=5, show_default=True)
+@click.option("--json", "as_json", is_flag=True, help="Print the result as JSON.")
+def controls_search(query: str, domain: str | None, framework: str | None,
+                    top: int, as_json: bool) -> None:
+    """Rank anchored controls for QUERY; abstain when nothing matches well."""
+    import json as _json
+    from engine.controls_search import search
+    root = Path(__file__).resolve().parent.parent
+    result = search(query, root=root, domain=domain, framework=framework, top=top)
+    if as_json:
+        click.echo(_json.dumps(result, indent=2, ensure_ascii=False))
+        return
+    if result["abstained"]:
+        click.echo(f"ABSTAINED: no control scored at or above {result['threshold']} "
+                   f"(best {result['best_score']}). Refine the query or read the registers.")
+        return
+    for hit in result["results"]:
+        click.echo(f"{hit['id']}  {hit['title']}  [{hit['framework']} {hit['clause']}]  "
+                   f"score={hit['score']}  {hit['registry_path']}")
 
 
 if __name__ == "__main__":

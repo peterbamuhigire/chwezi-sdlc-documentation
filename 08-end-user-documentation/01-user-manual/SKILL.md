@@ -168,6 +168,7 @@ If `user_stories.md` is present, define workflows per user role:
 - Identify distinct user roles from stories or personas
 - Map each role to its permitted features and typical task sequences
 - Produce end-to-end workflow walkthroughs for each role
+- Order each role's walkthrough from foundational screens (sign-in, home, the records the role creates first) to the dependent workflows that use them, and end with administration; keep 5–12 steps per role, and split a longer walkthrough by task.
 - If no user stories exist, generate workflows based on features.md feature groupings
 
 ### Step 6: Generate Troubleshooting Section
@@ -235,7 +236,7 @@ This ensures `scripts/build-doc.sh` assembles sections in the intended order rat
 2. Getting Started section assumes zero prior knowledge and includes a quick-start task.
 3. Every feature in `features.md` has a corresponding feature guide section.
 4. Screenshot placeholders follow the `[Screenshot: Name - Step]` format and are replaced only with verified image files.
-5. Role-based workflows cover every identified user role.
+5. Role-based workflows cover every identified user role, each ordered from foundational screens to dependent workflows to administration, in 5–12 steps.
 6. Troubleshooting section includes error messages with resolution steps.
 7. Glossary contains every acronym and technical term used in the manual.
 8. Table of contents links match actual section headings.
@@ -257,3 +258,5 @@ This ensures `scripts/build-doc.sh` assembles sections in the intended order rat
 
 - `logic.prompt` -- Executable prompt containing the step-by-step user manual generation logic.
 - `README.md` -- Quick-start guide for this skill.
+
+The walkthrough ordering rule (Step 5) adapts the reading-path ordering in Understand Anything (MIT, https://github.com/Egonex-AI/Understand-Anything, commit b05cc3b20990afca537b4fc0a49b4d7fbdc65bb0). Paraphrased.

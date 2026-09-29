@@ -1,0 +1,27 @@
+{
+  "purpose": "Calibration fixture for engine/controls_search.py ABSTAIN_THRESHOLD (M10-08-T10). Every positive must return expected_first above the threshold; every nonsense query must abstain.",
+  "calibration": {
+    "threshold": 5.5,
+    "lowest_positive_top_score": 7.016,
+    "highest_nonsense_score": 4.447,
+    "margin_below_lowest_positive": 1.516,
+    "margin_above_highest_nonsense": 1.053,
+    "calibrated_on": "2026-09-29"
+  },
+  "positives": [
+    {"query": "cardholder encryption", "domain": "finance", "expected_first": "CTRL-FIN-001"},
+    {"query": "encryption of patient health information at rest", "expected_first": "CTRL-HC-002"},
+    {"query": "breach notification to the personal data protection office", "expected_first": "CTRL-UG-003"},
+    {"query": "segregation of duties financial reporting", "expected_first": "CTRL-FIN-004"},
+    {"query": "hazardous materials manifest retention", "expected_first": "CTRL-LOG-001"},
+    {"query": "verifiable parental consent for children", "expected_first": "CTRL-EDU-001"}
+  ],
+  "nonsense": [
+    "purple elephant tariff",
+    "quantum banana orchestra",
+    "chocolate cake recipe",
+    "annual football tournament schedule",
+    "weather forecast for the weekend",
+    "review the holiday playlist"
+  ]
+}

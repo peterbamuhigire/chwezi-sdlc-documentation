@@ -82,6 +82,7 @@ Fallback: if a required file, reviewer, standard source, network check, renderer
 - [Inspection Process](references/inspection-process.md)
 - [Prototype Validation](references/prototype-validation.md)
 - [Review Checklist](references/review-checklist.md)
+- [Review Focus](references/review-focus.md)
 ## Product-experience validation checks
 
 Where the requirements affect adoption or user experience, validate more than
@@ -241,7 +242,15 @@ Verify bidirectional traceability:
 2. **Backward Trace:** Every requirement SHALL map to at least one business goal. Flag untraceable requirements with `[V&V-FAIL:REQ-ORPHAN]`.
 3. **Feature Coverage:** Every feature in `features.md` SHALL have at least one functional requirement. Flag uncovered features with `[V&V-FAIL:FEATURE-UNCOVERED]`.
 
-### Step 7: Prototype Validation Guidance (Optional)
+### Step 7: Review Focus
+
+List up to five conditions the requirements imply but do not state (for example, reversal of a mobile-money payment made while the device was offline). Each row SHALL carry an acceptance criterion and a disposition: new requirement, clarification, or accepted risk with a named owner. More than five candidates means elicitation is incomplete: stop validation and return to `02-elicitation-toolkit`. Method and worked rows: `references/review-focus.md`.
+
+| No. | Implied condition | Why it matters | Acceptance criterion | Disposition | Owner |
+|---|---|---|---|---|---|
+| RF-1 | | | | | |
+
+### Step 8: Prototype Validation Guidance (Optional)
 
 If stakeholders have access to a prototype or mockup, provide a structured walkthrough protocol:
 
@@ -252,7 +261,7 @@ If stakeholders have access to a prototype or mockup, provide a structured walkt
 
 See `references/prototype-validation.md` for the walkthrough protocol and feedback capture template.
 
-### Step 8: Generate Validation Report
+### Step 9: Generate Validation Report
 
 Write the completed validation to `projects/<ProjectName>/<phase>/<document>/validation_report.md` using the output format below. Log summary statistics: total requirements validated, pass rate, defect count by severity, and quality criteria results.
 
@@ -287,8 +296,9 @@ The generated `validation_report.md` SHALL contain the following sections:
 ### 8.1 Critical Defects (Immediate)
 ### 8.2 Major Defects (Before Baselining)
 ### 8.3 Minor Defects (Before Release)
-## 9. Baselining Decision
-## 10. Appendix: Standards Traceability
+## 9. Review Focus
+## 10. Baselining Decision
+## 11. Appendix: Standards Traceability
 ```
 
 ## Common Pitfalls
@@ -309,6 +319,7 @@ The generated `validation_report.md` SHALL contain the following sections:
 - [ ] Bidirectional traceability was verified (goals to requirements, requirements to goals).
 - [ ] Feature coverage was validated (every feature has at least one requirement).
 - [ ] Inspection metrics (defect density, critical rate, efficiency) were calculated.
+- [ ] A Review Focus table of at most five implied conditions is recorded, each with an acceptance criterion and a disposition.
 - [ ] Baselining decision is documented with justification.
 - [ ] No marketing language or subjective findings appear in the report.
 

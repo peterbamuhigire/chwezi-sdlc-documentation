@@ -346,8 +346,8 @@ Write-Host " Next Steps:" -ForegroundColor Yellow
 Write-Host " 1. Edit project_context\vision.md with your project details"
 Write-Host " 2. Open Claude Code in this directory:"
 Write-Host "    cd $TargetDir; claude" -ForegroundColor Gray
-Write-Host " 3. Run the brainstorming skill:"
-Write-Host "    Paste the brainstorming prompt (see SETUP_GUIDE.md)" -ForegroundColor Gray
+Write-Host " 3. Run the shared-understanding step:"
+Write-Host "    Paste the kick-off prompt (see SETUP_GUIDE.md)" -ForegroundColor Gray
 Write-Host " 4. Then run meta-initialization:"
 Write-Host "    'Run skill: 00-meta-initialization'" -ForegroundColor Gray
 Write-Host ""

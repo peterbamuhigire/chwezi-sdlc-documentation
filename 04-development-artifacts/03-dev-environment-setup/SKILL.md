@@ -100,6 +100,7 @@ Given an approved project source and a conflicting implementation detail, record
 
 - [logic.prompt](logic.prompt) - load only when its template, logic, or detail is needed.
 - [README.md](README.md) - load only when its template, logic, or detail is needed.
+- [System orientation guide](references/system-orientation-guide.md) - load when a new developer needs a reading route into an existing codebase; template in `templates/system-orientation-guide.md`, worked example in `examples/system-orientation-guide-srs-engine.md`.
 <!-- dual-compat-end -->
 ## Overview
 
@@ -217,6 +218,7 @@ The generated `Dev_Environment_Setup.md` shall contain these sections in order: 
 | Parallel | 02-coding-guidelines | Independent concern; can run simultaneously |
 | Downstream | 04-contribution-guide | Informs the "Getting Started" section of the contribution guide |
 | Downstream | Development teams | Primary onboarding reference for new developers |
+| Companion | `references/system-orientation-guide.md` | Explains what the code is and in which order to read it, once this guide has it running |
 
 ## Standards
 
