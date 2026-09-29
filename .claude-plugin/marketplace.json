@@ -6,8 +6,8 @@
     {
       "name": "srs",
       "source": "./",
-      "description": "158 skills across strategic vision, requirements engineering, design documentation, development artefacts, testing docs, deployment operations, agile artefacts, end-user docs, and governance/compliance",
-      "version": "1.0.0",
+      "description": "159 skills across strategic vision, requirements engineering, design documentation, development artefacts, testing docs, deployment operations, agile artefacts, end-user docs, and governance/compliance",
+      "version": "1.1.0",
       "author": { "name": "Peter Bamuhigire" },
       "homepage": "https://github.com/peterbamuhigire/srs-skills",
       "repository": "https://github.com/peterbamuhigire/srs-skills",

@@ -2,6 +2,7 @@ schema_version: "1.0"
 engine_id: srs-skills
 display_name: SRS Skills
 contract_version: "1.0"
+version: "1.1.0"
 router:
   path: AGENTS.md
 skills:
@@ -26,3 +27,15 @@ source_of_truth:
   router: AGENTS.md
   skills: '**/SKILL.md'
   references: references/**
+invariants:
+  - id: book-extraction-ban
+    phrase: "Book extractions, book summaries, chapter-by-chapter notes and book-by-book"
+  - id: not-assessed
+    phrase: "Missing execution, render, source, reviewer, or stakeholder evidence is `NOT ASSESSED`, never a pass."
+  - id: iso-29148
+    phrase: "Requirement quality is judged against ISO/IEC/IEEE 29148:2018 (individual and set characteristics;"
+invariant_exemptions:
+  british-english: "No British English output rule exists in the SRS router (AGENTS.md, former CLAUDE.md, README.md, rules/common/); adding one is new doctrine outside M10-02-T02 scope."
+plugin_exclusions:
+  - path: "templates/skill"
+    reason: "authoring template copied when a new skill is created; not an active skill"
