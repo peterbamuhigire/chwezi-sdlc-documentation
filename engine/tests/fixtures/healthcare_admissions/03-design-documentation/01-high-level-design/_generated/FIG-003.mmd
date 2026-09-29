@@ -1,0 +1,14 @@
+%%{init: {"theme": "neutral", "themeVariables": {"fontFamily": "Public Sans, sans-serif"}}}%%
+stateDiagram-v2
+  state "Awaiting review" as s_awaiting_review
+  state "Draft" as s_draft
+  state "Billing handoff emitted" as s_handed_off
+  state "Pending reference data" as s_pending_reference_data
+  state "Signed off" as s_signed_off
+  [*] --> s_draft
+  s_signed_off --> s_handed_off: Billing handoff job runs
+  s_draft --> s_awaiting_review: Intake complete with reference data
+  s_pending_reference_data --> s_draft: Reference data restored
+  s_draft --> s_pending_reference_data: Reference data unavailable
+  s_awaiting_review --> s_signed_off: Sign-off recorded
+  s_handed_off --> [*]

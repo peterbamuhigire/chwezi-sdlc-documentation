@@ -195,6 +195,157 @@ def baseline_diff(project: str, old_label: str, new_label: str) -> None:
     click.echo(f"Modified: {len(d['modified'])}")
     for x in d["modified"]:
         click.echo(f"  ~ {x}")
+    dd = d["diagram"]
+    if any(dd.values()):
+        click.echo("Diagram elements (reports what changed; infers no impact or risk):")
+        for key, sign in (("added", "+"), ("removed", "-"), ("changed", "~"), ("moved", ">")):
+            click.echo(f"  {key.capitalize()}: {len(dd[key])}")
+            for x in dd[key]:
+                click.echo(f"    {sign} {x}")
+
+
+@main.group()
+def diagrams() -> None:
+    """Diagram IR commands: validate, generate, manifest, verify-manifest (M10-07)."""
+
+
+def _doc_filter(project: Path, doc: str | None):
+    if doc is None:
+        return None
+    d = Path(doc)
+    return (d if d.is_absolute() else (Path.cwd() / d)).resolve()
+
+
+def _echo_diagnostic(d, root: Path) -> None:
+    where = ""
+    if d.path is not None:
+        try:
+            where = d.path.resolve().relative_to(root).as_posix()
+        except ValueError:
+            where = str(d.path)
+    ptr = d.subject.get("path", "") if d.subject else ""
+    click.echo(f"- [{d.severity.name}] {d.code} {where}{(' ' + ptr) if ptr else ''}: {d.message}")
+    for fix in d.supported_fixes:
+        click.echo(f"    fix: {fix}")
+
+
+@diagrams.command("validate")
+@click.argument("project", type=click.Path(exists=True, file_okay=False))
+@click.option("--doc", default=None, help="Limit to one document directory.")
+@click.option("--json", "json_path", type=click.Path(), default=None,
+              help="Also write the diagnostics as JSON.")
+def diagrams_validate(project: str, doc: str | None, json_path: str | None) -> None:
+    """Validate diagram IR and record the accepted candidates."""
+    import json as _json
+    from engine.checks.diagram_trace import DiagramTraceCheck
+    from engine.diagram_ir import ir_files_by_doc, load_doc_irs, write_validated
+    from engine.findings import Severity
+    ws = Workspace.load(Path(project))
+    root = ws.root
+    groups = ir_files_by_doc(root)
+    only = _doc_filter(root, doc)
+    if only is not None:
+        groups = {k: v for k, v in groups.items() if k.resolve() == only}
+    if not groups:
+        click.echo("No diagram IR found (expected <doc-dir>/diagrams/*.ir.json).")
+        sys.exit(2)
+    graph = ArtifactGraph.build(ws)
+    diags = DiagramTraceCheck("phase03.diagram_trace", root).diagnostics(graph)
+    doc_dirs = {k.resolve() for k in groups}
+    reported = [d for d in diags
+                if d.path is None or d.path.resolve().parent.parent in doc_dirs]
+    blocking_paths = {d.path.resolve() for d in reported
+                      if d.path is not None and d.severity >= Severity.HIGH}
+    for d in reported:
+        _echo_diagnostic(d, root)
+    frozen = 0
+    for doc_dir in sorted(groups):
+        irs, load_diags = load_doc_irs(doc_dir)
+        if load_diags or any(ir.path.resolve() in blocking_paths for ir in irs):
+            click.echo(f"NOT VALIDATED: {doc_dir.relative_to(root).as_posix()}")
+            continue
+        write_validated(doc_dir, irs)
+        frozen += len(irs)
+        click.echo(f"VALIDATED: {doc_dir.relative_to(root).as_posix()} ({len(irs)} figure(s))")
+    if json_path:
+        Path(json_path).write_text(_json.dumps([
+            {"code": d.code, "severity": d.severity.name, "message": d.message,
+             "subject": d.subject, "evidence": d.evidence,
+             "supported_fixes": list(d.supported_fixes)} for d in reported], indent=2),
+            encoding="utf-8")
+    if any(d.severity >= Severity.HIGH for d in reported):
+        click.echo("DIAGRAMS: FAIL")
+        sys.exit(1)
+    click.echo(f"DIAGRAMS: PASS ({frozen} figure(s) validated)")
+
+
+@diagrams.command("generate")
+@click.argument("project", type=click.Path(exists=True, file_okay=False))
+@click.option("--doc", default=None, help="Limit to one document directory.")
+def diagrams_generate(project: str, doc: str | None) -> None:
+    """Write _generated/<FIG>.mmd and _generated/trace-table.md from validated IR."""
+    from engine.diagram_ir import ir_files_by_doc
+    from engine.diagram_render import generate
+    ws = Workspace.load(Path(project))
+    root = ws.root
+    groups = ir_files_by_doc(root)
+    only = _doc_filter(root, doc)
+    if only is not None:
+        groups = {k: v for k, v in groups.items() if k.resolve() == only}
+    if not groups:
+        click.echo("No diagram IR found (expected <doc-dir>/diagrams/*.ir.json).")
+        sys.exit(2)
+    failed = False
+    for doc_dir in sorted(groups):
+        written, diags = generate(doc_dir)
+        for d in diags:
+            _echo_diagnostic(d, root)
+        if diags:
+            failed = True
+            continue
+        for path in written.values():
+            click.echo(f"wrote {path.relative_to(root).as_posix()}")
+    if failed:
+        click.echo("GENERATE: FAIL")
+        sys.exit(1)
+    click.echo("GENERATE: PASS")
+
+
+@diagrams.command("manifest")
+@click.option("--doc-dir", required=True, type=click.Path(exists=True, file_okay=False))
+@click.option("--name", required=True)
+@click.option("--docx", required=True, type=click.Path())
+def diagrams_manifest(doc_dir: str, name: str, docx: str) -> None:
+    """Write <name>.figures.json beside the built .docx (called by build-doc.sh)."""
+    from engine.diagram_manifest import write_manifest
+    out = write_manifest(Path(doc_dir), name, Path(docx))
+    if out is None:
+        click.echo("figures manifest: no rendered figures for this document; none written")
+        return
+    click.echo(f"figures manifest: {out}")
+
+
+@diagrams.command("verify-manifest")
+@click.argument("target", type=click.Path(exists=True))
+def diagrams_verify_manifest(target: str) -> None:
+    """Re-hash every file a figures manifest records; fail naming changed figures."""
+    from engine.diagram_manifest import find_manifests, verify
+    manifests = find_manifests(Path(target))
+    if not manifests:
+        click.echo(f"No *.figures.json manifest found for {target}")
+        sys.exit(2)
+    problems = []
+    for m in manifests:
+        found = verify(m)
+        problems.extend(f"{m.name}: {p}" for p in found)
+        if not found:
+            click.echo(f"OK: {m.name}")
+    for p in problems:
+        click.echo(f"- {p}")
+    if problems:
+        click.echo("VERIFY-MANIFEST: FAIL")
+        sys.exit(1)
+    click.echo("VERIFY-MANIFEST: PASS")
 
 
 @main.command()

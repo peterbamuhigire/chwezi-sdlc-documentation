@@ -4,6 +4,11 @@ from collections import defaultdict
 from xml.etree.ElementTree import Element, SubElement, tostring
 from engine.findings import FindingCollection, Severity
 
+def _message(f) -> str:
+    """Message with a ``[code]`` suffix when the finding carries one (M10-07-T04)."""
+    return f"{f.message} [{f.code}]" if f.code else f.message
+
+
 def render_junit(findings: FindingCollection) -> str:
     by_gate: dict[str, list] = defaultdict(list)
     for f in findings:
@@ -15,9 +20,9 @@ def render_junit(findings: FindingCollection) -> str:
         blocking = [f for f in items if f.severity >= Severity.HIGH]
         if blocking:
             failures += 1
-            failure = SubElement(case, "failure", message=blocking[0].message)
+            failure = SubElement(case, "failure", message=_message(blocking[0]))
             failure.text = "\n".join(
-                f"{f.location}:{f.line}: {f.message}" for f in items
+                f"{f.location}:{f.line}: {_message(f)}" for f in items
             )
     suite.set("failures", str(failures))
     return tostring(suite, encoding="unicode")

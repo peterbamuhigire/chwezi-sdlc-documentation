@@ -11,12 +11,15 @@ def render_sarif(findings: FindingCollection) -> str:
     rules: dict[str, dict] = {}
     results = []
     for f in findings:
-        rules.setdefault(f.gate_id, {
-            "id": f.gate_id,
-            "shortDescription": {"text": f.gate_id},
+        # A finding with a diagnostic code reports it as the SARIF rule and
+        # keeps the gate id in properties (M10-07-T04); others are unchanged.
+        rule_id = f.code or f.gate_id
+        rules.setdefault(rule_id, {
+            "id": rule_id,
+            "shortDescription": {"text": rule_id},
         })
-        results.append({
-            "ruleId": f.gate_id,
+        result = {
+            "ruleId": rule_id,
             "level": _LEVELS[f.severity],
             "message": {"text": f.message},
             "locations": [{
@@ -27,7 +30,17 @@ def render_sarif(findings: FindingCollection) -> str:
                     "region": {"startLine": f.line or 1},
                 },
             }],
-        })
+        }
+        if f.has_diagnostics:
+            props: dict = {"gateId": f.gate_id}
+            if f.subject:
+                props["subject"] = f.subject
+            if f.evidence:
+                props["evidence"] = f.evidence
+            if f.supported_fixes:
+                props["supportedFixes"] = list(f.supported_fixes)
+            result["properties"] = props
+        results.append(result)
     sarif = {
         "version": "2.1.0",
         "$schema": "https://json.schemastore.org/sarif-2.1.0.json",

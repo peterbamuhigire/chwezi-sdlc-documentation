@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/peterbamuhigire/srs-skills/engine/registry/schemas/diagram-ir.schema.json",
+  "$comment": "SRS diagram intermediate representation, schema_version 1 (M10-07-T01, AR-04). Pattern adapted from Archify (MIT, https://github.com/tt-a1i/archify, commit 0e4949f910a8e390bd3b4933883a4dcabad571be). Paraphrased; no schema, code or test text copied. The trace pattern checks shape only; engine/checks/diagram_trace.py checks prefixes against engine.idscan.KIND_PREFIXES and existence against _registry/identifiers.yaml. Change this schema only with a schema_version bump and a migration note.",
+  "title": "SRS diagram IR",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "diagram_kind", "meta", "nodes", "edges", "evidence"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "diagram_kind": {"enum": ["context", "component", "deployment", "sequence", "state", "dataflow", "erd"]},
+    "meta": {"$ref": "#/$defs/meta"},
+    "nodes": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/node"}},
+    "edges": {"type": "array", "items": {"$ref": "#/$defs/edge"}},
+    "boundaries": {"type": "array", "items": {"$ref": "#/$defs/boundary"}},
+    "semantic_checks": {"$ref": "#/$defs/semantic_checks"},
+    "evidence": {"$ref": "#/$defs/evidence"}
+  },
+  "allOf": [
+    {"if": {"properties": {"diagram_kind": {"const": "context"}}},
+     "then": {"properties": {"nodes": {"items": {"properties": {"role": {"enum": ["system", "person", "external_system"]}}}}}}},
+    {"if": {"properties": {"diagram_kind": {"const": "component"}}},
+     "then": {"properties": {"nodes": {"items": {"properties": {"role": {"enum": ["component", "datastore", "queue", "external"]}}}}}}},
+    {"if": {"properties": {"diagram_kind": {"const": "deployment"}}},
+     "then": {"properties": {"nodes": {"items": {"properties": {"role": {"enum": ["node", "zone", "datastore", "external"]}}}}}}},
+    {"if": {"properties": {"diagram_kind": {"const": "sequence"}}},
+     "then": {"properties": {
+       "nodes": {"items": {"properties": {"role": {"enum": ["participant"]}}}},
+       "edges": {"items": {"required": ["order", "kind"]}}}}},
+    {"if": {"properties": {"diagram_kind": {"const": "state"}}},
+     "then": {"properties": {"nodes": {"items": {"properties": {"role": {"enum": ["start", "state", "terminal"]}}}}}}},
+    {"if": {"properties": {"diagram_kind": {"const": "dataflow"}}},
+     "then": {"properties": {"nodes": {"items": {"properties": {"role": {"enum": ["process", "store", "external_entity"]}}}}}}},
+    {"if": {"properties": {"diagram_kind": {"const": "erd"}}},
+     "then": {"properties": {
+       "nodes": {"items": {"properties": {"role": {"enum": ["entity"]}}}},
+       "edges": {"items": {"required": ["cardinality"]}}}}},
+    {"if": {"not": {"properties": {"diagram_kind": {"const": "erd"}}}},
+     "then": {"properties": {"nodes": {"items": {"not": {"required": ["attributes"]}}}}}}
+  ],
+  "$defs": {
+    "element_id": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{0,47}$"},
+    "trace_id": {"type": "string", "pattern": "^[A-Z]{2,5}(-[A-Z0-9]{1,8})*-[0-9]{3,5}$"},
+    "trace": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/trace_id"}},
+    "label": {"type": "string", "minLength": 1, "maxLength": 120},
+    "portable_path": {
+      "type": "string",
+      "minLength": 1,
+      "$comment": "POSIX-relative path: no absolute path, drive letter, backslash or parent segment.",
+      "allOf": [
+        {"not": {"pattern": "^/"}},
+        {"not": {"pattern": "^[A-Za-z]:"}},
+        {"not": {"pattern": "\\\\"}},
+        {"not": {"pattern": "(^|/)\\.\\.(/|$)"}}
+      ]
+    },
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["figure_id", "title", "caption", "alt_text", "srs_section", "owner_document"],
+      "properties": {
+        "figure_id": {"type": "string", "pattern": "^FIG-[0-9]{3}$"},
+        "title": {"$ref": "#/$defs/label"},
+        "caption": {"type": "string", "minLength": 1, "maxLength": 200},
+        "alt_text": {"type": "string", "minLength": 20, "maxLength": 600},
+        "srs_section": {"type": "string", "pattern": "^[0-9]+(\\.[0-9]+)*$"},
+        "baseline_label": {"type": ["string", "null"]},
+        "owner_document": {"$ref": "#/$defs/portable_path"}
+      }
+    },
+    "attribute": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "type", "key"],
+      "properties": {
+        "name": {"type": "string", "pattern": "^[a-z][a-z0-9_]{0,63}$"},
+        "type": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_(),]{0,39}$"},
+        "key": {"enum": ["pk", "fk", "none"]}
+      }
+    },
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "role"],
+      "properties": {
+        "id": {"$ref": "#/$defs/element_id"},
+        "label": {"$ref": "#/$defs/label"},
+        "role": {"type": "string"},
+        "description": {"type": "string", "maxLength": 300},
+        "trace": {"$ref": "#/$defs/trace"},
+        "boundary": {"$ref": "#/$defs/element_id"},
+        "lane": {"type": "string", "minLength": 1, "maxLength": 60},
+        "attributes": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/attribute"}}
+      }
+    },
+    "edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "from", "to"],
+      "properties": {
+        "id": {"$ref": "#/$defs/element_id"},
+        "from": {"$ref": "#/$defs/element_id"},
+        "to": {"$ref": "#/$defs/element_id"},
+        "label": {"$ref": "#/$defs/label"},
+        "trace": {"$ref": "#/$defs/trace"},
+        "kind": {"enum": ["sync", "async", "return"]},
+        "order": {"type": "integer", "minimum": 1},
+        "cardinality": {"enum": ["1:1", "1:N", "N:M", "0..1:N"]},
+        "lane": {"type": "string", "minLength": 1, "maxLength": 60}
+      }
+    },
+    "boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label"],
+      "properties": {
+        "id": {"$ref": "#/$defs/element_id"},
+        "label": {"$ref": "#/$defs/label"},
+        "trace": {"$ref": "#/$defs/trace"}
+      }
+    },
+    "endpoint_pair": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from", "to"],
+      "properties": {
+        "from": {"$ref": "#/$defs/element_id"},
+        "to": {"$ref": "#/$defs/element_id"}
+      }
+    },
+    "semantic_checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "$comment": "Geometry-neutral: these never change generated Mermaid.",
+      "properties": {
+        "allowed_roots": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/element_id"}},
+        "allowed_terminals": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/element_id"}},
+        "required_edges": {"type": "array", "items": {"$ref": "#/$defs/endpoint_pair"}},
+        "required_paths": {"type": "array", "items": {"$ref": "#/$defs/endpoint_pair"}}
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["srs_section", "source_documents"],
+      "properties": {
+        "srs_section": {"type": "string", "pattern": "^[0-9]+(\\.[0-9]+)*$"},
+        "baseline_label": {"type": ["string", "null"]},
+        "source_documents": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/portable_path"}}
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "diagram_kind": "sequence",
+  "meta": {
+    "figure_id": "FIG-002",
+    "title": "Interrupted intake retry",
+    "caption": "Retry of an interrupted intake returns the existing draft",
+    "alt_text": "Sequence diagram: the clerk retries an interrupted intake with the same synthetic key; the admissions API finds the existing draft in the draft store and returns its reference for authorised review instead of creating a second record.",
+    "srs_section": "3.2",
+    "owner_document": "03-design-documentation/01-high-level-design/hld.md"
+  },
+  "nodes": [
+    {"id": "clerk", "label": "Admissions clerk", "role": "participant"},
+    {"id": "api", "label": "Admissions API", "role": "participant", "trace": ["FR-002"]},
+    {"id": "drafts", "label": "Draft store", "role": "participant"}
+  ],
+  "edges": [
+    {"id": "retry", "from": "clerk", "to": "api", "label": "Retry intake with key SYNTH-001", "kind": "sync", "order": 1, "trace": ["FR-002"]},
+    {"id": "find-draft", "from": "api", "to": "drafts", "label": "Find interrupted draft by key", "kind": "sync", "order": 2},
+    {"id": "draft-found", "from": "drafts", "to": "api", "label": "Existing draft reference", "kind": "return", "order": 3},
+    {"id": "return-draft", "from": "api", "to": "clerk", "label": "Existing draft reference for review", "kind": "return", "order": 4, "trace": ["FR-003"]}
+  ],
+  "semantic_checks": {
+    "required_paths": [{"from": "clerk", "to": "drafts"}],
+    "required_edges": [{"from": "api", "to": "clerk"}]
+  },
+  "evidence": {
+    "srs_section": "3.2",
+    "source_documents": ["02-requirements-engineering/requirements.md"]
+  }
+}

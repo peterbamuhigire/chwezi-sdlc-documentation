@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "diagram_kind": "context",
+  "meta": {
+    "figure_id": "FIG-001",
+    "title": "Admissions system context",
+    "caption": "System context of the synthetic admissions service",
+    "alt_text": "Context diagram: an admissions clerk submits requests to the admissions service, which looks up reference data, returns interrupted drafts to an authorised reviewer and emits billing-handoff events to the billing system.",
+    "srs_section": "3.2",
+    "baseline_label": null,
+    "owner_document": "03-design-documentation/01-high-level-design/hld.md"
+  },
+  "boundaries": [
+    {
+      "id": "platform",
+      "label": "Admissions platform"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "clerk",
+      "label": "Admissions clerk",
+      "role": "person",
+      "trace": [
+        "FR-001"
+      ],
+      "boundary": "platform"
+    },
+    {
+      "id": "reviewer",
+      "label": "Authorised reviewer",
+      "role": "person",
+      "trace": [
+        "FR-003"
+      ]
+    },
+    {
+      "id": "admissions",
+      "label": "Admissions service",
+      "role": "system",
+      "boundary": "platform",
+      "trace": [
+        "FR-001",
+        "FR-002"
+      ]
+    },
+    {
+      "id": "reference-data",
+      "label": "Reference-data service",
+      "role": "external_system",
+      "trace": [
+        "FR-004",
+        "FR-005"
+      ]
+    },
+    {
+      "id": "billing",
+      "label": "Billing system",
+      "role": "external_system",
+      "trace": [
+        "FR-006"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "submit",
+      "from": "clerk",
+      "to": "admissions",
+      "label": "Submits admission request",
+      "trace": [
+        "FR-001"
+      ]
+    },
+    {
+      "id": "review",
+      "from": "admissions",
+      "to": "reviewer",
+      "label": "Returns existing draft for review",
+      "trace": [
+        "FR-003"
+      ]
+    },
+    {
+      "id": "lookup",
+      "from": "admissions",
+      "to": "reference-data",
+      "label": "Looks up reference data",
+      "trace": [
+        "FR-004"
+      ]
+    },
+    {
+      "id": "handoff",
+      "from": "admissions",
+      "to": "billing",
+      "label": "Emits billing handoff after sign-off",
+      "trace": [
+        "FR-006"
+      ]
+    }
+  ],
+  "evidence": {
+    "srs_section": "3.2",
+    "baseline_label": null,
+    "source_documents": [
+      "02-requirements-engineering/requirements.md",
+      "_context/vision.md"
+    ]
+  }
+}

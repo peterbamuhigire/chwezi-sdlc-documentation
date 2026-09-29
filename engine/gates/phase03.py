@@ -3,6 +3,7 @@ from __future__ import annotations
 import re
 from engine.artifact_graph import Artifact, ArtifactGraph
 from engine.checks.design_sufficiency import DesignSufficiencyCheck
+from engine.checks.diagram_trace import DiagramTraceCheck
 from engine.findings import Finding, FindingCollection, Severity
 from engine.gates.base import Gate
 from engine.gates._shared import ClauseRef, attach_clause
@@ -65,6 +66,7 @@ class Phase03Gate(Gate):
         self._check_security_threat_model_present(graph, findings)
         self._check_iot_signal_inventory_present(graph, findings)
         self._check_design_docs_have_figures(graph, findings)
+        self._check_diagram_trace(graph, findings)
 
     # -- Check 1: architecture decisions recorded ------------------------
     def _check_architecture_decisions_recorded(
@@ -271,3 +273,13 @@ class Phase03Gate(Gate):
                 location=None,
                 line=None,
             ), _CLAUSE_VIEWS))
+
+    # -- Check 9: diagram IR traces and semantics (M10-07-T03) -----------
+    def _check_diagram_trace(
+        self, graph: ArtifactGraph, findings: FindingCollection
+    ) -> None:
+        """Runs only when the project holds diagram IR (diagrams/*.ir.json)."""
+        tmp = FindingCollection()
+        DiagramTraceCheck(f"{self.id}.diagram_trace", graph.root).run(graph, tmp)
+        for f in tmp:
+            findings.add(attach_clause(f, _CLAUSE_VIEWS))

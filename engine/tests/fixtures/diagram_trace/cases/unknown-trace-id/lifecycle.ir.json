@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "diagram_kind": "state",
+  "meta": {
+    "figure_id": "FIG-001",
+    "title": "Intake lifecycle",
+    "caption": "Intake lifecycle",
+    "alt_text": "Synthetic intake lifecycle figure used by the diagram trace tests.",
+    "srs_section": "3.2",
+    "owner_document": "03-design-documentation/01-high-level-design/hld.md"
+  },
+  "nodes": [
+    {
+      "id": "draft",
+      "label": "Draft",
+      "role": "start",
+      "trace": [
+        "FR-001"
+      ]
+    },
+    {
+      "id": "review",
+      "label": "In review",
+      "role": "state",
+      "trace": [
+        "FR-002"
+      ]
+    },
+    {
+      "id": "done",
+      "label": "Done",
+      "role": "terminal",
+      "trace": [
+        "FR-099"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "submit",
+      "from": "draft",
+      "to": "review",
+      "label": "Submitted",
+      "trace": [
+        "FR-002"
+      ]
+    },
+    {
+      "id": "approve",
+      "from": "review",
+      "to": "done",
+      "label": "Approved"
+    }
+  ],
+  "semantic_checks": {
+    "required_paths": [
+      {
+        "from": "draft",
+        "to": "done"
+      }
+    ]
+  },
+  "evidence": {
+    "srs_section": "3.2",
+    "source_documents": [
+      "02-requirements-engineering/requirements.md"
+    ]
+  }
+}

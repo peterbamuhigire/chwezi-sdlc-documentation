@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "diagram_kind": "sequence",
+  "meta": {
+    "figure_id": "FIG-002",
+    "title": "Intake request",
+    "caption": "Intake request",
+    "alt_text": "Synthetic intake request figure used by the diagram trace tests.",
+    "srs_section": "3.2",
+    "owner_document": "03-design-documentation/01-high-level-design/hld.md"
+  },
+  "nodes": [
+    {
+      "id": "clerk",
+      "label": "Clerk",
+      "role": "participant"
+    },
+    {
+      "id": "api",
+      "label": "Intake API",
+      "role": "participant",
+      "trace": [
+        "BG-001"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "request",
+      "from": "clerk",
+      "to": "api",
+      "label": "Start intake",
+      "kind": "sync",
+      "order": 1
+    },
+    {
+      "id": "reply",
+      "from": "api",
+      "to": "clerk",
+      "label": "Draft created",
+      "kind": "return",
+      "order": 2
+    }
+  ],
+  "evidence": {
+    "srs_section": "3.2",
+    "source_documents": [
+      "02-requirements-engineering/requirements.md"
+    ]
+  }
+}

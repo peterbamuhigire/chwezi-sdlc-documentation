@@ -1,0 +1,18 @@
+{
+  "figures": {
+    "FIG-001": {
+      "ir_path": "diagrams/context.ir.json",
+      "ir_sha256": "d74d8cfcdec5516486ace70ae65a6ebdc33718e0c5434ae55840dc5309c69e87"
+    },
+    "FIG-002": {
+      "ir_path": "diagrams/intake-retry-sequence.ir.json",
+      "ir_sha256": "c22d74a61860c2975c5d4f9671f79e38f297d71065800311d918e081eaae8aad"
+    },
+    "FIG-003": {
+      "ir_path": "diagrams/intake-lifecycle-state.ir.json",
+      "ir_sha256": "63dad908047cd506e8077fdbeda4634adb64cdadfa3778306000e3892f678726"
+    }
+  },
+  "note": "Written by `python -m engine diagrams validate`; do not edit.",
+  "schema": "srs-diagram-validated/1"
+}

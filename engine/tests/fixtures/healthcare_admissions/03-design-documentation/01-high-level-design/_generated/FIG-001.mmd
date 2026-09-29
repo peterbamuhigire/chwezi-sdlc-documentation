@@ -1,0 +1,13 @@
+%%{init: {"theme": "neutral", "themeVariables": {"fontFamily": "Public Sans, sans-serif"}}}%%
+flowchart LR
+  subgraph b_platform["Admissions platform"]
+    n_admissions["Admissions service"]
+  end
+  n_billing[/"Billing system"/]
+  n_clerk(["Admissions clerk"])
+  n_reference_data[/"Reference-data service"/]
+  n_reviewer(["Authorised reviewer"])
+  n_admissions -->|"Emits billing handoff after sign-off"| n_billing
+  n_admissions -->|"Looks up reference data"| n_reference_data
+  n_admissions -->|"Returns existing draft for review"| n_reviewer
+  n_clerk -->|"Submits admission request"| n_admissions

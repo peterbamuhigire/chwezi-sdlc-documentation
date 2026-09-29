@@ -39,7 +39,7 @@ def validate_root_pathing(errors: list[str]) -> None:
     alias_a = "../project_context/"
     alias_b = "../output/"
     alias_language = "alias"
-    for rel_path in ["README.md", "AGENTS.md", "CLAUDE.md"]:
+    for rel_path in ["README.md", "AGENTS.md"]:  # CLAUDE.md is a thin @AGENTS.md bridge (M10-02)
         require_substrings(rel_path, [canonical], errors)
         body = read_text(ROOT / rel_path)
         if alias_a in body or alias_b in body:
@@ -148,6 +148,9 @@ def _collect_check_ids_from_source(errors: list[str]) -> set[str]:
     ids.add("phase09.change_impact.missing_rollback_plan")
     ids.add("phase09.change_impact.schema_violation")
     ids.add("phase09.baseline_delta.current_missing")
+    ids.add("phase09.baseline_delta.diagram_delta")
+    # Phase 03 diagram_trace delegates to DiagramTraceCheck (M10-07-T03).
+    ids.add("phase03.diagram_trace")
     ids.add("phase09.sign_off.missing_artifact")
     ids.add("phase09.sign_off.schema_violation")
     # Phase 02 delegates its four checks (smart_nfr, stimulus_response,

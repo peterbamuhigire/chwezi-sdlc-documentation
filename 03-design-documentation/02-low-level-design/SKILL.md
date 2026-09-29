@@ -82,6 +82,7 @@ If any required capability is unavailable, return the narrowest useful qualified
 - [High-Level Design neighbour](../01-high-level-design/SKILL.md)
 - [API Specification neighbour](../03-api-specification/SKILL.md)
 - [Database Design neighbour](../04-database-design/SKILL.md)
+- [Diagram IR authoring](../01-high-level-design/references/diagram-ir-authoring.md): load before Steps 4 and 5; sequence and state figures are authored as IR against `diagram-ir.schema.json`, validated and generated.
 <!-- dual-compat-end -->
 
 
@@ -118,6 +119,7 @@ This is the second skill in Phase 03 (Design Documentation). It decomposes the h
 | File    | Location             | Description                                              |
 |---------|----------------------|----------------------------------------------------------|
 | LLD.md  | `projects/<ProjectName>/<phase>/<document>/LLD.md`   | Complete Low-Level Design with diagrams and algorithms   |
+| diagrams/*.ir.json | `projects/<ProjectName>/<phase>/<document>/diagrams/` | Sequence and state figures as diagram IR |
 
 ## Core Instructions
 
@@ -133,12 +135,14 @@ For each component identified in HLD.md, decompose it into modules and classes. 
 
 ### Step 3: Generate Class Diagrams
 
-Produce Mermaid `classDiagram` blocks for each module. Classes shall include:
+Class diagrams have no diagram-IR kind yet, so produce Mermaid `classDiagram` blocks for each module, and put `%% alt: <what the figure shows>` and `%% caption: <caption>` comment lines inside every block so the rendered figure carries real alt text and a caption. Classes shall include:
 - Typed attributes (`String`, `Integer`, `DECIMAL(19,4)` for monetary values, `DateTime`)
 - Parameterized methods with return types
 - Relationships: inheritance (`<|--`), composition (`*--`), dependency (`..>`), association (`-->`)
 
 ```mermaid
+%% alt: Class diagram of the order module: Order contains OrderItem lines and calculates its total.
+%% caption: Order module classes
 classDiagram
     class Order {
         -orderId : UUID
@@ -153,39 +157,17 @@ classDiagram
     Order *-- OrderItem : contains
 ```
 
-### Step 4: Generate Sequence Diagrams
+### Step 4: Author Sequence Figures as IR
 
-Produce Mermaid `sequenceDiagram` blocks for 5-8 critical workflows derived from SRS Section 3.2 stimulus-response pairs. Each diagram shall show:
-- Actor-to-component message flows
-- Both the happy path and at least one error/alternate path
+Author one `sequence` IR figure (`<doc-dir>/diagrams/<name>.ir.json`, see `../01-high-level-design/references/diagram-ir-authoring.md`) for each of 5-8 critical workflows derived from SRS Section 3.2 stimulus-response pairs. Participants are nodes (role `participant`); messages are edges with `order` and `kind` (`sync`, `async`, `return`). Each figure shall show:
+- Actor-to-component message flows, with the stimulus message traced to its FR (otherwise `diagram/unmapped-sequence`)
+- Both the happy path and at least one error/alternate path (a separate figure when the paths diverge)
 - Return values and asynchronous callbacks where applicable
+- The stimulus-response pair as a `semantic_checks.required_paths` entry
 
-```mermaid
-sequenceDiagram
-    actor User
-    participant Controller
-    participant Service
-    User->>Controller: submitOrder(orderData)
-    Controller->>Service: processOrder(orderData)
-    Service-->>Controller: OrderConfirmation
-    Controller-->>User: 201 Created
-```
+### Step 5: Author State Machine Figures as IR
 
-### Step 5: Generate State Machine Diagrams
-
-Produce Mermaid `stateDiagram-v2` blocks for every entity that has lifecycle states. Each diagram shall include all terminal states and transition guards.
-
-```mermaid
-stateDiagram-v2
-    [*] --> Created
-    Created --> Confirmed : payment_verified
-    Confirmed --> Processing : fulfillment_started
-    Processing --> Shipped : tracking_assigned
-    Shipped --> Delivered : delivery_confirmed
-    Delivered --> Completed : dispute_period_elapsed
-    Created --> Cancelled : user_cancels
-    Confirmed --> Cancelled : admin_cancels
-```
+Author one `state` IR figure for every entity that has lifecycle states: roles `start`, `state` and `terminal`, transition guards as edge labels (for example `payment_verified`), and the terminal states the data model allows in `semantic_checks.allowed_terminals`. A non-terminal state without an outgoing transition fails with `diagram/dead-end-state`. Run `python -m engine diagrams validate projects/<ProjectName> --doc <doc-dir>` and `python -m engine diagrams generate projects/<ProjectName> --doc <doc-dir>`, fix every finding without deleting a trace or a semantic check, and embed each figure with `<!-- diagram-ir: FIG-nnn -->`. If the kernel cannot run, follow the reference's degraded mode and report the check as `NOT_ASSESSED`.
 
 ### Step 6: Formalize Business Rules as Algorithms
 
@@ -220,7 +202,7 @@ Produce a traceability table mapping every LLD module to its HLD component and o
 | OrderService         | Order Management   | FR-3.2.1, FR-3.2.3 |
 | PaymentGatewayAdapter| Payment Processing | FR-3.2.5, FR-3.2.6 |
 
-Write the completed document to `projects/<ProjectName>/<phase>/<document>/LLD.md`. Log the total module count, diagram count, and algorithm count.
+Below the module matrix, embed the generated figure trace table with `<!-- diagram-ir: trace-table -->`; never type the figure-to-requirement rows by hand. Write the completed document to `projects/<ProjectName>/<phase>/<document>/LLD.md`. Log the total module count, diagram count, and algorithm count.
 
 ## Output Format
 
@@ -257,6 +239,7 @@ The generated `LLD.md` shall follow this structure:
 - [ ] Class diagrams use typed attributes (including `DECIMAL(19,4)` for monetary values) and parameterized methods.
 - [ ] At least 5 sequence diagrams cover critical workflows with both happy and error paths.
 - [ ] State machine diagrams include all terminal states and transition guard conditions.
+- [ ] Sequence and state figures are IR files that pass `python -m engine diagrams validate` with no HIGH finding; every class diagram block carries `%% alt:` and `%% caption:`.
 - [ ] Every business rule algorithm includes preconditions, postconditions, and edge-case handling.
 - [ ] Traceability matrix links every LLD module back to HLD components and SRS requirement IDs.
 

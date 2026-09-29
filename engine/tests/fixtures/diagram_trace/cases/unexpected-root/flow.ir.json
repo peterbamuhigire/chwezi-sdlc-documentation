@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "diagram_kind": "dataflow",
+  "meta": {
+    "figure_id": "FIG-001",
+    "title": "Intake data flow",
+    "caption": "Intake data flow",
+    "alt_text": "Synthetic intake data flow figure used by the diagram trace tests.",
+    "srs_section": "3.2",
+    "owner_document": "03-design-documentation/01-high-level-design/hld.md"
+  },
+  "nodes": [
+    {
+      "id": "clerk",
+      "label": "Clerk",
+      "role": "external_entity"
+    },
+    {
+      "id": "validate",
+      "label": "Validate intake",
+      "role": "process",
+      "trace": [
+        "FR-001",
+        "FR-002"
+      ]
+    },
+    {
+      "id": "intake-store",
+      "label": "Intake store",
+      "role": "store"
+    },
+    {
+      "id": "import",
+      "label": "Import batch",
+      "role": "process"
+    }
+  ],
+  "edges": [
+    {
+      "id": "enter",
+      "from": "clerk",
+      "to": "validate",
+      "label": "Intake form"
+    },
+    {
+      "id": "write",
+      "from": "validate",
+      "to": "intake-store",
+      "label": "Valid intake"
+    },
+    {
+      "id": "import-write",
+      "from": "import",
+      "to": "intake-store",
+      "label": "Imported intake"
+    }
+  ],
+  "evidence": {
+    "srs_section": "3.2",
+    "source_documents": [
+      "02-requirements-engineering/requirements.md"
+    ]
+  }
+}

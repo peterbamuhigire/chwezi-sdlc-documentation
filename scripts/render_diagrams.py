@@ -10,6 +10,15 @@ figure that carries alt text:
 
     ![Figure N — <caption>](_figures/<doc>-<n>.png){width=6.25in fig-alt="<alt>"}
 
+A section may also embed a figure authored as diagram IR (M10-07) with the
+marker ``<!-- diagram-ir: FIG-nnn -->`` and the generated trace table with
+``<!-- diagram-ir: trace-table -->``. The marker is expanded from
+``<doc-dir>/_generated/`` only when the IR is the candidate accepted by the
+last ``python -m engine diagrams validate`` and the generated Mermaid is
+current; otherwise the build stops with ``diagram/candidate-not-validated``
+(candidate freezing). The IR's ``alt_text`` and ``caption`` become the
+figure's alt text and caption, and the manifest records the IR hashes.
+
 Alt text comes from a ``%% alt: ...`` comment in the block, otherwise from
 the nearest heading (with a warning). The caption comes from
 ``%% caption: ...``, otherwise from the alt text. The diagram typeface comes
@@ -61,6 +70,7 @@ from engine.figures import (  # noqa: E402  (path set above)
     MERMAID_BLOCK_RE,
     block_sha256,
 )
+from engine import diagram_ir  # noqa: E402
 
 ATTRIBUTION = (
     "Render-receipt pattern adapted from tt-a1i/archify (MIT, "
@@ -80,6 +90,8 @@ GENERIC_FAMILIES = {
 }
 ALT_RE = re.compile(r"^\s*%%\s*alt\s*:\s*(.+?)\s*$", re.MULTILINE | re.IGNORECASE)
 CAPTION_RE = re.compile(r"^\s*%%\s*caption\s*:\s*(.+?)\s*$", re.MULTILINE | re.IGNORECASE)
+IR_REF_RE = re.compile(r"^\s*%%\s*ir\s*:\s*(FIG-[0-9]{3})\s*$", re.MULTILINE)
+INIT_LINE_RE = re.compile(r"^\s*%%\{init:.*\}%%\s*$")
 HEADING_RE = re.compile(r"^#{1,6}\s+(.+?)\s*#*\s*$", re.MULTILINE)
 FONT_DECL_RE = re.compile(r"font-family\s*[:=]\s*\"?([^;\"}>]+)", re.IGNORECASE)
 
@@ -104,6 +116,7 @@ class Block:
     start: int = 0
     end: int = 0
     result: dict = field(default_factory=dict)
+    ir_figure: str = ""
 
 
 # -- config and font policy -------------------------------------------------
@@ -181,6 +194,71 @@ def _nearest_heading(text_before: str) -> str | None:
     return re.sub(r"^\d+(?:\.\d+)*\.?\s+", "", heads[-1].strip()) or heads[-1].strip()
 
 
+def _one_line(value: str) -> str:
+    return " ".join(str(value).split())
+
+
+def expand_ir_markers(path: Path, text: str, ir_info: dict) -> str:
+    """Replace diagram-IR markers with the generated, validated figure source.
+
+    Raises RenderError (every problem listed) when a marker names an unknown
+    or invalid IR, when the IR is not the validated candidate, or when the
+    generated Mermaid or trace table is missing or stale.
+    """
+    if not diagram_ir.MARKER_RE.search(text):
+        return text
+    doc_dir = path.parent
+    irs, diags = diagram_ir.load_doc_irs(doc_dir)
+    errors = [f"{path.name}: {d.code}: {d.message}" for d in diags]
+    by_id = {ir.figure_id: ir for ir in irs}
+    validated = diagram_ir.read_validated(doc_dir)
+    gen_dir = doc_dir / diagram_ir.GENERATED_DIR
+    try:
+        gen_all = json.loads((gen_dir / diagram_ir.GENERATED_NAME).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        gen_all = {}
+    generated = gen_all.get("figures", {}) if isinstance(gen_all, dict) else {}
+
+    def replace(m: re.Match) -> str:
+        ref = m.group("ref")
+        if ref == "trace-table":
+            table = gen_dir / diagram_ir.TRACE_TABLE_NAME
+            if not table.is_file() or diagram_ir.text_sha256_file(table) != gen_all.get("trace_table_sha256"):
+                errors.append(f"{path.name}: diagram/stale-generated: trace table missing or "
+                              "edited; run `python -m engine diagrams generate`")
+                return m.group(0)
+            return table.read_text(encoding="utf-8").rstrip("\n")
+        ir = by_id.get(ref)
+        if ir is None:
+            errors.append(f"{path.name}: diagram/unknown-figure: {ref} has no IR in "
+                          f"{doc_dir.name}/{diagram_ir.DIAGRAMS_DIR}/")
+            return m.group(0)
+        if validated.get(ref, {}).get("ir_sha256") != ir.sha256:
+            errors.append(f"{path.name}: {diagram_ir.candidate_diagnostic(ir, validated.get(ref, {}).get('ir_sha256')).code}: "
+                          f"{ref} ({ir.path.name}) changed after the last `diagrams validate`")
+            return m.group(0)
+        gen = generated.get(ref, {})
+        mmd = gen_dir / str(gen.get("mermaid", f"{ref}.mmd"))
+        if gen.get("ir_sha256") != ir.sha256 or not mmd.is_file() or diagram_ir.text_sha256_file(mmd) != gen.get("mermaid_sha256"):
+            errors.append(f"{path.name}: diagram/stale-generated: {ref} Mermaid is missing or "
+                          "out of date; run `python -m engine diagrams generate`")
+            return m.group(0)
+        body = [ln for ln in mmd.read_text(encoding="utf-8").splitlines()
+                if not INIT_LINE_RE.match(ln)]
+        ir_info[ref] = {"ir_path": ir.path.relative_to(doc_dir).as_posix(),
+                        "ir_abs": ir.path, "ir_sha256": ir.sha256,
+                        "mermaid_sha256": gen.get("mermaid_sha256")}
+        meta = ir.meta
+        return "\n".join(["```mermaid", f"%% ir: {ref}",
+                          f"%% alt: {_one_line(meta['alt_text'])}",
+                          f"%% caption: {_one_line(meta['caption'])}", *body, "```"])
+
+    out = diagram_ir.MARKER_RE.sub(replace, text)
+    if errors:
+        raise RenderError("; ".join(errors))
+    return out
+
+
 def extract_blocks(sources: list[tuple[Path, str]], warn=print) -> list[Block]:
     blocks: list[Block] = []
     context = ""
@@ -197,8 +275,10 @@ def extract_blocks(sources: list[tuple[Path, str]], warn=print) -> list[Block]:
                 warn(f"WARNING: {path.name} block {i}: no '%% alt:' comment; "
                      f"alt text taken from {alt_source}: {alt!r}")
             caption = cap_m.group(1) if cap_m else (heading or alt)
+            ir_m = IR_REF_RE.search(code)
             blocks.append(Block(len(blocks) + 1, path, i, code, alt, alt_source,
-                                caption, m.start(), m.end()))
+                                caption, m.start(), m.end(),
+                                ir_figure=ir_m.group(1) if ir_m else ""))
         context += text + "\n\n"
     return blocks
 
@@ -217,7 +297,10 @@ def theme_css(config: dict) -> str:
     """CSS that applies the approved face to every element of the figure."""
     fam = config["diagram_font_family"]
     fallback = config.get("diagram_font_fallback", "sans-serif")
-    return f"* {{ font-family: '{fam}', {fallback} !important; }}"
+    # Second rule (M10-07, diagram-visual-standards.md): no drop shadows; the
+    # neutral theme otherwise adds a drop-shadow filter to every node.
+    return (f"* {{ font-family: '{fam}', {fallback} !important; }} "
+            "* { filter: none !important; }")
 
 
 def init_directive(config: dict) -> str:
@@ -395,6 +478,13 @@ def build(files: list[Path], doc_dir: Path, name: str, out: Path,
     config = config or load_config()
     figures_dir = (figures_dir or doc_dir / FIGURES_DIR).resolve()
     sources = [(f.resolve(), f.read_text(encoding="utf-8-sig")) for f in files]  # drop BOMs: stitching would leave them mid-document
+    ir_info: dict = {}
+    try:
+        sources = [(p, expand_ir_markers(p, t, ir_info)) for p, t in sources]
+    except RenderError as exc:
+        for msg in str(exc).split("; "):
+            print(f"ERROR: {msg}", file=sys.stderr)
+        return 1
     blocks = extract_blocks(sources, warn=lambda m: print(m, file=sys.stderr))
     out.parent.mkdir(parents=True, exist_ok=True)
     if not blocks:
@@ -462,6 +552,11 @@ def build(files: list[Path], doc_dir: Path, name: str, out: Path,
             "ppi": b.result["ppi"], "caption": b.caption, "alt": b.alt,
             "alt_source": b.alt_source,
         })
+        info = ir_info.get(b.ir_figure)
+        if info:
+            entry["figures"][-1].update({
+                "ir_figure_id": b.ir_figure, "ir_path": _rel(info["ir_abs"], doc_dir),
+                "ir_sha256": info["ir_sha256"], "mermaid_sha256": info["mermaid_sha256"]})
     manifest = write_manifest(figures_dir, name, entry)
     print(f"render_diagrams: {len(blocks)} figure(s) rendered; manifest {manifest}")
     return 0

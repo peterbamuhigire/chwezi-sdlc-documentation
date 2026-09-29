@@ -1,0 +1,10 @@
+identifiers:
+- id: BG-001
+  kind: BG
+  defined_in: _context/vision.md
+- id: FR-001
+  kind: FR
+  defined_in: 02-requirements-engineering/requirements.md
+- id: FR-002
+  kind: FR
+  defined_in: 02-requirements-engineering/requirements.md

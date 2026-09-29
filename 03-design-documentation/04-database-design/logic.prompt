@@ -3,19 +3,19 @@ You are executing the 04-Database-Design skill. Your mandate is to produce a com
 1. Read ../output/SRS_Draft.md, ../output/HLD.md, ../project_context/business_rules.md, and ../project_context/tech_stack.md. Log all file paths. Halt if any required file is missing.
 2. Determine the database platform from tech_stack.md (MySQL 8.x, PostgreSQL, MariaDB, etc.). If MySQL or MariaDB, load and apply skills/mysql-best-practices/ rules MANDATORILY for all subsequent steps.
 3. Extract entities from SRS Section 3.2 (functional requirements) and Section 2.0 (data objects). Cross-reference with business_rules.md. Each entity becomes a table candidate. List all entities with a one-sentence description.
-4. Generate an ERD using Mermaid erDiagram syntax with typed attributes and proper cardinality notation (||--o{, ||--|{, }o--o{). Include junction tables for every many-to-many relationship. Write to ../output/erd.mmd.
+4. Author the ERD as an `erd` IR file (diagrams/erd.ir.json) with typed attributes (key pk, fk or none) and relationship cardinality (1:1, 1:N, N:M, 0..1:N). Include junction entities for every many-to-many relationship. Author each figure as diagram IR (diagrams/<name>.ir.json, schema engine/registry/schemas/diagram-ir.schema.json; see 01-high-level-design/references/diagram-ir-authoring.md), trace every element to identifiers in _registry/identifiers.yaml, embed it with <!-- diagram-ir: FIG-nnn -->, then run `python -m engine diagrams validate` and `python -m engine diagrams generate`. Never fix a finding by deleting a trace or a semantic check. The generated Mermaid erDiagram replaces a hand-written erd.mmd.
 5. Verify normalization: 1NF (atomic values, no repeating groups), 2NF (no partial dependencies on composite keys), 3NF (no transitive dependencies). Document any intentional denormalization with a performance rationale.
 6. Generate table definitions. Monetary values SHALL use DECIMAL(19,4). Every table SHALL have: id (PK), created_at, updated_at audit columns. Include deleted_at for soft-delete tables. Specify column name, data type, nullable, default, and constraints (PK, FK, UNIQUE, CHECK, NOT NULL).
 7. Define relationships and foreign keys. CASCADE rules SHALL be explicitly stated for every FK (ON DELETE, ON UPDATE). Referential integrity SHALL be enforced at the database level. Foreign key columns SHALL be indexed.
 8. Define indexing strategy: primary key indexes (every table), unique indexes (natural keys), foreign key indexes (every FK column), composite indexes (common query patterns with column order rationale), full-text indexes (search fields).
 9. Generate a data dictionary covering every field in every table with columns: Table, Field, Type, Description, Constraints, Example Value.
 10. Define migration strategy: versioned migrations (up/down), seed data for reference tables, rollback procedures, environment-specific considerations.
-11. If multi-tenancy detected in SRS or HLD: define tenant isolation strategy. Multi-tenant tables SHALL include tenant_id with FK constraint. Write Database_Design.md and erd.mmd to ../output/. Log table count, column count, and relationship count.
+11. If multi-tenancy detected in SRS or HLD: define tenant isolation strategy. Multi-tenant tables SHALL include tenant_id with FK constraint. Write Database_Design.md and diagrams/erd.ir.json to ../output/. Log table count, column count, and relationship count.
 
 Key constraints enforced across all steps:
 - Monetary values SHALL use DECIMAL(19,4) without exception.
 - Every table SHALL have id (PK), created_at, and updated_at audit columns.
 - Foreign key columns SHALL be indexed.
 - CASCADE rules (ON DELETE, ON UPDATE) SHALL be explicitly stated for every FK.
-- ERD SHALL use Mermaid erDiagram syntax with proper cardinality notation.
+- The ERD SHALL be authored as diagram IR and pass `python -m engine diagrams validate`; Mermaid erDiagram text is generated, never hand-written.
 - Multi-tenant tables SHALL include tenant_id with FK constraint and composite indexes.

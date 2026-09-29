@@ -1,0 +1,48 @@
+created_on: '2026-09-29'
+diagram_elements:
+- {element_sha256: 
+    15033abda3baf75bc874685ee5d4f5cba3cbe39defe0f7f883e7e4c453cc321e, id: 
+    FIG-001#admissions, placement_sha256: 
+    76fd7650bc4c47f785dfbf5c5bf2926305bfc372930330abe2ea43c08e0ac4c9}
+- {element_sha256: 
+    b3609fab3c08f05d19a8e9963e97c60f1313914124f9d3196dad62f8bbad3b3e, id: 
+    FIG-001#auditor, placement_sha256: 
+    44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a}
+- {element_sha256: 
+    8cd3fdd2a0cc8e7f7d0f4e66857b87592c521fbb23d3946f8d9b853d9681bb41, id: 
+    FIG-001#billing, placement_sha256: 
+    44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a}
+- {element_sha256: 
+    7de4bb59ff7f095e785ced3e038e864c81d4a45dbb284bcc6f1e9c4e9baa7f0b, id: 
+    FIG-001#clerk, placement_sha256: 
+    44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a}
+- {element_sha256: 
+    7a050cb6249e574892607ec6483c74336d7f2bce9d2bc6b48bdbe0c8b2b8cf9b, id: 
+    FIG-001#handoff, placement_sha256: 
+    44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a}
+- {element_sha256: 
+    df89c955b2c9800711fd54e35b90f480bb48effabc5a4838a665695679e48fbf, id: 
+    FIG-001#lookup, placement_sha256: 
+    44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a}
+- {element_sha256: 
+    6224075a0bbc2fe991193b82582addd870a5784ed61502a2c044625b71594757, id: 
+    FIG-001#platform, placement_sha256: 
+    44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a}
+- {element_sha256: 
+    b31fb938d82ce83296284dcd97ae89f9abf630db85421f04fbb393201673931f, id: 
+    FIG-001#reference-data, placement_sha256: 
+    44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a}
+- {element_sha256: 
+    cabe5af46b8db5ded7a5f939bfb40806853b9d2aa7b9ae1b2b68d518d3412746, id: 
+    FIG-001#review, placement_sha256: 
+    44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a}
+- {element_sha256: 
+    3033ca8fec98257bbe642839c32c8c5a2757494e3f305066c4634742d8191b56, id: 
+    FIG-001#reviewer, placement_sha256: 
+    44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a}
+- {element_sha256: 
+    d3235f2234d1b0a017ee85a7f31bba1068daabaff88e494cb5d0eedca8addb7b, id: 
+    FIG-001#submit, placement_sha256: 
+    44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a}
+entries: []
+label: v1

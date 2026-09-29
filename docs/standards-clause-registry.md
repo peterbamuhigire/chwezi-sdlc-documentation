@@ -33,6 +33,7 @@ This document is validated by `scripts/validate_engine.py`: every check ID that 
 | `phase03.security_threat_model_present` | ISO/IEC/IEEE 42010:2011 | §5.3 | `engine/gates/phase03.py` |
 | `phase03.iot_signal_inventory_present` | ISO/IEC/IEEE 42010:2011 | §5.3 | `engine/gates/phase03.py` |
 | `phase03.design_docs_have_figures` | ISO/IEC/IEEE 42010:2011 | §5.6 | `engine/gates/phase03.py` |
+| `phase03.diagram_trace` | ISO/IEC/IEEE 42010:2011 | §5.6 | `engine/checks/diagram_trace.py` |
 
 ## Phase 04 — Development Artifacts
 
@@ -107,6 +108,7 @@ This document is validated by `scripts/validate_engine.py`: every check ID that 
 | `phase09.change_impact.missing_rollback_plan` | ISO/IEC 27001:2022 | §9 | `engine/checks/change_impact.py` |
 | `phase09.change_impact.schema_violation` | ISO/IEC 27001:2022 | §9 | `engine/checks/change_impact.py` |
 | `phase09.baseline_delta.current_missing` | ISO/IEC 27001:2022 | §9 | `engine/checks/baseline_delta.py` |
+| `phase09.baseline_delta.diagram_delta` | ISO/IEC 27001:2022 | §9 | `engine/checks/baseline_delta.py` |
 | `phase09.sign_off.missing_artifact` | ISO/IEC 27001:2022 | §9 | `engine/checks/sign_off.py` |
 | `phase09.sign_off.schema_violation` | ISO/IEC 27001:2022 | §9 | `engine/checks/sign_off.py` |
 | `phase09.evidence_pack_buildable` | ISO/IEC 27001:2022 | §9 | `engine/gates/phase09.py` |

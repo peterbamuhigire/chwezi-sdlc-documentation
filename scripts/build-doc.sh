@@ -97,4 +97,14 @@ if ! "$PYTHON" -X utf8 "$SCRIPT_DIR/check_docx_diagrams.py" "$OUTPUT_FILE"; then
   exit 1
 fi
 
+# Figure manifest (M10-07-T10): <OutputName>.figures.json beside the .docx
+# records, per figure, the IR / Mermaid / PNG / SVG SHA-256, renderer, font
+# and font-substitution result. Verify later with
+# `python -m engine diagrams verify-manifest <doc-dir>`.
+if ! PYTHONPATH="$SCRIPT_DIR/..${PYTHONPATH:+$PATH_SEP$PYTHONPATH}" "$PYTHON" -X utf8 -m engine \
+     diagrams manifest --doc-dir "$DOC_DIR" --name "$OUTPUT_NAME" --docx "$OUTPUT_FILE"; then
+  echo "ERROR: figure manifest could not be written for $OUTPUT_FILE" >&2
+  exit 1
+fi
+
 echo "Built: $OUTPUT_FILE"

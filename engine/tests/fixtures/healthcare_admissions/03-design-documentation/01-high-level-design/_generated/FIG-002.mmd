@@ -1,0 +1,9 @@
+%%{init: {"theme": "neutral", "themeVariables": {"fontFamily": "Public Sans, sans-serif"}}}%%
+sequenceDiagram
+  participant p_clerk as Admissions clerk
+  participant p_api as Admissions API
+  participant p_drafts as Draft store
+  p_clerk->>p_api: Retry intake with key SYNTH-001
+  p_api->>p_drafts: Find interrupted draft by key
+  p_drafts-->>p_api: Existing draft reference
+  p_api-->>p_clerk: Existing draft reference for review

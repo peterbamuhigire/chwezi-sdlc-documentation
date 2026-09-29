@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "diagram_kind": "state",
+  "meta": {
+    "figure_id": "FIG-003",
+    "title": "Intake lifecycle",
+    "caption": "Lifecycle of an admission intake up to billing handoff",
+    "alt_text": "State diagram: an intake starts as a draft, waits in pending reference data while the lookup is unavailable, moves to awaiting review when complete, and reaches billing handoff only after sign-off is recorded.",
+    "srs_section": "3.2",
+    "owner_document": "03-design-documentation/01-high-level-design/hld.md"
+  },
+  "nodes": [
+    {
+      "id": "draft",
+      "label": "Draft",
+      "role": "start"
+    },
+    {
+      "id": "Pending_Reference",
+      "label": "Pending reference data",
+      "role": "state",
+      "trace": [
+        "FR-004"
+      ]
+    },
+    {
+      "id": "awaiting-review",
+      "label": "Awaiting review",
+      "role": "state",
+      "trace": [
+        "FR-005"
+      ]
+    },
+    {
+      "id": "signed-off",
+      "label": "Signed off",
+      "role": "state"
+    },
+    {
+      "id": "handed-off",
+      "label": "Billing handoff emitted",
+      "role": "terminal",
+      "trace": [
+        "FR-006"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "lookup-unavailable",
+      "from": "draft",
+      "to": "pending-reference-data",
+      "label": "Reference data unavailable",
+      "trace": [
+        "FR-004"
+      ]
+    },
+    {
+      "id": "lookup-restored",
+      "from": "pending-reference-data",
+      "to": "draft",
+      "label": "Reference data restored"
+    },
+    {
+      "id": "intake-complete",
+      "from": "draft",
+      "to": "awaiting-review",
+      "label": "Intake complete with reference data",
+      "trace": [
+        "FR-005"
+      ]
+    },
+    {
+      "id": "sign-off",
+      "from": "awaiting-review",
+      "to": "signed-off",
+      "label": "Sign-off recorded"
+    },
+    {
+      "id": "handoff-job",
+      "from": "signed-off",
+      "to": "handed-off",
+      "label": "Billing handoff job runs",
+      "trace": [
+        "FR-006"
+      ]
+    }
+  ],
+  "semantic_checks": {
+    "allowed_roots": [
+      "draft"
+    ],
+    "allowed_terminals": [
+      "handed-off"
+    ],
+    "required_edges": [
+      {
+        "from": "signed-off",
+        "to": "handed-off"
+      }
+    ],
+    "required_paths": [
+      {
+        "from": "draft",
+        "to": "handed-off"
+      }
+    ]
+  },
+  "evidence": {
+    "srs_section": "3.2",
+    "source_documents": [
+      "02-requirements-engineering/requirements.md",
+      "03-design-documentation/decision-log.md"
+    ]
+  }
+}

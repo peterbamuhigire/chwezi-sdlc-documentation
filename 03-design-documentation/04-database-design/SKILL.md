@@ -82,6 +82,7 @@ If any required capability is unavailable, return the narrowest useful qualified
 - [HLD neighbour](../01-high-level-design/SKILL.md)
 - [API Specification neighbour](../03-api-specification/SKILL.md)
 - [Accounting Engine Design neighbour](../16-accounting-engine-design/SKILL.md)
+- [Diagram IR authoring](../01-high-level-design/references/diagram-ir-authoring.md): load before Step 4; the ERD is authored as IR against `diagram-ir.schema.json`, validated and generated.
 <!-- dual-compat-end -->
 
 
@@ -89,7 +90,7 @@ If any required capability is unavailable, return the narrowest useful qualified
 
 ## Overview
 
-Produces comprehensive database design documentation including a visual Entity-Relationship Diagram (Mermaid erDiagram), normalized table definitions, indexing strategy, constraint specifications, migration plan, and a complete data dictionary. This skill can run after HLD is complete and may execute in parallel with API Specification (03-api-specification). **MANDATORY:** When the target platform is MySQL, this skill SHALL integrate with `skills/mysql-best-practices/` and apply all rules defined therein.
+Produces comprehensive database design documentation including a visual Entity-Relationship Diagram (authored as diagram IR, rendered through a generated Mermaid erDiagram), normalized table definitions, indexing strategy, constraint specifications, migration plan, and a complete data dictionary. This skill can run after HLD is complete and may execute in parallel with API Specification (03-api-specification). **MANDATORY:** When the target platform is MySQL, this skill SHALL integrate with `skills/mysql-best-practices/` and apply all rules defined therein.
 
 ## When to Use
 
@@ -103,7 +104,7 @@ Produces comprehensive database design documentation including a visual Entity-R
 | Attribute   | Value |
 |-------------|-------|
 | **Inputs**  | `projects/<ProjectName>/<phase>/<document>/SRS_Draft.md`, `projects/<ProjectName>/<phase>/<document>/HLD.md`, `projects/<ProjectName>/_context/business_rules.md`, `projects/<ProjectName>/_context/tech_stack.md` |
-| **Outputs** | `projects/<ProjectName>/<phase>/<document>/Database_Design.md`, `projects/<ProjectName>/<phase>/<document>/erd.mmd` |
+| **Outputs** | `projects/<ProjectName>/<phase>/<document>/Database_Design.md`, `projects/<ProjectName>/<phase>/<document>/diagrams/erd.ir.json` (Mermaid generated into `_generated/`) |
 | **Tone**    | Schema-precise, normalized, constraint-heavy |
 | **Standard** | IEEE 1016-2009 Sec 6.7, ISO/IEC 25010 |
 
@@ -121,7 +122,7 @@ Produces comprehensive database design documentation including a visual Entity-R
 | File | Location | Description |
 |------|----------|-------------|
 | Database_Design.md | `projects/<ProjectName>/<phase>/<document>/Database_Design.md` | Complete database design document with all sections |
-| erd.mmd | `projects/<ProjectName>/<phase>/<document>/erd.mmd` | Standalone Mermaid erDiagram file for the entity-relationship model |
+| erd.ir.json | `projects/<ProjectName>/<phase>/<document>/diagrams/erd.ir.json` | Diagram IR for the entity-relationship model; `diagrams generate` writes the Mermaid `erDiagram` to `_generated/FIG-nnn.mmd` |
 
 ## Core Instructions
 
@@ -139,9 +140,9 @@ Parse `tech_stack.md` to identify the target database platform (MySQL 8.x, Postg
 
 Extract entity candidates from SRS Section 3.2 (functional requirements) and Section 2.0 (data objects). Each entity becomes a table candidate. Cross-reference with `business_rules.md` to identify additional entities implied by relationships or constraints. List all identified entities with a one-sentence description.
 
-### Step 4: Generate ERD
+### Step 4: Author the ERD as Diagram IR
 
-Produce an Entity-Relationship Diagram using Mermaid erDiagram syntax. Include all entities with typed attributes, relationships with proper cardinality notation (`||--o{`, `||--|{`, `}o--o{`), and junction tables for every many-to-many relationship. Write the diagram to `projects/<ProjectName>/<phase>/<document>/erd.mmd`.
+Author an `erd` IR figure at `projects/<ProjectName>/<phase>/<document>/diagrams/erd.ir.json` (see `../01-high-level-design/references/diagram-ir-authoring.md`): one `entity` node per table with typed `attributes` (`key` `pk`, `fk` or `none`; `DECIMAL(19,4)` for money), one edge per relationship with `cardinality` (`1:1`, `1:N`, `N:M`, `0..1:N`), and a junction entity for every many-to-many relationship. Trace each entity to the FRs that create or read it. Run `python -m engine diagrams validate` and `python -m engine diagrams generate`; the generated `_generated/FIG-nnn.mmd` replaces the hand-written `erd.mmd`, and `<!-- diagram-ir: FIG-nnn -->` embeds the figure in `Database_Design.md`.
 
 ### Step 5: Verify Normalization
 
@@ -184,13 +185,13 @@ Document the migration approach: versioned migrations (up/down scripts), seed da
 
 ### Step 11: Multi-Tenancy and Final Output
 
-If multi-tenancy is detected in SRS or HLD, define the tenant isolation strategy: shared database with `tenant_id` FK on every tenant-scoped table, or separate schemas. The `tenant_id` column SHALL have a foreign key constraint and be included in composite indexes for query performance. Write `Database_Design.md` and `erd.mmd` to `projects/<ProjectName>/<phase>/<document>/`. Log total table count, column count, and relationship count.
+If multi-tenancy is detected in SRS or HLD, define the tenant isolation strategy: shared database with `tenant_id` FK on every tenant-scoped table, or separate schemas. The `tenant_id` column SHALL have a foreign key constraint and be included in composite indexes for query performance. Write `Database_Design.md` and `diagrams/erd.ir.json` to `projects/<ProjectName>/<phase>/<document>/`, then validate and generate. Log total table count, column count, and relationship count.
 
 ## Output Format
 
 The generated `Database_Design.md` shall use this section structure with a Document Header (Date, Version, Authors, Standard, Database Platform), followed by nine sections:
 
-1. **Entity-Relationship Diagram** -- Mermaid erDiagram block with typed attributes and cardinality
+1. **Entity-Relationship Diagram** -- `<!-- diagram-ir: FIG-nnn -->` marker for the ERD IR (typed attributes and cardinality)
 2. **Normalization Analysis** -- 1NF/2NF/3NF verification per table; denormalization rationale
 3. **Table Definitions** -- One subsection per table with Column/Type/Nullable/Default/Constraints columns
 4. **Relationships and Foreign Keys** -- FK definitions with ON DELETE/ON UPDATE cascade rules
@@ -200,27 +201,25 @@ The generated `Database_Design.md` shall use this section structure with a Docum
 8. **Multi-Tenancy** -- Tenant isolation strategy (if applicable)
 9. **Traceability Matrix** -- Table/SRS Section/Requirement IDs/Business Rule mapping
 
-Example ERD block:
+Example ERD IR (generated into Mermaid `erDiagram` by `python -m engine diagrams generate`):
 
-```mermaid
-erDiagram
-    USERS ||--o{ ORDERS : places
-    USERS {
-        int id PK
-        varchar email UK
-        varchar name
-        timestamp created_at
-        timestamp updated_at
-    }
-    ORDERS ||--|{ ORDER_ITEMS : contains
-    ORDERS {
-        int id PK
-        int user_id FK
-        decimal total_amount
-        varchar status
-        timestamp created_at
-        timestamp updated_at
-    }
+```json
+{
+  "schema_version": 1,
+  "diagram_kind": "erd",
+  "meta": {"figure_id": "FIG-001", "title": "Order data model", "caption": "Users, orders and order items",
+           "alt_text": "Entity-relationship diagram: a user places many orders; each order contains one or more order items.",
+           "srs_section": "3.3", "owner_document": "03-design-documentation/04-database-design/Database_Design.md"},
+  "nodes": [
+    {"id": "users", "label": "Users", "role": "entity", "trace": ["FR-001"],
+     "attributes": [{"name": "id", "type": "INT", "key": "pk"}, {"name": "email", "type": "VARCHAR(255)", "key": "none"}]},
+    {"id": "orders", "label": "Orders", "role": "entity", "trace": ["FR-002"],
+     "attributes": [{"name": "id", "type": "INT", "key": "pk"}, {"name": "user_id", "type": "INT", "key": "fk"},
+                    {"name": "total_amount", "type": "DECIMAL(19,4)", "key": "none"}]}
+  ],
+  "edges": [{"id": "places", "from": "users", "to": "orders", "label": "places", "cardinality": "1:N"}],
+  "evidence": {"srs_section": "3.3", "source_documents": ["02-requirements-engineering/01-srs/srs.md"]}
+}
 ```
 
 ## Common Pitfalls
@@ -236,8 +235,8 @@ erDiagram
 
 ## Verification Checklist
 
-- [ ] `Database_Design.md` and `erd.mmd` exist in `projects/<ProjectName>/<phase>/<document>/`.
-- [ ] ERD renders correctly in Mermaid erDiagram syntax.
+- [ ] `Database_Design.md` and `diagrams/erd.ir.json` exist in `projects/<ProjectName>/<phase>/<document>/`.
+- [ ] The ERD IR passes `python -m engine diagrams validate` with no HIGH finding, and the generated `erDiagram` renders through `scripts/build-doc.sh`.
 - [ ] All tables have primary keys defined.
 - [ ] Foreign keys have ON DELETE and ON UPDATE cascade rules defined.
 - [ ] Monetary columns use `DECIMAL(19,4)`.

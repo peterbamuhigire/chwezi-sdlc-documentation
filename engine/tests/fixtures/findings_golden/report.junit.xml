@@ -1,0 +1,2 @@
+<testsuite name="srs-engine" tests="2" failures="1"><testcase classname="engine.gates" name="phase01.x"><failure message="broken">a.md:3: broken
+b.md:5: warn</failure></testcase><testcase classname="engine.gates" name="phase02.y" /></testsuite>

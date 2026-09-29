@@ -131,8 +131,17 @@ def rendered_figures(art, root: Optional[Path],
 
 
 FigureProvider = Callable[[object, Optional[Path]], List[Figure]]
-# M10-07 (AR-03 completion): append the diagram-IR sidecar provider here.
-FIGURE_PROVIDERS: List[FigureProvider] = []
+
+
+def _diagram_ir_figures(art, root: Optional[Path]) -> List[Figure]:
+    """Validated diagram-IR figures (M10-07, AR-03 completion); see engine/diagram_ir.py."""
+    from engine.diagram_ir import ir_figures
+    return ir_figures(art, root)
+
+
+# M10-07 registers the diagram-IR provider: a ``<!-- diagram-ir: FIG-nnn -->``
+# marker whose IR is the validated candidate counts as a figure.
+FIGURE_PROVIDERS: List[FigureProvider] = [_diagram_ir_figures]
 
 
 def figures_in(art, root: Optional[Path],

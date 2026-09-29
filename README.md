@@ -22,7 +22,7 @@ cd srs-skills
 .\install.ps1 --scope project      # Windows PowerShell
 ```
 
-## Skills
+## Capabilities
 
 | Phase | Skills | Coverage |
 |---|---:|---|
@@ -35,6 +35,13 @@ cd srs-skills
 | `07-agile-artifacts` | 5 | Agile team agreements, completion criteria, retrospectives, and experiments |
 | `08-end-user-documentation` | 9 | Onboarding, customer success, user guidance, and sales enablement |
 | `09-governance-compliance` | 34 | Reviews, traceability, privacy and responsible-AI records, compliance documentation, and improvement |
+
+## Project workspaces and operating models
+
+Each project lives in its own workspace at `projects/<ProjectName>/`, with `_context/` for canonical inputs, `_registry/` for identifiers, baselines and sign-offs, and one folder per phase for outputs. The validation kernel checks a workspace with `python -m engine validate projects/<ProjectName>`.
+
+- [`docs/hybrid-operating-model.md`](docs/hybrid-operating-model.md) defines the Water-Scrum-Fall contract for projects that baseline requirements formally and deliver incrementally.
+- [`docs/regulated-evidence-model.md`](docs/regulated-evidence-model.md) defines the minimum evidence chain, from regulation to audit record, for regulated delivery.
 
 ## References
 
