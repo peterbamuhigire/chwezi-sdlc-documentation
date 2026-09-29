@@ -153,5 +153,5 @@ replayable test with two concurrent requests. The requirement remains
 ## References
 
 - [Hospitality domain pack](../../domains/hospitality/INDEX.md)
-- [Chwezi Accounting Doctrine](C:/wamp64/www/chwezi-accounting-doctrine/README.md)
-- [Hospitality engineering system skill](C:/wamp64/www/chwezi-dev-engine/skills/product-business/hospitality-hotel-restaurant-systems/SKILL.md)
+- [Chwezi Accounting Doctrine](https://github.com/peterbamuhigire/chwezi-accounting-doctrine/blob/main/README.md)
+- [Hospitality engineering system skill](https://github.com/peterbamuhigire/chwezi-dev-engine/blob/main/skills/product-business/hospitality-hotel-restaurant-systems/SKILL.md)

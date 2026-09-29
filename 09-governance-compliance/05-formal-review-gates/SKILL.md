@@ -182,7 +182,7 @@ When generating any review gate document:
 
 ## Ugandan Public-Sector / NGO Delivery Constraints
 
-For Ugandan government, local-government, public-entity, NGO, or donor-funded clients, treat funding availability and procurement sign-off as *blocking* gates. Sequence each review gate (and especially the FSAR-to-deployment handover) **after** the procurement and fiscal sign-offs that fund and authorise the work, and record the warrant/release and Contracts Committee/contract-signature/Solicitor-General evidence at the gate. Schedule the gate away from financial-year close, board-of-survey, and audit blackout periods. See `references/uganda-public-sector-and-ngo-delivery-constraints.md`; the finance engine (`C:\wamp64\www\chwezi-accounting-doctrine`) is the authority for the substance, and no statutory threshold is fixed here as current.
+For Ugandan government, local-government, public-entity, NGO, or donor-funded clients, treat funding availability and procurement sign-off as *blocking* gates. Sequence each review gate (and especially the FSAR-to-deployment handover) **after** the procurement and fiscal sign-offs that fund and authorise the work, and record the warrant/release and Contracts Committee/contract-signature/Solicitor-General evidence at the gate. Schedule the gate away from financial-year close, board-of-survey, and audit blackout periods. See `references/uganda-public-sector-and-ngo-delivery-constraints.md`; the finance engine (`chwezi-accounting-doctrine`) is the authority for the substance, and no statutory threshold is fixed here as current.
 
 ## Standards References
 - IEEE 1028-2008: Software Reviews and Audits

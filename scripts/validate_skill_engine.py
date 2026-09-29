@@ -161,6 +161,21 @@ def markdown_links(text: str) -> list[str]:
     return re.findall(r"\[[^\]]+\]\(([^)]+)\)", text)
 
 
+# Portable-link rule: CI checks out one repository, so a link that is host-absolute
+# (C:/..., /C:/..., file:) or that climbs out of the repository to a sibling engine
+# resolves only on the author's machine. Such links count as broken locally too, so a
+# local pass predicts the CI result; link to other engines by their GitHub URL instead.
+HOST_ABSOLUTE_LINK = re.compile(r"^(?:file:|/?[A-Za-z]:[\\/])", re.I)
+
+
+def portable_link_target(base: Path, root: Path, target: str) -> Path | None:
+    """Resolve a local link target, or return None when it is not portable."""
+    if HOST_ABSOLUTE_LINK.match(target):
+        return None
+    resolved = (base / target).resolve()
+    return resolved if resolved.is_relative_to(root.resolve()) else None
+
+
 def table_header_has(content: str, required: tuple[str, ...]) -> bool:
     lines = [line.strip().lower() for line in content.splitlines() if line.strip().startswith("|")]
     return bool(lines) and all(term.lower() in lines[0] for term in required)
@@ -229,9 +244,13 @@ def assess(path: Path, root: Path) -> list[str]:
         findings.append("runner_specific_body")
     for target in markdown_links(body):
         clean = target.split("#", 1)[0].strip()
+        if HOST_ABSOLUTE_LINK.match(clean):
+            findings.append("broken_relative_link")
+            break
         if not clean or "://" in clean or clean.startswith(("mailto:", "/")):
             continue
-        if not (path.parent / clean).resolve().exists():
+        resolved = portable_link_target(path.parent, root, clean)
+        if resolved is None or not resolved.exists():
             findings.append("broken_relative_link")
             break
     refs = sections.get("References") or ""

@@ -83,3 +83,34 @@ def test_live_catalogue_has_no_findings():
     payload = json.loads(result.stdout)
     assert payload["failure_counts"] == {}
     assert result.returncode == 0
+
+
+def _with_reference(link: str) -> str:
+    anchor = "- [Skill authoring and release standard](../../docs/skill-authoring-standard.md)"
+    return TEMPLATE.replace(anchor, anchor + "\n- [Other engine](" + link + ")")
+
+
+def test_sibling_engine_link_is_broken_even_when_the_sibling_exists(tmp_path):
+    repo = tmp_path / "srs-skills"
+    repo.mkdir()
+    sibling = tmp_path / "chwezi-dev-engine" / "references"
+    sibling.mkdir(parents=True)
+    (sibling / "standard.md").write_text("sibling", encoding="utf-8")
+    body = _with_reference("../../../chwezi-dev-engine/references/standard.md")
+    assert "broken_relative_link" in MODULE.assess(make_skill(repo, body), repo)
+
+
+def test_host_absolute_link_is_broken_even_when_the_target_exists(tmp_path):
+    repo = tmp_path / "srs-skills"
+    repo.mkdir()
+    target = tmp_path / "outside.md"
+    target.write_text("outside", encoding="utf-8")
+    # On Windows the drive-letter path exists; on a Linux runner it never does. Both must fail.
+    link = target.resolve().as_posix() if target.resolve().drive else "C:/wamp64/www/outside.md"
+    body = _with_reference(link)
+    assert "broken_relative_link" in MODULE.assess(make_skill(repo, body), repo)
+
+
+def test_github_url_to_another_engine_is_accepted(tmp_path):
+    body = _with_reference("https://github.com/peterbamuhigire/chwezi-dev-engine/blob/main/references/standard.md")
+    assert MODULE.assess(make_skill(tmp_path, body), tmp_path) == []

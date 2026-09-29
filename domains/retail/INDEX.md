@@ -41,7 +41,7 @@ When a project brief includes retail, omnichannel, e-commerce, POS, store operat
 3. `domains/retail/references/finance-control-gates.md`
 4. The relevant feature files listed below
 
-If the project touches inventory value, refunds, markdowns, discounts, vendor funding, POS/cash/card/mobile-money settlement, gift cards, loyalty liabilities, shrink, stock counts, or management reporting, also route to the finance engine at `C:\wamp64\www\chwezi-accounting-doctrine`.
+If the project touches inventory value, refunds, markdowns, discounts, vendor funding, POS/cash/card/mobile-money settlement, gift cards, loyalty liabilities, shrink, stock counts, or management reporting, also route to the finance engine at `chwezi-accounting-doctrine`.
 
 ## References
 

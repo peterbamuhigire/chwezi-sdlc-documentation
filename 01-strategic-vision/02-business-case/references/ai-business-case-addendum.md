@@ -107,7 +107,7 @@ Thresholds shown are illustrative; the sponsor sets them before the pilot.
 
 ## 7. Finance-engine consistency
 
-Consult `C:\wamp64\www\chwezi-accounting-doctrine` (router `README.md`) and
+Consult `chwezi-accounting-doctrine` (router `README.md`) and
 record the gate run in the manifest:
 
 - `09-budgeting-fpa-and-costing/scenario-and-sensitivity-modelling` for base,

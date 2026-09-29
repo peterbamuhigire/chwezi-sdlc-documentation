@@ -122,7 +122,7 @@ Every source event row must include:
 
 ### Step 3: Apply Finance and Control Gates
 
-Load `domains/retail/references/finance-control-gates.md`. If any finance trigger is present, route to `C:\wamp64\www\chwezi-accounting-doctrine` and record the route in the generated artefact.
+Load `domains/retail/references/finance-control-gates.md`. If any finance trigger is present, route to `chwezi-accounting-doctrine` and record the route in the generated artefact.
 
 Do not write final requirements for these items without a finance/control section:
 

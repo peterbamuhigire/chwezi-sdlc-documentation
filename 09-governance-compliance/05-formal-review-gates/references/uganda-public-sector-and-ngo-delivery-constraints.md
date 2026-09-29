@@ -2,17 +2,17 @@
 
 Cross-cutting reference for SDLC and software-documentation artefacts produced for Ugandan **government, local-government, public-entity, NGO, and donor-funded** clients. Apply it whenever a delivery plan, review gate, deployment/go-live decision, or risk register is generated for such a client, so the artefact reflects the budgeting, procurement-gating, governance, and audit realities that actually constrain when a system can be funded, authorised, cut over, and operated.
 
-**This reference captures the framework *structure* and *citations*, not current statutory amounts.** Monetary thresholds, percentages, fees, and any amended deadline change by Act, regulation, or circular. Treat every figure below as "framework-as-issued — verify the current instrument before final output." The finance engine at `C:\wamp64\www\chwezi-accounting-doctrine` is the authority for the financial substance; this file translates that substance into SDLC delivery gates. Do **not** hardcode any rate or threshold here as current.
+**This reference captures the framework *structure* and *citations*, not current statutory amounts.** Monetary thresholds, percentages, fees, and any amended deadline change by Act, regulation, or circular. Treat every figure below as "framework-as-issued — verify the current instrument before final output." The finance engine at `chwezi-accounting-doctrine` is the authority for the financial substance; this file translates that substance into SDLC delivery gates. Do **not** hardcode any rate or threshold here as current.
 
 ## Authority and cross-references
 
 The substance of every constraint below is owned by the finance engine. Consult it as the source of truth and follow its `live-rate-verification-protocol.md` before fixing any figure:
 
-- `C:\wamp64\www\chwezi-accounting-doctrine\doctrine\references\uganda-public-sector-pfm.md` — PFM legal hierarchy, budget execution, commitment control, reporting calendar, accounting-officer accountability.
-- `C:\wamp64\www\chwezi-accounting-doctrine\doctrine\references\uganda-ngo-financial-management-patterns.md` — NGO/donor finance manuals, restricted-fund and reporting cadence patterns.
-- `C:\wamp64\www\chwezi-accounting-doctrine\skills\12-public-sector-and-ipsas\donor-funded-project-fiscal-compliance\SKILL.md` — donor-funded project fiscal compliance, ineligible-cost exposure.
-- `C:\wamp64\www\chwezi-accounting-doctrine\skills\12-public-sector-and-ipsas\government-procurement-and-fiscal-controls\SKILL.md` — procurement and fiscal control gating.
-- `C:\wamp64\www\proposal-skills\skills\profiles-sectors\sectors\ppda-uganda\SKILL.md` — PPDA procurement-process detail (methods, thresholds, timelines).
+- `chwezi-accounting-doctrine/doctrine/references/uganda-public-sector-pfm.md` — PFM legal hierarchy, budget execution, commitment control, reporting calendar, accounting-officer accountability.
+- `chwezi-accounting-doctrine/doctrine/references/uganda-ngo-financial-management-patterns.md` — NGO/donor finance manuals, restricted-fund and reporting cadence patterns.
+- `chwezi-accounting-doctrine/skills/12-public-sector-and-ipsas/donor-funded-project-fiscal-compliance/SKILL.md` — donor-funded project fiscal compliance, ineligible-cost exposure.
+- `chwezi-accounting-doctrine/skills/12-public-sector-and-ipsas/government-procurement-and-fiscal-controls/SKILL.md` — procurement and fiscal control gating.
+- `proposal-skills/skills/profiles-sectors/sectors/ppda-uganda/SKILL.md` — PPDA procurement-process detail (methods, thresholds, timelines).
 
 Primary instruments behind this reference: Local Governments (Financial and Accounting) Regulations 2007 (SI 25/2007) under the Local Governments Act 1997; PFMA 2015 and PFM Regulations 2016; MOFPED Financial Reporting Guide 2024; PPDA Act 2003 (as amended by the PPDA (Amendment) Act 2021) and the PPDA Regulations 2023 (effective 5 February 2024, harmonising central and local government — the former Local Governments (PPDA) Regulations 2006 were revoked); real NGO finance manuals. Verify current statutory thresholds against the PPDA instrument in force at the engagement date.
 
