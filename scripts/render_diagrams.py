@@ -303,23 +303,114 @@ def theme_css(config: dict) -> str:
             "* { filter: none !important; }")
 
 
-def init_directive(config: dict) -> str:
-    """The ``%%{init}%%`` directive that pins theme and typeface for a block."""
-    return json.dumps({"theme": config.get("mermaid_theme", "neutral"),
-                       "themeVariables": {"fontFamily": font_stack(config)}}).join(
-        ("%%{init: ", "}%%"))
+def diagram_type(code: str) -> str:
+    """First keyword of the diagram body (``gantt``, ``flowchart`` ...), or ''.
+
+    Skips YAML front matter, ``%%`` comments, directives and blank lines.
+    """
+    stripped = [x.strip() for x in code.replace("\r\n", "\n").split("\n")]
+    start = 0
+    if stripped and stripped[0] == "---" and "---" in stripped[1:]:
+        start = 2 + stripped[1:].index("---")
+    for line in stripped[start:]:
+        if line and not line.startswith("%%"):
+            return line.split()[0]
+    return ""
+
+
+def gantt_settings(config: dict) -> dict:
+    """Gantt layout and colour settings from render-config.json (M10-13 follow-up).
+
+    Mermaid sizes a Gantt chart to its container (the renderer's 4,000 px
+    viewport), so without ``gantt.useWidth`` the chart is drawn about 4,000 px
+    wide and its labels print far below 8 pt at the body measure.
+    """
+    return config.get("gantt") or {}
+
+
+def gantt_min_label_pt(config: dict) -> float:
+    """Printed size (pt) of the smallest Gantt label at the body measure."""
+    g = gantt_settings(config)
+    mermaid_cfg = g.get("mermaid", {})
+    width = mermaid_cfg.get("useWidth")
+    if not width:
+        return 0.0
+    smallest = min(mermaid_cfg.get("fontSize", 11), mermaid_cfg.get("sectionFontSize", 11),
+                   g.get("axis_font_px", 10))
+    return smallest * config["body_measure_in"] * 72 / width
+
+
+def gantt_css(config: dict) -> str:
+    """Extra CSS for Gantt figures: axis label size and a quiet grid rule."""
+    g = gantt_settings(config)
+    css = ""
+    if g.get("axis_font_px"):
+        css += f" .tick text {{ font-size: {g['axis_font_px']}px !important; }}"
+    grid = g.get("theme_variables", {}).get("gridColor")
+    if grid:
+        css += f" .grid .tick line {{ stroke: {grid} !important; opacity: 1 !important; }}"
+    return css
+
+
+def init_directive(config: dict, kind: str = "") -> str:
+    """The ``%%{init}%%`` directive that pins theme and typeface for a block.
+
+    Gantt blocks also get the fixed drawing width, label sizes and token
+    colours from ``render-config.json`` ``gantt``: the renderer injects its
+    own directive, so an author's ``%%{init}%%`` line cannot be relied on.
+    CSS never goes into the directive: Mermaid turns every ``'`` in a
+    directive into ``"`` before parsing it as JSON, so quoted CSS would void
+    the whole directive; Gantt CSS travels in the job config instead
+    (``mermaid_config``).
+    """
+    body: dict = {"theme": config.get("mermaid_theme", "neutral")}
+    theme_vars = {"fontFamily": font_stack(config)}
+    g = gantt_settings(config) if kind == "gantt" else {}
+    if g:
+        body["gantt"] = dict(g.get("mermaid", {}))
+        theme_vars.update(g.get("theme_variables", {}))
+    body["themeVariables"] = theme_vars
+    return json.dumps(body).join(("%%{init: ", "}%%"))
+
+
+def mermaid_config(config: dict, kind: str = "") -> dict:
+    """Renderer-level Mermaid config for one figure (shared unless Gantt)."""
+    theme_vars = {"fontFamily": font_stack(config)}
+    cfg: dict = {"theme": config.get("mermaid_theme", "neutral"),
+                 "fontFamily": font_stack(config),
+                 "themeVariables": theme_vars,
+                 # Mermaid 12 sets the face only through a CSS variable scoped
+                 # to a selector that matches nothing, so HTML labels fell back
+                 # to the browser serif. Pin it on every element.
+                 "themeCSS": theme_css(config)}
+    g = gantt_settings(config) if kind == "gantt" else {}
+    if g:
+        cfg["gantt"] = dict(g.get("mermaid", {}))
+        theme_vars.update(g.get("theme_variables", {}))
+        cfg["themeCSS"] += gantt_css(config)
+    return cfg
+
+
+_TODAY_RE = re.compile(r"^\s*todayMarker\b", re.MULTILINE)
 
 
 def prepared_definition(code: str, config: dict) -> str:
     lines = [line for line in code.replace("\r\n", "\n").strip("\n").split("\n")
              if not ALT_RE.match(line) and not CAPTION_RE.match(line)]
+    kind = diagram_type("\n".join(lines))
+    if (kind == "gantt" and gantt_settings(config).get("today_marker_off")
+            and not _TODAY_RE.search("\n".join(lines))):
+        # A printed plan must not depend on the build date: hide Mermaid's
+        # "today" line unless the author set todayMarker explicitly.
+        at = next(i for i, x in enumerate(lines) if x.strip().split()[:1] == ["gantt"])
+        lines = lines[: at + 1] + ["  todayMarker off"] + lines[at + 1:]
     # A YAML front-matter config block must stay first; put the directive after it.
     stripped = [x.strip() for x in lines]
     if stripped and stripped[0] == "---" and "---" in stripped[1:]:
         close = 1 + stripped[1:].index("---")
-        lines = lines[: close + 1] + [init_directive(config)] + lines[close + 1:]
+        lines = lines[: close + 1] + [init_directive(config, kind)] + lines[close + 1:]
     else:
-        lines = [init_directive(config)] + lines
+        lines = [init_directive(config, kind)] + lines
     return "\n".join(lines) + "\n"
 
 
@@ -392,21 +483,17 @@ def run_renderer(blocks: list[Block], figures_dir: Path, doc_slug: str,
         jobs = []
         for b in blocks:
             stem = f"{doc_slug}-{b.figure}"
-            jobs.append({"id": stem, "definition": prepared_definition(b.code, config),
-                         "svg": str(figures_dir / f"{stem}.svg"),
-                         "png": str(figures_dir / f"{stem}.png")})
+            job = {"id": stem, "definition": prepared_definition(b.code, config),
+                   "svg": str(figures_dir / f"{stem}.svg"),
+                   "png": str(figures_dir / f"{stem}.png")}
+            if diagram_type(b.code) == "gantt" and gantt_settings(config):
+                job["mermaidConfig"] = mermaid_config(config, "gantt")
+            jobs.append(job)
         job_file = tmpd / "job.json"
         job_file.write_text(json.dumps({
             "fontCss": str(tmpd / "diagram-font.css"),
             "fontFamily": family,
-            "mermaidConfig": {"theme": config.get("mermaid_theme", "neutral"),
-                              "fontFamily": font_stack(config),
-                              "themeVariables": {"fontFamily": font_stack(config)},
-                              # Mermaid 12 sets the face only through a CSS
-                              # variable scoped to a selector that matches
-                              # nothing, so HTML labels fell back to the
-                              # browser serif. Pin it on every element.
-                              "themeCSS": theme_css(config)},
+            "mermaidConfig": mermaid_config(config),
             "bodyMeasureIn": config["body_measure_in"],
             "maxHeightIn": config["max_figure_height_in"],
             "minPpi": config["min_ppi"],

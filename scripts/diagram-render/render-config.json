@@ -20,5 +20,44 @@
   "min_ppi": 300,
   "body_measure_in": 6.25,
   "max_figure_height_in": 8.0,
-  "mermaid_theme": "neutral"
+  "mermaid_theme": "neutral",
+  "gantt": {
+    "$comment": "Gantt settings (M10-13 follow-up). Mermaid otherwise draws a Gantt chart as wide as the renderer's 4,000 px viewport, so labels print far below 8 pt at the 6.25 in body measure. useWidth 720 px with 13 px labels prints the smallest label at 13 x 450 / 720 = 8.1 pt. Colours map Gantt roles to the neutral document tokens in design-system-skills diagram-visual-standards.md section 3a (Ink #1A1A1A, Muted #5A5A5A, rule #D8D8D8, tints #F4F4F4 / #F7F7F7); critical work is shown by a darker tint plus the heavier Ink border, never by Mermaid's red default.",
+    "mermaid": {
+      "useWidth": 720,
+      "fontSize": 13,
+      "sectionFontSize": 13,
+      "barHeight": 24,
+      "barGap": 6,
+      "topPadding": 50,
+      "leftPadding": 150,
+      "rightPadding": 40,
+      "gridLineStartPadding": 35,
+      "axisFormat": "%d %b"
+    },
+    "axis_font_px": 13,
+    "today_marker_off": true,
+    "theme_variables": {
+      "taskBkgColor": "#F4F4F4",
+      "taskBorderColor": "#5A5A5A",
+      "taskTextColor": "#1A1A1A",
+      "taskTextDarkColor": "#1A1A1A",
+      "taskTextLightColor": "#1A1A1A",
+      "taskTextOutsideColor": "#1A1A1A",
+      "taskTextClickableColor": "#1A1A1A",
+      "activeTaskBkgColor": "#F7F7F7",
+      "activeTaskBorderColor": "#1A1A1A",
+      "doneTaskBkgColor": "#FFFFFF",
+      "doneTaskBorderColor": "#5A5A5A",
+      "critBkgColor": "#D8D8D8",
+      "critBorderColor": "#1A1A1A",
+      "gridColor": "#D8D8D8",
+      "sectionBkgColor": "#FFFFFF",
+      "altSectionBkgColor": "#F7F7F7",
+      "sectionBkgColor2": "#FFFFFF",
+      "excludeBkgColor": "#F7F7F7",
+      "todayLineColor": "#5A5A5A",
+      "titleColor": "#1A1A1A"
+    }
+  }
 }

@@ -8,7 +8,8 @@
 // Job file shape:
 //   { "fontCss": "<abs path to @font-face css>", "mermaidConfig": {...},
 //     "bodyMeasureIn": 6.25, "maxHeightIn": 8.0, "minPpi": 300,
-//     "jobs": [ { "id": "doc-1", "definition": "...", "svg": "<abs>", "png": "<abs>" } ] }
+//     "jobs": [ { "id": "doc-1", "definition": "...", "svg": "<abs>", "png": "<abs>",
+//                 "mermaidConfig": {...} (optional; replaces the shared one) } ] }
 // Writes a result file next to the job file: <job>.result.json
 // Exit code: 0 all rendered; 1 one or more jobs failed (details in result).
 
@@ -78,7 +79,9 @@ try {
   for (const job of spec.jobs) {
     const common = {
       backgroundColor: "white",
-      mermaidConfig: spec.mermaidConfig || {},
+      // A job may carry its own config (render_diagrams.py sends one for
+      // Gantt charts: fixed width, label sizes, token colours, axis CSS).
+      mermaidConfig: job.mermaidConfig || spec.mermaidConfig || {},
       customFontCSS,
       // The face is embedded by render_diagrams.py itself (the renderer's
       // embedder does not handle data: URI faces).

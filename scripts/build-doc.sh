@@ -75,6 +75,20 @@ case "$(uname -s)" in
   *) PATH_SEP=':' ;;
 esac
 
+# Pandoc on Windows is a native program: it cannot read an MSYS/Cygwin path
+# such as /c/wamp64/... inside --resource-path (MSYS does not convert paths
+# inside a ';'-separated list), so figures were silently replaced by their
+# descriptions (M10-13 finding). Hand native tools a mixed Windows path
+# (C:/wamp64/...) when cygpath is available; elsewhere the path is unchanged.
+native_path() {
+  if command -v cygpath >/dev/null 2>&1; then
+    cygpath -m "$1"
+  else
+    printf '%s\n' "$1"
+  fi
+}
+DOC_DIR_NATIVE="$(native_path "$DOC_DIR")"
+
 # Build
 # -f gfm keeps GitHub Flavored Markdown rendering (consistent with how
 # SKILL.md authors preview files on GitHub). Without it, Pandoc uses its own
@@ -84,16 +98,19 @@ esac
 # figure-alt.lua moves each figure's alt text into the Word image description.
 pandoc "$STITCHED" \
   -f gfm+attributes+implicit_figures \
-  --resource-path=".${PATH_SEP}${DOC_DIR}" \
+  --resource-path=".${PATH_SEP}${DOC_DIR_NATIVE}" \
   --lua-filter="$SCRIPT_DIR/diagram-render/figure-alt.lua" \
   --reference-doc="$TEMPLATE" \
   --table-of-contents \
   --toc-depth=3 \
   -o "$OUTPUT_FILE"
 
-# Post-build guard (M10-01-T10): no Mermaid source may survive in the .docx.
-if ! "$PYTHON" -X utf8 "$SCRIPT_DIR/check_docx_diagrams.py" "$OUTPUT_FILE"; then
-  echo "ERROR: $OUTPUT_FILE contains Mermaid source; treat it as not built" >&2
+# Post-build guard (M10-01-T10): no Mermaid source may survive in the .docx,
+# and every figure in the render manifest must be embedded in word/media/
+# (M10-13 follow-up: a figure Pandoc could not fetch is a failed build).
+if ! "$PYTHON" -X utf8 "$SCRIPT_DIR/check_docx_diagrams.py" \
+     --render-manifest "$DOC_DIR_NATIVE/_figures/render-manifest.json" "$OUTPUT_FILE"; then
+  echo "ERROR: $OUTPUT_FILE contains Mermaid source or lacks rendered figures; treat it as not built" >&2
   exit 1
 fi
 

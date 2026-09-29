@@ -366,3 +366,182 @@ def test_build_doc_renders_fixture_and_rejects_malformed(tmp_path):
                          capture_output=True, text=True, env=env, cwd=ROOT)
     assert bad.returncode != 0
     assert not (tmp_path / "malformed" / "Bad.docx").exists()
+
+# -- M10-13 follow-up: missing figures, MSYS paths, Gantt sizing ---------------
+
+PNG_A = PNG + b"figure-a"
+PNG_B = PNG + b"figure-b"
+
+
+def _sha(data: bytes) -> str:
+    import hashlib
+    return hashlib.sha256(data).hexdigest()
+
+
+def _figure_docx(path: Path, figures: list) -> Path:
+    """A Pandoc-shaped .docx: per figure a CaptionedFigure paragraph (with a
+    drawing, or with substituted description text when None) and a caption."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    body, media = [], {}
+    for i, data in enumerate(figures, start=1):
+        if data is None:
+            body.append(f'<w:p><w:pPr><w:pStyle w:val="Compact" /></w:pPr>'
+                        f'<w:r><w:t>alt text {i}</w:t></w:r></w:p>')
+        else:
+            media[f"word/media/rId{i}.png"] = data
+            body.append('<w:p><w:pPr><w:pStyle w:val="CaptionedFigure" /></w:pPr>'
+                        '<w:r><w:drawing><wp:inline/></w:drawing></w:r></w:p>')
+        body.append(f'<w:p><w:pPr><w:pStyle w:val="ImageCaption" /></w:pPr>'
+                    f'<w:r><w:t>Figure {i} — Caption {i}</w:t></w:r></w:p>')
+    with zipfile.ZipFile(path, "w") as zf:
+        zf.writestr("word/document.xml",
+                    f"<w:document><w:body>{''.join(body)}</w:body></w:document>")
+        for name, data in media.items():
+            zf.writestr(name, data)
+    return path
+
+
+def _render_manifest(path: Path, name: str, pngs: list, hashes: bool = True) -> Path:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    figs = [{"figure": i, "png": f"{name}-{i}.png",
+             **({"png_sha256": _sha(d)} if hashes else {})}
+            for i, d in enumerate(pngs, start=1)]
+    path.write_text(json.dumps({"schema": "srs-render-manifest/1",
+                                "documents": {name: {"figures": figs}}}), encoding="utf-8")
+    return path
+
+
+def test_check_docx_fails_when_manifest_figure_not_embedded(tmp_path, capsys):
+    guard = load_script("check_docx_diagrams.py")
+    manifest = _render_manifest(tmp_path / "design" / "_figures" / "render-manifest.json",
+                                "Doc", [PNG_A, PNG_B])
+    good = _figure_docx(tmp_path / "Doc.docx", [PNG_A, PNG_B])
+    assert guard.main(["--render-manifest", str(manifest), str(good)]) == 0
+    assert "1 .docx file(s) matched a render manifest; 0 missing" in capsys.readouterr().out
+    # Pandoc could not fetch figure 2: text in place of the picture, one media entry.
+    broken = _figure_docx(tmp_path / "broken" / "Doc.docx", [PNG_A, None])
+    report = tmp_path / "r.json"
+    assert guard.main(["--render-manifest", str(manifest), str(broken),
+                       "--json", str(report)]) == 1
+    out = capsys.readouterr().out
+    assert "MISSING-FIGURE" in out and "figure=2" in out and "FIGURE-PLACEHOLDER" in out
+    data = json.loads(report.read_text(encoding="utf-8"))
+    assert data["missing"][0]["missing_figures"] == [{"figure": 2, "png": "Doc-2.png"}]
+    # A stale or foreign image with the right count is still not the rendered figure.
+    stale = _figure_docx(tmp_path / "stale" / "Doc.docx", [PNG_A, PNG + b"old"])
+    assert guard.main(["--render-manifest", str(manifest), str(stale)]) == 1
+
+
+def test_check_docx_placeholder_without_manifest(tmp_path, capsys):
+    guard = load_script("check_docx_diagrams.py")
+    doc = _figure_docx(tmp_path / "User.docx", [None])
+    assert guard.main([str(doc)]) == 1
+    assert "caption='Figure 1 — Caption 1'" in capsys.readouterr().out
+    lone = ('<w:p><w:pPr><w:pStyle w:val="ImageCaption"/></w:pPr>'
+            '<w:r><w:t>Figure 1</w:t></w:r></w:p>')
+    assert guard.figure_placeholders(lone) == ["Figure 1"]
+
+
+def test_check_docx_discovers_manifests(tmp_path):
+    guard = load_script("check_docx_diagrams.py")
+    proj = tmp_path / "projects" / "Acme"
+    # build-doc.sh layout: <phase>/<Name>.docx with <phase>/<doc-dir>/_figures/.
+    _render_manifest(proj / "03-design" / "01-hld" / "_figures" / "render-manifest.json",
+                     "Acme_HLD", [PNG_A])
+    _figure_docx(proj / "03-design" / "Acme_HLD.docx", [PNG_A])
+    # Export copy elsewhere in the project: found through the project root in --scan.
+    _figure_docx(proj / "export" / "Acme_HLD.docx", [None])
+    # figures.json beside the .docx (engine diagrams manifest) is also accepted.
+    (proj / "06-ops").mkdir(parents=True)
+    (proj / "06-ops" / "Acme_Ops.figures.json").write_text(json.dumps(
+        {"artifact_id": "Acme_Ops", "figures": [
+            {"figure_number": 1, "png_path": "x/_figures/Acme_Ops-1.png",
+             "png_sha256": _sha(PNG_B)}]}), encoding="utf-8")
+    _figure_docx(proj / "06-ops" / "Acme_Ops.docx", [PNG_B])
+    # Unrelated and malformed manifests are ignored.
+    (proj / "07" / "_figures").mkdir(parents=True)
+    (proj / "07" / "_figures" / "render-manifest.json").write_text("{not json", encoding="utf-8")
+    _figure_docx(proj / "07" / "Other.docx", [])
+    report = tmp_path / "r.json"
+    assert guard.main(["--scan", str(tmp_path / "projects"), "--json", str(report)]) == 1
+    data = json.loads(report.read_text(encoding="utf-8"))
+    assert data["scanned"] == 4 and data["manifest_checked"] == 3
+    assert [Path(r["path"]).parent.name for r in data["missing"]] == ["export"]
+    assert guard.main([str(proj / "03-design" / "Acme_HLD.docx")]) == 0
+    assert guard.main([str(proj / "06-ops" / "Acme_Ops.docx")]) == 0
+
+
+def test_check_docx_manifest_helpers(tmp_path):
+    guard = load_script("check_docx_diagrams.py")
+    m = _render_manifest(tmp_path / "m.json", "Doc", [PNG_A], hashes=False)
+    assert guard.manifest_figures(m, "Nope") is None
+    listed = guard.manifest_figures(m, "Doc")
+    assert listed == [{"figure": 1, "png": "Doc-1.png", "png_sha256": None}]
+    # No hashes recorded: fall back to a count check.
+    assert guard.missing_figures({"word/media/a.png": "x"}, listed) == []
+    assert guard.missing_figures({}, listed)
+    (tmp_path / "list.json").write_text("[]", encoding="utf-8")
+    assert guard.manifest_figures(tmp_path / "list.json", "Doc") is None
+    (tmp_path / "bad.json").write_text(json.dumps({"documents": {"Doc": {"figures": "x"}}}),
+                                       encoding="utf-8")
+    assert guard.manifest_figures(tmp_path / "bad.json", "Doc") is None
+    assert guard.manifest_figures(tmp_path / "absent.json", "Doc") is None
+
+
+GANTT = ("%% alt: Plan\ngantt\n  title Plan\n  dateFormat YYYY-MM-DD\n"
+         "  section A\n  Task :crit, t1, 2027-01-01, 10d\n")
+
+
+def test_render_gantt_width_colours_and_today_marker():
+    rd = load_script("render_diagrams.py")
+    cfg = rd.load_config()
+    assert rd.diagram_type(GANTT) == "gantt"
+    assert rd.diagram_type("---\ntitle: T\n---\n%%{init: {}}%%\nflowchart LR\n") == "flowchart"
+    assert rd.diagram_type("%% only a comment\n") == ""
+    # Smallest Gantt label prints at >= 8 pt at the body measure (the 8 pt rule).
+    assert rd.gantt_min_label_pt(cfg) >= 8.0
+    assert rd.gantt_min_label_pt({**cfg, "gantt": {}}) == 0.0
+    d = rd.prepared_definition(GANTT, cfg)
+    first = d.split("\n")[0]
+    directive = json.loads(first[len("%%{init: "):-len("}%%")])
+    assert directive["gantt"]["useWidth"] == cfg["gantt"]["mermaid"]["useWidth"]
+    tv = directive["themeVariables"]
+    assert tv["critBkgColor"] == "#D8D8D8" and tv["critBorderColor"] == "#1A1A1A"
+    assert "red" not in json.dumps(directive).lower()
+    # Mermaid turns ' into " before parsing a directive: no quotes may appear in it.
+    assert "'" not in first
+    assert d.split("\n")[2] == "  todayMarker off"
+    kept = rd.prepared_definition(GANTT + "  todayMarker stroke-width:2px\n", cfg)
+    assert "todayMarker off" not in kept
+    job_cfg = rd.mermaid_config(cfg, "gantt")
+    assert job_cfg["gantt"]["useWidth"] == 720 and ".tick text" in job_cfg["themeCSS"]
+    assert "Public Sans" in job_cfg["themeCSS"] and "#D8D8D8" in job_cfg["themeCSS"]
+    # Other diagram types keep the plain directive and the shared config.
+    flow = rd.prepared_definition("flowchart LR\n  A-->B\n", cfg).split("\n")[0]
+    assert "gantt" not in flow and "critBkgColor" not in flow
+    assert "gantt" not in rd.mermaid_config(cfg)
+    assert rd.gantt_css({**cfg, "gantt": {}}) == ""
+
+
+def _msys(path: Path) -> str:
+    """C:/x/y -> /c/x/y (the form Git Bash users type)."""
+    p = str(path).replace("\\", "/")
+    return f"/{p[0].lower()}{p[2:]}" if len(p) > 1 and p[1] == ":" else p
+
+
+@pytest.mark.skipif(not _renderer_available()
+                    or (sys.platform == "win32" and not shutil.which("cygpath")),
+                    reason="local renderer/pandoc absent, or no cygpath on Windows")
+def test_build_doc_accepts_msys_path(tmp_path):
+    shutil.copytree(FIXTURES / "valid" / "design", tmp_path / "msys" / "design")
+    doc_dir = _msys(tmp_path / "msys" / "design")
+    run = subprocess.run([shutil.which("bash"), "scripts/build-doc.sh", doc_dir, "MsysDesign"],
+                         capture_output=True, text=True, env=dict(os.environ), cwd=ROOT)
+    assert run.returncode == 0, run.stdout + run.stderr
+    assert "Could not fetch resource" not in run.stderr
+    manifest = json.loads((tmp_path / "msys" / "design" / "_figures" / figures.MANIFEST_NAME)
+                          .read_text(encoding="utf-8"))
+    pngs = {f["png_sha256"] for f in manifest["documents"]["MsysDesign"]["figures"]}
+    with zipfile.ZipFile(tmp_path / "msys" / "MsysDesign.docx") as zf:
+        media = {_sha(zf.read(n)) for n in zf.namelist() if n.startswith("word/media/")}
+    assert len(pngs) == 2 and pngs <= media
