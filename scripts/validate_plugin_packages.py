@@ -50,7 +50,7 @@ def read_json(path: Path) -> dict[str, Any]:
     return data
 
 
-def validate(root: Path, package_limit: int = PACKAGE_LIMIT) -> list[str]:
+def validate(root: Path) -> list[str]:
     errors: list[str] = []
     expected = active_skill_paths(root)
     expected_dirs = sorted(path.removesuffix("SKILL.md") for path in expected)
@@ -104,12 +104,14 @@ def validate(root: Path, package_limit: int = PACKAGE_LIMIT) -> list[str]:
         errors.append(f"Codex marketplace cannot be read: {exc}")
 
     full_count, package_count = entry_counts(root)
-    if package_count > package_limit:
-        errors.append(f"package-oriented file count {package_count} exceeds hard limit {package_limit}")
+    if full_count > PACKAGE_LIMIT:
+        errors.append(f"full checkout file count {full_count} exceeds hard limit {PACKAGE_LIMIT}")
+    if package_count > PACKAGE_LIMIT:
+        errors.append(f"package-oriented file count {package_count} exceeds hard limit {PACKAGE_LIMIT}")
     print(f"active skill paths: {len(expected)}")
     print(f"checkout file entries (including .git and caches): {full_count}")
     print(f"package-oriented file entries (excluding {', '.join(sorted(PACKAGE_EXCLUDES))}): {package_count}")
-    print(f"package hard limit: {package_limit}")
+    print(f"hard limit for both counts: {PACKAGE_LIMIT}")
     print(f"errors: {len(errors)}")
     for error in errors:
         print(f"ERROR: {error}", file=sys.stderr)
@@ -119,9 +121,8 @@ def validate(root: Path, package_limit: int = PACKAGE_LIMIT) -> list[str]:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=ROOT)
-    parser.add_argument("--package-limit", type=int, default=PACKAGE_LIMIT)
     args = parser.parse_args()
-    return 1 if validate(args.root.resolve(), args.package_limit) else 0
+    return 1 if validate(args.root.resolve()) else 0
 
 
 if __name__ == "__main__":

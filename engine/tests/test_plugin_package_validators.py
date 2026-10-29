@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 
 from scripts.check_codex_discovery_summary import validate_summary
+from scripts import validate_plugin_packages
 from scripts.validate_plugin_packages import entry_counts, validate
 
 
@@ -32,11 +33,12 @@ def test_plugin_marketplace_paths_match_active_catalogue(tmp_path: Path, capsys)
     assert "active skill paths: 1" in capsys.readouterr().out
 
 
-def test_plugin_validator_rejects_missing_skill_path_and_package_limit(tmp_path: Path) -> None:
+def test_plugin_validator_rejects_missing_skill_path_and_package_limit(tmp_path: Path, monkeypatch) -> None:
     make_package(tmp_path)
+    monkeypatch.setattr(validate_plugin_packages, "PACKAGE_LIMIT", 1)
     manifest_path = tmp_path / ".claude-plugin" / "plugin.json"
     manifest_path.write_text(json.dumps({"skills": ["./01-example/missing/"]}), encoding="utf-8")
-    errors = validate(tmp_path, package_limit=1)
+    errors = validate(tmp_path)
     assert any("differ from active catalogue" in error for error in errors)
     assert any("exceeds hard limit 1" in error for error in errors)
 
@@ -58,6 +60,15 @@ def test_file_counts_separate_checkout_and_package_entries(tmp_path: Path) -> No
     (tmp_path / ".git" / "objects" / "pack").write_text("x", encoding="utf-8")
     (tmp_path / "source.txt").write_text("x", encoding="utf-8")
     assert entry_counts(tmp_path) == (2, 1)
+
+
+def test_full_checkout_count_also_obeys_hard_limit(tmp_path: Path, monkeypatch) -> None:
+    make_package(tmp_path)
+    monkeypatch.setattr(validate_plugin_packages, "PACKAGE_LIMIT", 3)
+    (tmp_path / ".git" / "objects").mkdir(parents=True)
+    (tmp_path / ".git" / "objects" / "large-entry").touch()
+    errors = validate(tmp_path)
+    assert any("full checkout file count" in error for error in errors)
 
 
 def test_codex_summary_accepts_complete_offline_inventory() -> None:
