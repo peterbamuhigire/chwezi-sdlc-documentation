@@ -20,13 +20,13 @@ The suite command uses the temporary interpreter/tool setup described above; com
 
 | Check | Result |
 |---|---|
-| `python scripts/validate_plugin_packages.py` | Exit 0; 159 active skill paths, 1,581 full-checkout file entries and 1,260 package-oriented entries. Both counts are below the fixed 5,000 limit. |
+| `python scripts/validate_plugin_packages.py` | Exit 0; 159 active skill paths, 1,606 full-checkout file entries and 1,260 package-oriented entries. Both counts are below the fixed 5,000 limit. |
 | `python scripts/check_codex_discovery_summary.py <sanitised-summary.json> --expected-paths 159` | Exit 0; sanitized configured native summary: 159 manifest paths, 159 runtime paths, zero missing, `network=none`, zero model calls. The raw prompt input is not retained. |
 | `python scripts/validate_traceability_evidence.py engine/tests/fixtures/traceability-evidence.json` | Exit 0; 10 requirement rows, 10 design links, 10 test links, zero business-goal links, 3 executable oracle states, 7 requirements with open owner decisions, zero executed. Fixture asserts these fields remain distinct. |
 | `python scripts/validate_source_reconciliation.py <task-2-fixture>` | Expected exit 1; six high-severity unresolved ambiguity findings. The full Phase 02 validation also blocks. This is the intended failure path until an owner resolves the six decisions. |
 | `python scripts/build-doc.sh <task-1-SRS-directory> SRS_Final_Cycle` with missing template path | Exit 0. Temporary `reference.docx` generated; Pandoc built a DOCX that opened with python-docx. LibreOffice rendered a tagged two-page PDF and page one visibly contained the linked contents entries. |
 | Missing-Pandoc DOCX test | Expected builder failure with an explicit Pandoc requirement; automated failure-path test passes. |
-| Temporary native local-installer harness with `chwezi-sdlc-documentation` | At commit `a51f164`, Codex CLI exit 0 and Claude CLI exit 0; both `network=none`, no model call. The installer reported a dirty checkout because the evidence documents were in progress. This tests local native installation, not public directory submission or account-specific authentication. |
+| Temporary native local-installer harness with `chwezi-sdlc-documentation` | At clean commit `a8a1e24`, Codex CLI exit 0 and Claude CLI exit 0; both `network=none`, no model call. This tests local native installation, not public directory submission or account-specific authentication. |
 
 Package tests exercise the exact 5,000/5,001 entry boundary for package-oriented counts and for full-checkout counts. The full-checkout boundary fixture places extra entries beneath its excluded VCS directory, proving the two counts are checked separately. Tests use a small injected limit as an additional fast failure case.
 
