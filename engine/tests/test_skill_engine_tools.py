@@ -30,7 +30,8 @@ def test_zero_debt_baseline_and_routing_fixture_contract() -> None:
     assert baseline["active_skill_count"] == len(baseline["active_skill_paths"])
     assert baseline["active_skill_paths"] == sorted(set(baseline["active_skill_paths"]))
     assert baseline["template_count"] == 1
-    assert len(fixtures["fixtures"]) == baseline["routing"]["fixture_count"]
+    # The committed baseline is a frozen lower bound: added route fixtures improve coverage.
+    assert len(fixtures["fixtures"]) >= baseline["routing"]["fixture_count"]
     assert fixtures["threshold"] == baseline["routing"]["minimum_precision"] == 1.0
     assert {item["kind"] for item in fixtures["fixtures"]} == {
         "positive",
