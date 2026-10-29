@@ -25,9 +25,12 @@ def active_skill_paths(root: Path) -> list[str]:
 
 def entry_counts(root: Path) -> tuple[int, int]:
     """Count files and symlink entries; package count omits VCS/tool caches."""
+    def fail_walk(error: OSError) -> None:
+        raise error
+
     def count(exclude: bool) -> int:
         total = 0
-        for current, dirs, files in os.walk(root, followlinks=False):
+        for current, dirs, files in os.walk(root, followlinks=False, onerror=fail_walk):
             current_path = Path(current)
             if exclude:
                 dirs[:] = [name for name in dirs if name not in PACKAGE_EXCLUDES]
@@ -103,7 +106,11 @@ def validate(root: Path) -> list[str]:
     except (OSError, json.JSONDecodeError, ValueError) as exc:
         errors.append(f"Codex marketplace cannot be read: {exc}")
 
-    full_count, package_count = entry_counts(root)
+    try:
+        full_count, package_count = entry_counts(root)
+    except OSError as exc:
+        errors.append(f"inventory incomplete: {exc}")
+        return errors
     if full_count > PACKAGE_LIMIT:
         errors.append(f"full checkout file count {full_count} exceeds hard limit {PACKAGE_LIMIT}")
     if package_count > PACKAGE_LIMIT:

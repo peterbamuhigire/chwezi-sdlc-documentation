@@ -44,3 +44,14 @@ Package tests exercise the exact 5,000/5,001 entry boundary for package-oriented
 - Three cross-engine routing negatives, because their owners live in other skill engines.
 - Word-native accessibility, real target-font installation/embedding and pagination fidelity; archival source snapshots; actual project implementation and execution evidence.
 - Automated detection of every cross-engine link or stale standards clause. The known reference paths were checked and corrected in this cycle; standards doctrine was not edited.
+
+## Root acceptance rerun
+
+The root review found that the package counter could silently omit unreadable
+subtrees. It now fails closed and has a deterministic negative regression.
+Focused package/reconciliation/trace tests pass (21); full pytest with Pandoc
+and the temporary Python environment available on PATH passes **453 tests,
+4 skipped, 96.47% coverage**, above the frozen 96.29%. An earlier focused run
+without `--no-cov` failed the whole-project coverage threshold because it did
+not run the whole suite; an earlier full run without Pandoc skipped one extra
+build test. Neither incomplete invocation is the final acceptance result.

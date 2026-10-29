@@ -107,3 +107,12 @@ def test_codex_summary_rejects_omissions_network_or_model_calls() -> None:
     }
     errors = validate_summary(summary, expected_paths=159)
     assert len(errors) == 5
+
+
+def test_unreadable_inventory_fails_closed(tmp_path: Path, monkeypatch) -> None:
+    make_package(tmp_path)
+    def denied_walk(*args, **kwargs):
+        kwargs["onerror"](PermissionError("fixture directory cannot be read"))
+        return iter(())
+    monkeypatch.setattr(validate_plugin_packages.os, "walk", denied_walk)
+    assert any("inventory incomplete" in error for error in validate(tmp_path))
