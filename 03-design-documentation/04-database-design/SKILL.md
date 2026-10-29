@@ -91,7 +91,7 @@ If any required capability is unavailable, return the narrowest useful qualified
 
 ## Overview
 
-Produces comprehensive database design documentation including a visual Entity-Relationship Diagram (authored as diagram IR, rendered through a generated Mermaid erDiagram), normalized table definitions, indexing strategy, constraint specifications, migration plan, and a complete data dictionary. This skill can run after HLD is complete and may execute in parallel with API Specification (03-api-specification). **MANDATORY:** When the target platform is MySQL, this skill SHALL integrate with `skills/mysql-best-practices/` and apply all rules defined therein.
+Produces comprehensive database design documentation including a visual Entity-Relationship Diagram (authored through diagram IR and rendered as Mermaid), normalized table definitions, indexing strategy, constraint specifications, migration plan, and a complete data dictionary. This skill can run after HLD is complete and may execute in parallel with API Specification (03-api-specification). When MySQL or MariaDB is selected, consult the engineering catalog's `mysql-engineering` skill and linked best-practices reference for applicable implementation patterns.
 
 ## When to Use
 

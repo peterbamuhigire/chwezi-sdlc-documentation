@@ -2,7 +2,7 @@
 
 ## Objective
 
-Generate a comprehensive database design document with ERD, normalized table definitions, indexing strategy, and a complete data dictionary per IEEE 1016-2009 Sec 6.7. **MANDATORY:** When the target platform is MySQL or MariaDB, this skill integrates with `skills/mysql-best-practices/` and applies all rules defined therein.
+Generate a comprehensive database design document with ERD, normalized table definitions, indexing strategy, and a complete data dictionary per IEEE 1016-2009 Sec 6.7. When MySQL or MariaDB is selected, consult the engineering catalog's `mysql-engineering` skill and its `mysql-best-practices` reference for applicable implementation patterns.
 
 ## Execution Steps
 
