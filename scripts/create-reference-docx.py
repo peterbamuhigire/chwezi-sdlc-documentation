@@ -40,11 +40,13 @@ CODE_BG    = RGBColor(0xF5, 0xF5, 0xF5)   # Code block background
 WHITE      = RGBColor(0xFF, 0xFF, 0xFF)
 
 # ---------------------------------------------------------------------------
-# Font names
+# Font names. The serif/sans pair follows the Design Engine's documented
+# Source Serif 4 + Public Sans pairing for formal SRS/governance documents;
+# JetBrains Mono is reserved for code and identifiers.
 # ---------------------------------------------------------------------------
-FONT_HEADING = "Calibri Light"
-FONT_BODY    = "Calibri"
-FONT_CODE    = "Consolas"
+FONT_HEADING = "Source Serif 4"
+FONT_BODY    = "Public Sans"
+FONT_CODE    = "JetBrains Mono"
 
 # ---------------------------------------------------------------------------
 # Helper — set paragraph shading (background colour)

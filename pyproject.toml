@@ -12,6 +12,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0", "pytest-cov>=4.1"]
+docs = ["python-docx==1.2.0"]
 
 [project.scripts]
 srs-engine = "engine.cli:main"

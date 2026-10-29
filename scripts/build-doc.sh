@@ -17,19 +17,13 @@ set -euo pipefail
 DOC_DIR="${1:?Usage: build-doc.sh <doc-dir> <output-name>}"
 OUTPUT_NAME="${2:?Usage: build-doc.sh <doc-dir> <output-name>}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-TEMPLATE="$SCRIPT_DIR/../templates/reference.docx"
+TEMPLATE="${BUILD_DOC_TEMPLATE:-$SCRIPT_DIR/../templates/reference.docx}"
 PHASE_DIR="$(dirname "$DOC_DIR")"
 OUTPUT_FILE="$PHASE_DIR/$OUTPUT_NAME.docx"
 
 # Validate inputs
 if [ ! -d "$DOC_DIR" ]; then
   echo "ERROR: Document directory not found: $DOC_DIR" >&2
-  exit 1
-fi
-
-if [ ! -f "$TEMPLATE" ]; then
-  echo "ERROR: Reference template not found: $TEMPLATE" >&2
-  echo "  Place a styled Word document at: $TEMPLATE" >&2
   exit 1
 fi
 
@@ -44,6 +38,11 @@ fi
 
 if [ -z "$FILES" ]; then
   echo "ERROR: No .md files found in $DOC_DIR" >&2
+  exit 1
+fi
+
+if ! command -v pandoc >/dev/null 2>&1; then
+  echo "ERROR: Pandoc is required for DOCX builds but was not found on PATH." >&2
   exit 1
 fi
 
@@ -62,6 +61,18 @@ PYTHON="${PYTHON:-python}"
 command -v "$PYTHON" >/dev/null 2>&1 || PYTHON=python3
 STAGE_DIR="$(mktemp -d)"
 trap 'rm -rf "$STAGE_DIR"' EXIT
+if [ ! -f "$TEMPLATE" ]; then
+  TEMPLATE="$STAGE_DIR/reference.docx"
+  echo "Reference template absent; generating a temporary default style template."
+  if ! "$PYTHON" -c 'import docx' >/dev/null 2>&1; then
+    echo "ERROR: python-docx is required to generate the temporary template; install the docs extra." >&2
+    exit 1
+  fi
+  if ! "$PYTHON" -X utf8 "$SCRIPT_DIR/create-reference-docx.py" "$TEMPLATE"; then
+    echo "ERROR: could not generate a temporary reference template" >&2
+    exit 1
+  fi
+fi
 STITCHED="$STAGE_DIR/$OUTPUT_NAME.md"
 # shellcheck disable=SC2086
 if ! "$PYTHON" -X utf8 "$SCRIPT_DIR/render_diagrams.py" --doc-dir "$DOC_DIR" \
@@ -100,9 +111,8 @@ pandoc "$STITCHED" \
   -f gfm+attributes+implicit_figures \
   --resource-path=".${PATH_SEP}${DOC_DIR_NATIVE}" \
   --lua-filter="$SCRIPT_DIR/diagram-render/figure-alt.lua" \
+  --lua-filter="$SCRIPT_DIR/table-of-contents.lua" \
   --reference-doc="$TEMPLATE" \
-  --table-of-contents \
-  --toc-depth=3 \
   -o "$OUTPUT_FILE"
 
 # Post-build guard (M10-01-T10): no Mermaid source may survive in the .docx,
