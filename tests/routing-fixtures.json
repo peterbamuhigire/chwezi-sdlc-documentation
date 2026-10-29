@@ -524,6 +524,58 @@
       "prompt": "Calculate completeness and volatility indicators for the requirements set and define threshold-based quality metrics.",
       "skill": "09-traceability-engineering",
       "owner": "10-requirements-metrics"
+    },
+    {
+      "id": "api-specification-positive-versioned-contract",
+      "kind": "positive",
+      "prompt": "Turn approved service behaviours into a versioned API contract with operations, request and response schemas, authentication, error handling, idempotency, and OpenAPI evidence.",
+      "expected": "03-api-specification"
+    },
+    {
+      "id": "api-specification-positive-endpoint-validation",
+      "kind": "positive",
+      "prompt": "Produce a versioned OpenAPI contract for each external service operation with request and response schemas, status codes, pagination, authentication, errors, idempotency, and examples.",
+      "expected": "03-api-specification"
+    },
+    {
+      "id": "api-specification-negative-internal-module-contract",
+      "kind": "negative",
+      "prompt": "Define internal class responsibilities, method signatures, state, algorithms, and module dependencies for the service implementation.",
+      "skill": "03-api-specification",
+      "owner": "02-low-level-design"
+    },
+    {
+      "id": "api-specification-negative-system-boundary",
+      "kind": "negative",
+      "prompt": "Set the system boundary, service ownership, deployment topology, critical flows, and architecture decisions before choosing interfaces.",
+      "skill": "03-api-specification",
+      "owner": "01-high-level-design"
+    },
+    {
+      "id": "database-design-positive-normalized-model",
+      "kind": "positive",
+      "prompt": "Define a normalized database schema from query access patterns: entity relationships, primary and foreign keys, constraints, index plan, and a data dictionary.",
+      "expected": "04-database-design"
+    },
+    {
+      "id": "database-design-positive-migration-plan",
+      "kind": "positive",
+      "prompt": "Design the persistent schema for tenant-scoped records, define retention and indexes, and document versioned database migrations with rollback steps.",
+      "expected": "04-database-design"
+    },
+    {
+      "id": "database-design-negative-service-boundaries",
+      "kind": "negative",
+      "prompt": "Choose component ownership, service boundaries, deployment nodes, critical flows, and architecture decisions for the system.",
+      "skill": "04-database-design",
+      "owner": "01-high-level-design"
+    },
+    {
+      "id": "database-design-negative-ledger-posting-rules",
+      "kind": "negative",
+      "prompt": "Define append-only accounting journals, ledger posting invariants, reversals, period locks, and reconciliations for a financial ledger.",
+      "skill": "04-database-design",
+      "owner": "16-accounting-engine-design"
     }
   ]
 }
