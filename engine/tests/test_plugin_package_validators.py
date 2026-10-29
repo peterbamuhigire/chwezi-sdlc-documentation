@@ -71,6 +71,19 @@ def test_full_checkout_count_also_obeys_hard_limit(tmp_path: Path, monkeypatch) 
     assert any("full checkout file count" in error for error in errors)
 
 
+def test_full_checkout_limit_accepts_5000_and_rejects_5001(tmp_path: Path) -> None:
+    make_package(tmp_path)
+    full_entries, _ = entry_counts(tmp_path)
+    vcs_objects = tmp_path / ".git" / "objects"
+    vcs_objects.mkdir(parents=True)
+    for index in range(5000 - full_entries):
+        (vcs_objects / f"entry-{index:04d}.bin").touch()
+    assert entry_counts(tmp_path)[0] == 5000
+    assert not any("full checkout file count" in error for error in validate(tmp_path))
+    (vcs_objects / "entry-over-limit.bin").touch()
+    assert any("full checkout file count 5001 exceeds hard limit 5000" == error for error in validate(tmp_path))
+
+
 def test_codex_summary_accepts_complete_offline_inventory() -> None:
     summary = {
         "manifest_paths": 159,
