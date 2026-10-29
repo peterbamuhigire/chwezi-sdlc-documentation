@@ -61,6 +61,9 @@ def validate(root: Path) -> list[str]:
     claude_path = root / ".claude-plugin" / "plugin.json"
     try:
         claude = read_json(claude_path)
+        claude_plugin_name = claude.get("name")
+        if not isinstance(claude_plugin_name, str) or not claude_plugin_name.strip():
+            errors.append("Claude plugin requires a non-empty plugin name")
         configured = claude.get("skills")
         if not isinstance(configured, list) or any(not isinstance(item, str) for item in configured):
             errors.append("Claude manifest skills must be an array of relative directory paths")
@@ -73,8 +76,24 @@ def validate(root: Path) -> list[str]:
                 extra = sorted(set(configured_dirs) - set(expected_dirs))
                 errors.append(f"Claude skill paths differ from active catalogue (missing={missing}; extra={extra})")
             for item in configured:
-                if not (root / item / "SKILL.md").is_file():
-                    errors.append(f"Claude skill path has no SKILL.md: {item}")
+                candidate = root / item
+                try:
+                    relative = candidate.relative_to(root)
+                except ValueError:
+                    errors.append(f"Claude skill path escapes repository: {item}")
+                    continue
+                current = root
+                linked = False
+                for part in relative.parts:
+                    current = current / part
+                    if current.is_symlink():
+                        linked = True
+                        break
+                skill_file = candidate / "SKILL.md"
+                if linked or skill_file.is_symlink():
+                    errors.append(f"Claude skill path contains a symlink: {item}")
+                elif not skill_file.is_file():
+                    errors.append(f"Claude skill path has no regular SKILL.md: {item}")
     except (OSError, json.JSONDecodeError, ValueError) as exc:
         errors.append(f"Claude manifest cannot be read: {exc}")
 
@@ -88,6 +107,11 @@ def validate(root: Path) -> list[str]:
             errors.append("Codex marketplace must list exactly this engine's one local plugin")
         else:
             plugin = plugins[0]
+            codex_plugin_name = plugin.get("name") if isinstance(plugin, dict) else None
+            if not isinstance(codex_plugin_name, str) or not codex_plugin_name.strip():
+                errors.append("Codex plugin requires a non-empty plugin name")
+            elif isinstance(claude_plugin_name, str) and codex_plugin_name != claude_plugin_name:
+                errors.append("Codex plugin name differs from Claude plugin manifest")
             source = plugin.get("source") if isinstance(plugin, dict) else None
             path = source.get("path") if isinstance(source, dict) else None
             if not isinstance(plugin, dict) or not isinstance(source, dict):

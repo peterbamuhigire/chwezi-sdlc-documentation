@@ -16,6 +16,23 @@ Validation used the disposable Python environment with the repository requiremen
 
 The suite command uses the temporary interpreter/tool setup described above; command arguments are shown in repository-portable form. The first post-change run exposed one test that required the current routing-fixture count to equal the frozen baseline count. That equality was replaced with a lower-bound assertion, keeping the baseline file unchanged; the final full run passed.
 
+## Independent package-validator acceptance review
+
+An independent review of `f59c82a..8cb2178` reproduced two integrity gaps:
+the package gate accepted different plugin `name` values in the Codex and
+Claude manifests, and accepted an active `SKILL.md` symlink to a file outside
+the package tree. The validator now requires name parity and rejects symlinks
+in each declared skill path, including the `SKILL.md` itself. Two focused
+regressions cover those refusals; `engine/tests/test_plugin_package_validators.py`
+passes 11 tests.
+
+After these acceptance changes, the full suite with the disposable Python
+environment and Pandoc 3.13 on `PATH` passed 455 tests, skipped 4, and reported
+96.43% coverage, above the frozen 96.29% baseline. Command:
+`python -X utf8 -m pytest -q -p no:cacheprovider`. The temporary tool paths are
+not part of the repository record. The `459` collected-test count includes the
+four skipped cases; native Word/Windows validation remains NOT_ASSESSED.
+
 ## Added checks and exercise results
 
 | Check | Result |

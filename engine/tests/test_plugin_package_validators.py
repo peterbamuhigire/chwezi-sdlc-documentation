@@ -14,7 +14,7 @@ def make_package(root: Path) -> None:
     (skill / "SKILL.md").write_text("---\nname: one\ndescription: Example skill.\n---\n", encoding="utf-8")
     claude = root / ".claude-plugin"
     claude.mkdir()
-    (claude / "plugin.json").write_text(json.dumps({"skills": ["./01-example/one/"]}), encoding="utf-8")
+    (claude / "plugin.json").write_text(json.dumps({"name": "example", "skills": ["./01-example/one/"]}), encoding="utf-8")
     codex = root / ".agents" / "plugins"
     codex.mkdir(parents=True)
     (codex / "marketplace.json").write_text(json.dumps({
@@ -41,6 +41,33 @@ def test_plugin_validator_rejects_missing_skill_path_and_package_limit(tmp_path:
     errors = validate(tmp_path)
     assert any("differ from active catalogue" in error for error in errors)
     assert any("exceeds hard limit 1" in error for error in errors)
+
+
+def test_plugin_validator_rejects_codex_claude_identity_mismatch(tmp_path: Path) -> None:
+    make_package(tmp_path)
+    marketplace_path = tmp_path / ".agents" / "plugins" / "marketplace.json"
+    marketplace = json.loads(marketplace_path.read_text(encoding="utf-8"))
+    marketplace["plugins"][0]["name"] = "different-plugin"
+    marketplace_path.write_text(json.dumps(marketplace), encoding="utf-8")
+    assert "Codex plugin name differs from Claude plugin manifest" in validate(tmp_path)
+
+
+def test_plugin_validator_rejects_symlinked_skill_file(tmp_path: Path) -> None:
+    make_package(tmp_path)
+    skill = tmp_path / "01-example" / "one" / "SKILL.md"
+    external = tmp_path.parent / f"{tmp_path.name}-external-skill.md"
+    external.write_text("external fixture", encoding="utf-8")
+    try:
+        skill.unlink()
+        skill.symlink_to(external)
+    except OSError as error:
+        external.unlink(missing_ok=True)
+        import pytest
+        pytest.skip(f"symlink creation unavailable: {error}")
+    try:
+        assert any("Claude skill path contains a symlink" in error for error in validate(tmp_path))
+    finally:
+        external.unlink(missing_ok=True)
 
 
 def test_package_limit_accepts_5000_entries_and_rejects_5001(tmp_path: Path) -> None:
