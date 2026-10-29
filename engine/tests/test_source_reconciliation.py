@@ -100,3 +100,114 @@ def test_standalone_validator_reports_missing_register(tmp_path: Path) -> None:
     )
     assert result.returncode == 1
     assert "required source reconciliation register is missing" in result.stderr
+
+
+def test_checker_handles_missing_root_registry_and_malformed_yaml(tmp_path: Path) -> None:
+    assert SourceReconciliationCheck().run(ArtifactGraph(artifacts=())) == []
+    graph = write_workspace(tmp_path, "sources: [\n")
+    assert any(f.code == "source-reconciliation/invalid-yaml" for f in SourceReconciliationCheck().run(graph))
+
+
+def test_checker_rejects_non_mapping_root_and_missing_source_list(tmp_path: Path) -> None:
+    graph = write_workspace(tmp_path, "- not-a-register\n")
+    codes = {f.code for f in SourceReconciliationCheck().run(graph)}
+    assert codes == {"source-reconciliation/invalid-shape"}
+
+    second = tmp_path / "second"
+    graph = write_workspace(second, "ambiguities: not-a-list\nsources: []\n")
+    codes = {f.code for f in SourceReconciliationCheck().run(graph)}
+    assert "source-reconciliation/sources-required" in codes
+    assert "source-reconciliation/ambiguities-shape" in codes
+
+
+def test_checker_reports_bad_source_rows_ids_links_and_evidence(tmp_path: Path) -> None:
+    content = """sources:
+  - not-a-row
+  - id: BAD-ID
+    source_ref: ''
+    statement: ''
+  - id: SRC-001
+    requirement_ids: [BAD-ID, FR-999]
+    ambiguity_ids: [BAD-ID]
+  - id: SRC-001
+    source_ref: duplicate
+    statement: duplicate
+    requirement_ids: []
+    ambiguity_ids: []
+  - id: SRC-002
+    source_ref: malformed-links
+    statement: malformed links
+    requirement_ids: 1
+    ambiguity_ids: []
+ambiguities: []
+"""
+    graph = write_workspace(tmp_path, content, requirements="**FR-001** requirement\n")
+    codes = {f.code for f in SourceReconciliationCheck().run(graph)}
+    assert {
+        "source-reconciliation/source-shape",
+        "source-reconciliation/source-id",
+        "source-reconciliation/source-evidence",
+        "source-reconciliation/duplicate-source-id",
+        "source-reconciliation/requirement-id",
+        "source-reconciliation/requirement-missing",
+        "source-reconciliation/ambiguity-id",
+        "source-reconciliation/source-links-shape",
+    } <= codes
+
+
+def test_checker_rejects_bad_ambiguity_records_and_dangling_links(tmp_path: Path) -> None:
+    content = """sources:
+  - id: SRC-001
+    source_ref: brief#one
+    statement: conflicting statement
+    requirement_ids: []
+    ambiguity_ids: [AMB-001, AMB-999, 2]
+  - id: SRC-002
+    source_ref: brief#two
+    statement: duplicate conflict
+    requirement_ids: []
+    ambiguity_ids: [AMB-001]
+  - id: SRC-003
+    source_ref: brief#three
+    statement: no backlink
+    requirement_ids: []
+    ambiguity_ids: []
+ambiguities:
+  - not-a-row
+  - id: BAD-ID
+    summary: invalid id
+    source_ids: [SRC-001]
+    status: resolved
+    owner: owner
+    decision_ref: DEC-1
+  - id: AMB-001
+    summary: ''
+    source_ids: [SRC-003, SRC-999]
+    status: unknown
+    owner: ''
+  - id: AMB-002
+    summary: empty source list
+    source_ids: []
+    status: unresolved
+    owner: unassigned
+  - id: AMB-001
+    summary: duplicate
+    source_ids: [SRC-001]
+    status: resolved
+    owner: owner
+    decision_ref: DEC-2
+"""
+    graph = write_workspace(tmp_path, content)
+    codes = {f.code for f in SourceReconciliationCheck().run(graph)}
+    assert {
+        "source-reconciliation/ambiguity-id",
+        "source-reconciliation/ambiguity-shape",
+        "source-reconciliation/duplicate-ambiguity-id",
+        "source-reconciliation/ambiguity-summary",
+        "source-reconciliation/ambiguity-sources",
+        "source-reconciliation/ambiguity-unknown-source",
+        "source-reconciliation/ambiguity-backlink",
+        "source-reconciliation/ambiguity-status",
+        "source-reconciliation/ambiguity-owner",
+        "source-reconciliation/unknown-ambiguity",
+    } <= codes
