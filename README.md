@@ -19,6 +19,32 @@ Prerequisites:
 /plugin install sdlc-documentation@chwezi-sdlc-documentation
 ```
 
+**Codex local marketplace.** From a trusted checkout, add the repo marketplace:
+
+```sh
+codex plugin marketplace add .
+```
+
+The repo catalogue is `.agents/plugins/marketplace.json`; it points to this
+checkout and reuses the Claude-compatible skill manifest. Run
+`python -X utf8 scripts/validate_plugin_packages.py` to check the local
+catalogue, manifest-to-skill parity and package-oriented file count. The check
+also reports the full checkout count. It fails if the package-oriented count is
+above the OpenAI ZIP submission ceiling of 5,000 entries, but it does not build
+or submit an archive. Public submission and acceptance remain separate steps.
+
+Codex may shorten descriptions or omit skill paths from its initial list when
+the installed skills exceed its default context budget. The optional
+`skills.max_context_tokens=10000` setting raises the initial-list budget; it
+does not load every full skill body. To verify a local runtime, capture only a
+sanitised summary of `codex debug prompt-input` and run
+`scripts/check_codex_discovery_summary.py` against it. Do not commit the raw
+prompt-input dump because it can contain internal instructions. The 10,000-token
+budget produced all 159 paths in the offline Codex 0.165.0 check on 2026-10-29;
+the default run exposed 108. These are path-discovery counts, not evidence of
+correct skill selection or task quality. See
+[`docs/kaizen/2026-10-engine-kaizen/04-validation-record.md`](docs/kaizen/2026-10-engine-kaizen/04-validation-record.md).
+
 **Scripted install.** The installers delegate to `scripts/install-engine.js`. User scope (`~/.claude`) is the default, `--scope project` installs into `.claude` under the current directory, and `--dry-run` prints the plan without writing anything:
 
 ```sh

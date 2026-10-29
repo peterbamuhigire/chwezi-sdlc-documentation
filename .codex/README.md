@@ -46,3 +46,28 @@ require explicit reconciliation: the helper stops before changing files. A
 model-only policy update can be applied automatically when the role contract
 still matches. Git pull delivers the adapter; Codex must read the engine router
 and run the check to install it.
+
+## Skill catalogue context budget
+
+Codex can shorten or omit skill metadata in its initial prompt list when the
+installed skill set exceeds the default budget. The optional
+`skills.max_context_tokens` setting supports a larger initial list, up to the
+documented 10,000-token maximum. It does not change which full `SKILL.md` is
+loaded after selection, and this repository does not change user configuration
+automatically.
+
+The offline native check on 2026-10-29 exposed 108 of 159 catalogue paths at
+default settings and 159 of 159 with `skills.max_context_tokens=10000`, using
+Codex 0.165.0 and an explicitly selected Luna/high model. To check another
+runtime, run `codex debug prompt-input` with the optional setting, create a
+sanitised summary without retaining prompt text, then run:
+
+```text
+python <engine-root>/scripts/check_codex_discovery_summary.py <summary.json> --expected-paths 159
+```
+
+This guard checks path counts and confirms the recorded run used no network or
+model calls. It does not verify model behaviour, quality, or account entitlement.
+Never commit the raw prompt-input output; it can include private instructions.
+The package manifests and 5,000-entry budget are checked separately by
+`scripts/validate_plugin_packages.py`.
