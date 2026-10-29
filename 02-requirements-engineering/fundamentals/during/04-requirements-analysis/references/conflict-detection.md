@@ -60,6 +60,15 @@ The encryption overhead may make the 200ms target infeasible. This is a boundary
 
 ## 2. Detection Algorithm
 
+Before comparing drafted requirements, reconcile the material statements in
+the elicitation sources through the project's
+`_registry/source-reconciliation.yaml`. Map each statement to a requirement or
+an explicit ambiguity record; keep contradictory alternatives unresolved until
+an authorised owner decides. The `scripts/validate_source_reconciliation.py`
+check verifies record completeness and cross-links. It does not find omitted
+source statements or judge semantic contradictions automatically; retain the
+analyst's evidence and independent review in the conflict report.
+
 ### Step 1: Build a Requirements Cross-Reference Matrix
 
 Create a matrix where each requirement is cross-referenced against every other requirement sharing at least one common entity, attribute, or system element.

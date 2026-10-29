@@ -129,6 +129,25 @@ Follow these steps in order. Halt and notify the user if a required input file i
 
 Read `elicitation_log.md`, `vision.md`, `features.md`, and optionally `business_rules.md` from `projects/<ProjectName>/_context/`. Assign a temporary identifier (e.g., RAW-001) to each requirement that lacks one. Log the total count of raw requirements discovered.
 
+### Step 1b: Reconcile Source Statements Before Classification
+
+Create `projects/<ProjectName>/_registry/source-reconciliation.yaml` using
+`references/source-reconciliation-template.yaml`. Give each material source
+statement a stable `SRC-###` ID and a source reference. Map it to one or more
+requirement IDs, or to an `AMB-###` record when its meaning, priority, scope,
+or relationship to another statement is unresolved. For a potential conflict,
+link every affected source statement to the same ambiguity record. Preserve
+the alternatives and name an accountable owner or record `unassigned`; do not
+choose the outcome during analysis.
+
+Run `python -X utf8 scripts/validate_source_reconciliation.py
+projects/<ProjectName>` before the Phase 02 gate. The check validates links,
+record shape and decision evidence. It does not discover omitted source
+statements or determine whether two statements are semantically contradictory;
+the analyst and independent reviewer must make and record that assessment.
+Do not copy sensitive source text into the register when a faithful summary and
+source reference are sufficient.
+
 ### Step 2: Classify Requirements
 
 Classify each requirement along two axes:

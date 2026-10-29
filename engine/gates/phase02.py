@@ -5,6 +5,7 @@ from engine.checks.glossary_registry import GlossaryRegistryCheck
 from engine.checks.identifier_registry import IdentifierRegistryCheck
 from engine.checks.nfr_smart import SmartNfrCheck
 from engine.checks.requirement_semantics import RequirementSemanticsCheck
+from engine.checks.source_reconciliation import SourceReconciliationCheck
 from engine.checks.stimulus_response import StimulusResponseCheck
 from engine.findings import FindingCollection, Severity
 from engine.gates.base import Gate
@@ -43,6 +44,7 @@ class Phase02Gate(Gate):
         )
         self._check_identifier_registry(graph, findings)
         self._check_glossary_registry(graph, findings)
+        findings.extend(SourceReconciliationCheck().run(graph))
 
     def _run_labeled(self, check, clause: ClauseRef, graph: ArtifactGraph,
                      findings: FindingCollection) -> None:

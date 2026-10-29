@@ -1,0 +1,8 @@
+# Copy this structure to <project>/_registry/source-reconciliation.yaml.
+# Add one source row per material statement in the reviewed source set.
+# Each row must map to a requirement, an ambiguity, or both.
+sources: []
+
+# Record unresolved meaning, priority, scope, or potential conflict here.
+# A resolved row needs a decision_ref to an approved decision record.
+ambiguities: []
