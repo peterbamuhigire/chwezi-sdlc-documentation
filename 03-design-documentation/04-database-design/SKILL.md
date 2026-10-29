@@ -135,7 +135,7 @@ Read `SRS_Draft.md` and `HLD.md` from `projects/<ProjectName>/<phase>/<document>
 
 ### Step 2: Determine Database Platform
 
-Parse `tech_stack.md` to identify the target database platform (MySQL 8.x, PostgreSQL, MariaDB, etc.). If the platform is MySQL or MariaDB, load and apply `skills/mysql-best-practices/` rules MANDATORILY for all subsequent steps. Document the platform version and any engine-specific constraints (e.g., InnoDB for MySQL).
+Parse `tech_stack.md` to identify the target database platform (MySQL, PostgreSQL, MariaDB, etc.). If the platform is MySQL or MariaDB, load the engineering catalog's `mysql-engineering` skill and its [`mysql-best-practices` reference](https://github.com/peterbamuhigire/chwezi-dev-engine/blob/main/skills/backend-databases/mysql-engineering/references/mysql-best-practices.md) for applicable implementation patterns. Document the project-selected platform version and any engine-specific constraints; do not infer a version from this reference.
 
 ### Step 3: Extract Entities
 
@@ -242,7 +242,7 @@ Example ERD IR (generated into Mermaid `erDiagram` by `python -m engine diagrams
 - [ ] Foreign keys have ON DELETE and ON UPDATE cascade rules defined.
 - [ ] Monetary columns use `DECIMAL(19,4)`.
 - [ ] Data dictionary covers every field in every table.
-- [ ] `skills/mysql-best-practices/` rules applied if MySQL or MariaDB detected.
+- [ ] Engineering catalog `mysql-engineering` skill and linked best-practices reference reviewed if MySQL or MariaDB is the selected platform.
 
 ## Integration
 
@@ -251,7 +251,7 @@ Example ERD IR (generated into Mermaid `erDiagram` by `python -m engine diagrams
 | Upstream | 01-high-level-design | Consumes `HLD.md` for data storage components and data flow paths |
 | Downstream | Phase 04 (Development) | Provides schema definitions for ORM models and migration scripts |
 | Downstream | Phase 05 (Testing) | Provides table structure for data integrity and constraint test cases |
-| Mandatory Ref | `skills/mysql-best-practices/` | Applied when MySQL or MariaDB is the target platform |
+| Reference | [`mysql-engineering` best-practices reference](https://github.com/peterbamuhigire/chwezi-dev-engine/blob/main/skills/backend-databases/mysql-engineering/references/mysql-best-practices.md) | Consult when MySQL or MariaDB is the selected platform |
 
 ## Standards
 

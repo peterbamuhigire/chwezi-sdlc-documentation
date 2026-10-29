@@ -149,7 +149,7 @@ For each endpoint, specify: path (RESTful URL), HTTP method, description, path p
 
 ### Step 6: Define Error Response Format
 
-Define one error format for all endpoints using RFC 9457 Problem Details for HTTP APIs (media type `application/problem+json`; RFC 9457 obsoletes RFC 7807). Reference `skills/api-error-handling/` in the engineering catalog for implementation patterns.
+Define one error format for all endpoints using RFC 9457 Problem Details for HTTP APIs (media type `application/problem+json`; RFC 9457 obsoletes RFC 7807). For implementation patterns, consult the engineering catalog's [`api-design-first` error-handling reference](https://github.com/peterbamuhigire/chwezi-dev-engine/blob/main/skills/architecture/api-design-first/references/api-error-handling.md).
 
 ```json
 {
@@ -172,7 +172,7 @@ Extract performance constraints from SRS Section 3.3 (Performance Requirements).
 
 ### Step 8: Define Pagination
 
-Define pagination strategy for all list endpoints: cursor-based or offset-based depending on data characteristics. Include standard parameters `page`, `per_page` and response envelope `total`, `data[]`. Reference `skills/api-pagination/` if available.
+Define pagination strategy for all list endpoints: cursor-based or offset-based depending on data characteristics. Include standard parameters `page`, `per_page` and response envelope `total`, `data[]`. For implementation patterns, consult the engineering catalog's [`api-design-first` pagination reference](https://github.com/peterbamuhigire/chwezi-dev-engine/blob/main/skills/architecture/api-design-first/references/api-pagination.md).
 
 ### Step 9: Apply Advanced API Patterns (Optional)
 
@@ -255,8 +255,8 @@ Section 10 (Traceability Matrix) shall map each endpoint to its originating SRS 
 | Upstream   | `02-requirements-engineering`                | Consumes SRS_Draft.md for functional requirements  |
 | Downstream | Phase 04 (Development)                       | API contract drives backend implementation         |
 | Downstream | Phase 05 (Testing)                           | Endpoint definitions drive API test cases          |
-| Reference  | `skills/api-error-handling/`                 | Canonical error response patterns                  |
-| Reference  | `skills/api-pagination/`                     | Pagination strategy patterns                       |
+| Reference  | [`api-design-first` error-handling reference](https://github.com/peterbamuhigire/chwezi-dev-engine/blob/main/skills/architecture/api-design-first/references/api-error-handling.md) | Error response implementation patterns |
+| Reference  | [`api-design-first` pagination reference](https://github.com/peterbamuhigire/chwezi-dev-engine/blob/main/skills/architecture/api-design-first/references/api-pagination.md) | Pagination implementation patterns |
 | Reference  | `skills/dual-auth-rbac/`                     | Authentication and RBAC patterns                   |
 | Reference  | `references/practical-api-architecture.md`   | Book-distilled API architecture, lifecycle, idempotency, and error-semantics checks |
 
