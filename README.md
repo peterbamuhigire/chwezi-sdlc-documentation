@@ -10,7 +10,7 @@ Prerequisites:
 
 - Git, and Python 3.11 or later for the validation kernel (`pyproject.toml`).
 - Node.js 18 or later for the scripted installers (`install.sh`, `install.ps1`).
-- For `.docx` builds: Pandoc, plus a local Chrome or Edge for the pinned Mermaid renderer in `scripts/diagram-render` (install it once with `npm ci` and `PUPPETEER_SKIP_DOWNLOAD=1`).
+- For `.docx` builds: install the `docs` extra for the temporary Word style template and install Pandoc. Diagram builds also require a local Chrome or Edge for the pinned Mermaid renderer (`npm ci` with `PUPPETEER_SKIP_DOWNLOAD=1`). A checked-in or ignored `templates/reference.docx` is optional.
 
 **Claude Code plugin.** The repository ships a marketplace manifest (`.claude-plugin/marketplace.json`, marketplace `chwezi-sdlc-documentation`, plugin `sdlc-documentation`):
 
@@ -29,8 +29,8 @@ The repo catalogue is `.agents/plugins/marketplace.json`; it points to this
 checkout and reuses the Claude-compatible skill manifest. Run
 `python -X utf8 scripts/validate_plugin_packages.py` to check the local
 catalogue, manifest-to-skill parity and package-oriented file count. The check
-also reports the full checkout count. It fails if the package-oriented count is
-above the OpenAI ZIP submission ceiling of 5,000 entries, but it does not build
+also reports the full checkout count. It fails if either count is above the
+OpenAI ZIP submission ceiling of 5,000 entries, but it does not build
 or submit an archive. Public submission and acceptance remain separate steps.
 
 Codex may shorten descriptions or omit skill paths from its initial list when
@@ -59,7 +59,7 @@ cd chwezi-sdlc-documentation
 **Manual route.** Clone the repository, read `CLAUDE.md`, which is a thin bridge to `AGENTS.md`, then open the `SKILL.md` for the phase and task in hand. To start a project workspace and validate it:
 
 ```sh
-pip install -e ".[dev]"
+pip install -e ".[dev,docs]"
 python -m engine doctor
 python -m engine new-project Acme --methodology waterfall --domain healthcare
 python -m engine validate projects/Acme
@@ -253,9 +253,11 @@ Generated from the `SKILL.md` frontmatter on disk. Skill paths are relative to t
 Each project lives in its own workspace at `projects/<ProjectName>/`. Canonical inputs go in `_context/`, identifiers, baselines, waivers and sign-offs go in `_registry/`, and each phase has its own output folder.
 
 - `python -m engine validate projects/<ProjectName>` runs the phase gates for phases 01 to 09 and the hybrid gate. Every check ID maps to a standard and clause in [`docs/standards-clause-registry.md`](docs/standards-clause-registry.md).
+- Before Phase 02, copy `references/source-reconciliation-template.yaml` to `projects/<ProjectName>/_registry/source-reconciliation.yaml`, map each material source statement to a requirement or explicit ambiguity, and run `python scripts/validate_source_reconciliation.py projects/<ProjectName>`. The phase gate reports unresolved ambiguities as blockers; the check validates the register's links and decisions, not semantic completeness of the source review.
+- For a traceability evidence summary, use `references/traceability-evidence.schema.json` and run `python scripts/validate_traceability_evidence.py <report.json>`. Goal/design/test links, oracle readiness, owner decisions and executed results are reported separately.
 - `python -m engine sync`, `baseline snapshot|diff`, `waive`, `signoff` and `pack` maintain the identifier registry, baselines, time-bound waivers and the sign-off ledger, and assemble an evidence-pack ZIP.
 - `python -m engine diagrams validate|generate|manifest|verify-manifest` checks typed diagram IR (`engine/registry/schemas/diagram-ir.schema.json`) against the requirement registry. It then generates Mermaid from the IR and records figure hashes.
-- `scripts/build-doc.sh <doc-dir> <output-name>` renders every Mermaid block to a captioned PNG/SVG figure with alt text and a render manifest. It then builds the `.docx` with Pandoc against `templates/reference.docx` and refuses a document that still contains raw Mermaid.
+- `scripts/build-doc.sh <doc-dir> <output-name>` renders every Mermaid block to a captioned PNG/SVG figure with alt text and a render manifest. It then builds the `.docx` with Pandoc, generating a temporary reference template when `templates/reference.docx` is absent, and refuses a document that still contains raw Mermaid.
 - [`docs/hybrid-operating-model.md`](docs/hybrid-operating-model.md) defines the Water-Scrum-Fall contract for projects that baseline requirements formally and deliver in increments.
 - [`docs/regulated-evidence-model.md`](docs/regulated-evidence-model.md) defines the minimum evidence chain, from regulation to audit record, for regulated delivery.
 

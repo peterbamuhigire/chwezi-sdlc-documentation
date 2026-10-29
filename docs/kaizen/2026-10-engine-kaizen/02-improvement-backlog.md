@@ -1,10 +1,12 @@
 # October 2026 improvement backlog
 
-**Baseline:** frozen in `02-baseline-scorecard.md` at commit `f59c82a`. **Owner:** SDLC engine operator. **Selected items:** 7. No canonical doctrine changes are in scope. All dimension gains are hypotheses toward 95/100, not promised results; the published report remains capped by the applicable cap.
+**Baseline:** frozen in `01-baseline-scorecard.md` at commit `f59c82a`. **Owner:** SDLC engine operator. **Selected items:** 7. No canonical doctrine changes are in scope. All dimension gains are hypotheses toward 95/100, not promised results; the published report remains capped by the applicable cap.
 
 ## Priority definitions and root-cause traces
 
 No critical safety or legal failure was found in the three disposable tasks. Open release-affecting items are ranked below. “5 Whys” stops at the evidenced cause; unverified causes remain marked as hypotheses.
+
+No P0 was assigned: the bounded exercise supplied no evidence of an active production, life-safety, legal or privacy incident ([scope record](00-scope-and-evidence.md)). Task 2 remains blocked at its synthetic Phase 02 baseline. Clause-level standards remapping and broad applied-example coverage are P2/deferred because they require owner authority or materially wider review than this cycle.
 
 | ID / priority | Gap and evidence | 5 Whys root-cause trace | Exact change and hypothesis | Owner / due | Acceptance evidence | Risk, rollback, target |
 |---|---|---|---|---|---|---|
@@ -21,3 +23,15 @@ No critical safety or legal failure was found in the three disposable tasks. Ope
 - Clause-level replacement of IEEE 830, ISO/IEC/IEEE 42010:2011 and BS ISO/IEC/IEEE 29119-3:2013 references is not selected until the requirements owner supplies accessible authoritative clause text or approves a non-normative status-only change. No canonical doctrine is changed in this cycle.
 - Any cross-engine mismatch that requires edits to `chwezi-dev-engine`, design, accounting or research is recorded in `06-next-cycle.md`; this cycle edits only the SDLC checkout.
 - Paid behavioural grading, marketplace submission, authenticated installation and account-specific plugin validation are outside this cycle.
+
+## Cycle disposition
+
+| Item | Result |
+|---|---|
+| SDLC-01 | Kept. Clean-checkout builder creates a temporary reference template and a populated, linked contents list. The rendered PDF has visible entries; local Word accessibility and font fidelity remain unassessed. See `03-experiment-log.md` and `04-validation-record.md`. |
+| SDLC-02 | Kept. Manifest parity and strict 5,000-entry checks cover both the full checkout and package-oriented count. Boundary and injected over-limit tests pass. Current checkout counts are in `04-validation-record.md`; no ZIP archive was created. |
+| SDLC-03 | Kept. The offline discovery-summary checker accepts the sanitized 159/159 configured run and rejects omissions/network/model-call claims in tests. Native CLI install passed locally; raw prompt data is not retained. |
+| SDLC-04 | Kept. Phase 02 validates source-to-requirement/ambiguity coverage and blocks each of the six unresolved ambiguities in task 2. It does not discover semantic conflicts without human review. |
+| SDLC-05 | Kept. The task 3 evidence report distinguishes link coverage, oracle state, open decisions, and test execution. All ten requirements have named design/test links; three have executable fixture oracles, seven have open owner decisions, no goal links were supplied, and none were executed. These are exercise results, not product acceptance. |
+| SDLC-06 | Partially kept. Confirmed API and MySQL reference paths are corrected and dated in the source register. Stale standards editions and clause mappings remain open; no doctrine was changed. |
+| SDLC-07 | Kept for local catalogues. Claude and Codex marketplace manifests validate and both native CLI installs passed offline. Public portable-archive acceptance and account-specific installation remain `NOT_ASSESSED`. |

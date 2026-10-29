@@ -46,5 +46,5 @@ This file is committed before any implementation change. Ratings remain immutabl
 
 - The stale Phase 02, Phase 03 and Phase 05 standards references are currentness defects; full clause remapping is still required.
 - The absent `templates/reference.docx` prevents a clean-checkout normal DOCX build. Temporary template generation does not standardise the fix.
-- No unsupported legal requirement was put into a sample. Uganda legal status through 2026 remains `NOT_ASSESSED` beyond the evidence window stated in `02-source-currentness-register.md`.
+- No unsupported legal requirement was put into a sample. Uganda legal status through 2026 remains `NOT_ASSESSED` beyond the evidence window stated in `standards-source-register.md`.
 - The SRS task samples are drafts, not approved specifications. Missing project evidence, model runtime identity, archival snapshots and native Word accessibility checks stay visible.

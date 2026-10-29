@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2026-10-29] - Marketplace, discovery and document-build reliability
+
+- Added a repo-scoped Codex marketplace beside the Claude Code marketplace and
+  an offline package audit for skill-manifest parity and the 5,000-entry ZIP
+  ceiling. This checks the checkout; it does not build or submit a public ZIP.
+- Documented the verified Codex skill-list budget option and added a guard for
+  sanitised offline discovery summaries. No user configuration is modified.
+- Made clean-checkout DOCX builds generate a temporary reference template when
+  the ignored local template is absent, and render the contents list as actual
+  document links instead of a blank deferred field.
+- Added source-reconciliation and traceability completeness examples and checks;
+  unresolved decisions remain open for an owner.
+- Standards edition statuses are dated in the Kaizen source register. Stale
+  normative clause mappings remain open where full clause-level evidence or
+  owner authority was unavailable.
+
 ## [2026-09-29] - Repository renamed to chwezi-sdlc-documentation
 
 - The GitHub repository and local folder `srs-skills` are now `chwezi-sdlc-documentation`
