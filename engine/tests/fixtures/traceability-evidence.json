@@ -1,0 +1,14 @@
+{
+  "requirements": [
+    {"requirement_id":"FR-001","business_goal_ids":[],"design_ids":["DE-001"],"test_case_ids":["TC-001"],"oracle_status":"executable","open_owner_decisions":[],"execution_status":"not_run"},
+    {"requirement_id":"FR-002","business_goal_ids":[],"design_ids":["DE-001","DE-004"],"test_case_ids":["TC-002"],"oracle_status":"executable","open_owner_decisions":[],"execution_status":"not_run"},
+    {"requirement_id":"FR-003","business_goal_ids":[],"design_ids":["DE-001"],"test_case_ids":["TC-003"],"oracle_status":"partial","open_owner_decisions":["supported currency list"],"execution_status":"not_run"},
+    {"requirement_id":"FR-004","business_goal_ids":[],"design_ids":["DE-002"],"test_case_ids":["TC-004"],"oracle_status":"executable","open_owner_decisions":[],"execution_status":"not_run"},
+    {"requirement_id":"FR-005","business_goal_ids":[],"design_ids":["DE-002"],"test_case_ids":["TC-005"],"oracle_status":"partial","open_owner_decisions":["callback authentication protocol"],"execution_status":"not_run"},
+    {"requirement_id":"FR-006","business_goal_ids":[],"design_ids":["DE-002"],"test_case_ids":["TC-006"],"oracle_status":"partial","open_owner_decisions":["approved payment transition table"],"execution_status":"not_run"},
+    {"requirement_id":"FR-007","business_goal_ids":[],"design_ids":["DE-003"],"test_case_ids":["TC-007"],"oracle_status":"partial","open_owner_decisions":["receipt-eligible payment states"],"execution_status":"not_run"},
+    {"requirement_id":"FR-008","business_goal_ids":[],"design_ids":["DE-003"],"test_case_ids":["TC-008"],"oracle_status":"partial","open_owner_decisions":["approved receipt role matrix"],"execution_status":"not_run"},
+    {"requirement_id":"NFR-001","business_goal_ids":[],"design_ids":["DE-005"],"test_case_ids":["TC-009"],"oracle_status":"missing","open_owner_decisions":["latency threshold and load profile"],"execution_status":"not_run"},
+    {"requirement_id":"NFR-002","business_goal_ids":[],"design_ids":["DE-004"],"test_case_ids":["TC-010"],"oracle_status":"partial","open_owner_decisions":["authentication and exception-role model"],"execution_status":"not_run"}
+  ]
+}

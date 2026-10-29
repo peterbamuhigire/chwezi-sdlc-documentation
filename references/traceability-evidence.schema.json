@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Traceability evidence report",
+  "type": "object",
+  "required": ["requirements"],
+  "properties": {
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["requirement_id", "business_goal_ids", "design_ids", "test_case_ids", "oracle_status", "open_owner_decisions", "execution_status"],
+        "properties": {
+          "requirement_id": {"type": "string", "pattern": "^(FR|NFR)-[0-9]{3,5}$"},
+          "business_goal_ids": {"type": "array", "items": {"type": "string", "pattern": "^BG-[0-9]{3,5}$"}},
+          "design_ids": {"type": "array", "items": {"type": "string", "minLength": 1}},
+          "test_case_ids": {"type": "array", "items": {"type": "string", "pattern": "^TC-[0-9]{3,5}$"}},
+          "oracle_status": {"enum": ["executable", "partial", "missing"]},
+          "open_owner_decisions": {"type": "array", "items": {"type": "string", "minLength": 1}},
+          "execution_status": {"enum": ["not_run", "passed", "failed"]}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

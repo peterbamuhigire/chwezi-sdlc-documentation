@@ -333,5 +333,9 @@ Write `projects/<ProjectName>/<phase>/<document>/traceability_matrix.md` followi
 - [Java enterprise requirements overlay](../../../references/java-enterprise-requirements-overlay.md): trace Java requirements through implementation, tests, migrations, release evidence, telemetry and runbook ownership.
 
 ---
-**Last Updated:** 2026-03-07
-**Skill Version:** 1.0.0
+## Traceability evidence states
+
+Report link presence, executable test oracles, unresolved owner decisions and executed results as separate states. The repository-root `references/traceability-evidence.schema.json` schema and `scripts/validate_traceability_evidence.py` validator define a compact machine-checkable report; linked design and test IDs do not establish that an oracle is executable or that a test passed.
+
+**Last Updated:** 2026-10-29
+**Skill Version:** 1.1.0
