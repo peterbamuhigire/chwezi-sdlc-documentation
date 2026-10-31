@@ -67,11 +67,11 @@ This repository is a dual-compatible skill system for Claude Code and Codex. The
 
 - Preserve the existing Claude Code workflow, now held in this file; [CLAUDE.md](CLAUDE.md) is a thin bridge that imports it (portfolio bridge contract, M10-02).
 - Expose the same skills to Codex through predictable `SKILL.md` frontmatter, local references, and repo-level routing rules.
-- Keep portable skill entrypoints under `skills/<skill-name>/SKILL.md`.
+- Keep each portable skill entrypoint at `<NN-phase>/.../<skill-name>/SKILL.md` under the numbered phase roots (`01-strategic-vision` to `09-governance-compliance`). This repository has no `skills/` directory.
 
 ## Skill Families
 
-- Engineering/methodology skills live in the sibling **engineering catalog engine** (resolve its checkout through the engine-routing table; skills under `skills/<category>/<skill-name>/SKILL.md`). Consult its router, then read the matching SKILL.md directly. Its `<category>` namespace is grouped into 17 categories (verified 2026-09-24); see the "Skill Categories" section below. Methodology-selection skills such as `00-meta-initialization` live at the outer numbered-phase roots (e.g. `01-strategic-vision/`).
+- Engineering/methodology skills live in the sibling **engineering catalog engine** (resolve its checkout through the engine-routing table; skills under `skills/<category>/<skill-name>/SKILL.md`). Consult its router, then read the matching SKILL.md directly. Its `<category>` namespace is grouped into 17 categories (re-verified 2026-10-31 with `ls skills` in that checkout); see the "Skill Categories" section below. Methodology selection (`00-meta-initialization`) sits at the root of that engine, outside its `skills/` tree; this repository's own skills sit under its numbered phase roots.
 - Root directories are reserved for project documentation and repository-level folders such as `docs/` and `projects/`, plus operational folders (`engine/`, `templates/`, `scripts/`, `domains/`) where relevant. Finance/accounting is the standalone cross-cutting **finance engine** (resolve its checkout through the engine-routing table) — consult it whenever finance/IFRS/IAS/tax/bookkeeping arises, in addition to the active work.
 - Domain packs live under `domains/`. They are not skills by themselves; use them as context sources when a task is domain-specific.
 
@@ -102,7 +102,8 @@ without a resumable owner, next step, blockers, risks, and evidence list.
 - Run `python -X utf8 scripts/source_ingestion_guardrail.py` for every skill or source-reference change; any finding blocks release.
 - Before releasing any skill change, run `python -X utf8 scripts/validate_skill_engine.py --baseline tests/skill-quality-baseline.json` and `python -X utf8 scripts/routing_smoke_test.py`.
 - The baseline is zero debt, not a waiver. Any structural finding, duplicate name, broken mandatory resource, routing failure, active-count drift, or template-count drift blocks release.
-- Before releasing, also run `python scripts/check_portable_paths.py`, `python scripts/check_cross_engine_refs.py` (add `--dev-engine-root <checkout>` or set `CHWEZI_DEV_ENGINE_ROOT` to resolve category paths; without one that part is `NOT_ASSESSED`), `python scripts/check_standards_currency.py`, `python scripts/validate_source_register.py` and `python scripts/routing_smoke_test.py --min-rank1 83 --lint-fixtures --min-covered 8`. The October 2026 pass-2 evidence is in `docs/kaizen/2026-10-engine-kaizen-pass-2/`.
+- Before releasing, also run `python scripts/check_portable_paths.py`, `python scripts/check_cross_engine_refs.py` (add `--dev-engine-root <checkout>` or set `CHWEZI_DEV_ENGINE_ROOT` to resolve category paths; without one that part is `NOT_ASSESSED`), `python scripts/check_standards_currency.py`, `python scripts/validate_source_register.py`, `python scripts/validate_plugin_packages.py` and `python scripts/routing_smoke_test.py --min-rank1 83 --lint-fixtures --min-covered 8`. The October 2026 pass-2 evidence is in `docs/kaizen/2026-10-engine-kaizen-pass-2/`.
+- These checks need the pinned packages (`python3 -m pip install -c requirements-ci.txt -e ".[dev,docs]"`). `README.md` ("Which checks need which tool" and "Validation") lists what each one needs and the results measured on 2026-10-31. A check that cannot run on the current host is `NOT_ASSESSED`, never a pass. `scripts/validate_source_register.py` is date-driven and starts failing on 2026-11-30 unless the overdue source records are re-verified.
 - Update routing fixtures when a trigger or neighbour boundary changes, and run the anti-slop audit on changed human-facing content before release.
 - Anti-AI-slop pre-ship gate: run `09-governance-compliance/28-anti-ai-slop` on every generated SRS/spec/doc/code artefact before delivery (MANDATORY).
 - Slop analysis/audit: `09-governance-compliance/29-ai-slop-audit` auto-runs whenever the user asks to analyse, review, evaluate, audit, critique, or de-slop any spec, requirement, document, system, or codebase, or asks "does this look AI-generated?".
@@ -266,7 +267,7 @@ When the user says "build the [document]":
 
 ## Full Skill Suite
 
-Refer to `README.md` and `PROJECT_BRIEF.md` for the new eight-phase skill flow: Initialization, Introduction, Overview, Interfaces, Functional Requirements, Logic Modeling, Attribute Mapping, and Semantic Auditing with verification artifacts.
+Refer to `README.md` for the generated skill table (159 active skills in nine numbered phases on 2026-10-31) and to `PROJECT_BRIEF.md` for the engine's history. The Waterfall SRS skills run under `02-requirements-engineering/waterfall/`, from `01-initialize-srs` through `08-semantic-auditing`, with `09-use-case-modeling` alongside them.
 
 ## Skill Categories
 
@@ -296,7 +297,7 @@ To locate a specific skill quickly, resolve the Chwezi Dev Engine through the gl
 
 ## Compliance Skills (Uganda Domain)
 
-For Uganda-based projects, two additional compliance skills are available and should be invoked as cross-cutting tasks alongside the main SRS skill flow:
+For Uganda-based projects, two compliance outputs are available, both routed to the `dpia-generator` skill, and should be invoked as cross-cutting tasks alongside the main SRS skill flow:
 
 - **`dpia-generator`** (chwezi-dev-engine; the retired `uganda-dppa-compliance` skill is an inactive alias of it) — Generates the DPPA 2019 compliance annex: PII inventory, classification (financial info = special personal data), consent FRs, data subject rights FRs, breach notification procedure (immediate → PDPO), retention/destruction schedule, DPIA trigger assessment, DPO/PDPO registration requirements. Invoke after Skill 05 (Functional Requirements) for any module that collects personal data.
 - **`dpia-generator`** — Generates a Regulation 12-compliant DPIA document for any processing operation flagged `[DPIA-REQUIRED]`. Invoke when the DPPA compliance annex raises a DPIA flag.
@@ -433,6 +434,7 @@ The validation kernel (`python -m engine validate <project>`) will fail if:
 
 - Update docs/CHANGELOG.md with every change to skill logic prompts, root protocols, or new standards; cite the Engineering Registry when the change alters input/process/output mappings.
 - Keep DEPENDENCIES.md current with runtime and environment requirements so onboarding scripts and the offline workflow remain consistent.
+- Quote a skill count, test count or validator result in a document only after measuring it (`find` for skills, the validator's own output for the rest), and give the date.
 - Reference README.md, AGENTS.md (imported by the CLAUDE.md bridge), and other root docs when describing the documentation flow in change tickets to ensure traceability during audits.
 
 
