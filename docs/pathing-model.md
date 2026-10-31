@@ -7,7 +7,7 @@ This repository uses a **single canonical workspace model**:
 - Generated artifact root: `projects/<ProjectName>/...` under the active phase and document workspace
 - DOCX export root: `projects/<ProjectName>/export/`
 - DOCX export scripts: `projects/<ProjectName>/export-docs.ps1` and `projects/<ProjectName>/export-docs.sh`
-- Skill entrypoint root: `skills/<skill-name>/SKILL.md`
+- Skill entrypoint root: the numbered phase folders of this repository, each skill at `<NN-phase>/.../<skill-name>/SKILL.md` (there is no `skills/` directory here; in a project repository that vendors this engine as a submodule, the whole engine sits under that project's `skills/`)
 
 ## Canonical Rule
 
