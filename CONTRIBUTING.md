@@ -1,4 +1,4 @@
-# Contributing to the SRS skills engine
+# Contributing to Chwezi SDLC Documentation
 
 Active skills live under the numbered phase roots. Discover them from the filesystem; do not use a cached README table as the catalogue authority.
 
@@ -13,35 +13,54 @@ Active skills live under the numbered phase roots. Discover them from the filesy
 ## Required checks
 
 The default pytest configuration enforces the repository coverage policy and
-therefore requires the development extra. From a fresh checkout, install it
-with the supported command below before running the default suite:
+therefore requires the development extra. From a fresh checkout, install the
+pinned packages in a virtual environment before running the default suite:
 
-```powershell
-python -m pip install -e ".[dev]"
-python -m pytest -q
+```sh
+python3 -m pip install -c requirements-ci.txt -e ".[dev,docs]"
+python3 -m pytest -q
 ```
 
 If `pytest-cov` cannot be installed in the current environment, do not report a
 coverage pass. Run structural or logic-only tests with `-o addopts=` and record
 coverage as `NOT ASSESSED`.
 
-```powershell
-python -X utf8 scripts/validate_skill_engine.py --baseline tests/skill-quality-baseline.json
-python -X utf8 scripts/routing_smoke_test.py
-python -X utf8 scripts/validate_engine.py
-python -m engine validate-skills
-python scripts/validate_requirements_decision.py engine/tests/fixtures/requirements_decision/reuse.json
-pytest --cov=engine --cov-fail-under=90
+The default run covers `engine/tests` (535 passed, 5 skipped, coverage 96.19%
+against the 90% floor on 2026-10-31). Run the remaining Python tests, the
+validators and the whitespace check as well. `README.md` ("Validation") gives
+the result each one should produce and the tool it needs.
+
+```sh
+python3 -X utf8 scripts/validate_skill_engine.py --baseline tests/skill-quality-baseline.json
+python3 -X utf8 scripts/routing_smoke_test.py --min-rank1 83 --lint-fixtures --min-covered 8
+python3 -X utf8 scripts/validate_engine.py
+python3 -m engine validate-skills
+python3 -X utf8 scripts/validate_plugin_packages.py
+python3 scripts/check_portable_paths.py
+python3 scripts/check_cross_engine_refs.py --dev-engine-root <chwezi-dev-engine-checkout>
+python3 scripts/check_standards_currency.py
+python3 scripts/validate_source_register.py
+python3 scripts/validate_traceability_evidence.py engine/tests/fixtures/traceability-evidence.json
+python3 scripts/validate_sdd_phase_boundaries.py --feature-dir engine/tests/fixtures/sdd_feature
+python3 scripts/validate_requirements_decision.py engine/tests/fixtures/requirements_decision/reuse.json
+python3 -X utf8 scripts/source_ingestion_guardrail.py
+python3 -m pytest -q -o addopts= tests
 git diff --check
 ```
+
+Without a dev-engine checkout, `check_cross_engine_refs.py` still runs but reports
+category paths as `NOT_ASSESSED`. `validate_source_register.py` is date-driven: it
+starts failing on 2026-11-30 until the overdue source records are re-verified (see
+"Quality and improvement" in `README.md`).
 
 Run the canonical quick validator for each changed skill directory:
 
 Resolve the [Chwezi Dev Engine](https://github.com/peterbamuhigire/chwezi-dev-engine)
-through the global engine registry, then run its canonical validator:
+through the engine-routing table of your runner (or set `CHWEZI_DEV_ENGINE_ROOT`),
+then run its canonical validator:
 
-```powershell
-python -X utf8 <chwezi-dev-engine-root>\skills\sdlc-meta\skill-writing\scripts\quick_validate.py <skill-directory>
+```sh
+python3 -X utf8 "$CHWEZI_DEV_ENGINE_ROOT/skills/sdlc-meta/skill-writing/scripts/quick_validate.py" <skill-directory>
 ```
 
 The baseline must remain empty. Do not add findings to it. A deliberate active-skill or template-count change requires an evidence-backed routing decision, updated fixtures, and an explicit baseline count update in the same change.
