@@ -323,11 +323,11 @@ The evidence for the October 2026 kaizen cycles is in the repository. [`docs/kai
 Open findings that matter when you use the engine:
 
 - A project with no `_registry/source-reconciliation.yaml` still passes the Phase 02 source check, so source-conflict blocking applies only to projects that keep the register.
-- Gate clause labels still cite IEEE Std 830-1998 (163 live lines), ISO/IEC/IEEE 42010:2011 (13) and ISO/IEC/IEEE 29119-3:2013 (11), which their issuers list as superseded or withdrawn. The router treats IEEE 830 as an SRS layout reference only. `scripts/check_standards_currency.py` stops these counts rising; it does not remap clauses.
+- Gate clause labels still cite IEEE Std 830-1998 (163 live lines), the 2011 edition of ISO/IEC/IEEE 42010 (13 lines) and the 2013 edition of ISO/IEC/IEEE 29119-3 (11 lines), which their issuers list as superseded or withdrawn. The router treats IEEE 830 as an SRS layout reference only. `scripts/check_standards_currency.py` stops these counts rising; it does not remap clauses.
 - Phase 09 does not trace NFR, IR, DR and CON identifiers, and it does not block two definitions of the same identifier.
 - Applied proof is thin: 4 of 159 skills have an `examples/` folder, and 44 of the 81 skills with a worked-example section share one of 12 identical paragraphs.
 - Routing evidence is lexical. The phrase "software requirements specification" still ranks the game SRS skill first in the proxy, and pass 2 recorded a second near miss for a school-fees prompt. No live-model routing run has been made.
-- The education pack is a United States baseline with no school-fees module, and 16 domain-pack lines still name WCAG 2.1 pending a jurisdiction decision.
+- The education pack is a United States baseline with no school-fees module, and 16 domain-pack lines still target the 2.1 level of the accessibility guidelines, not 2.2, pending a jurisdiction decision.
 - The `.docx` build and Mermaid rendering were not assessed on the Linux workstation.
 - The per-user settings file `.claude/settings.local.json` is untracked and ignored, but earlier commits on the public history still contain it. Removing it needs a history rewrite, which is a decision for the maintainer.
 
