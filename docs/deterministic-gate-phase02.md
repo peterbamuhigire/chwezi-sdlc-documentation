@@ -22,7 +22,7 @@ Phase 02 validates requirements quality and registry coherence.
 
 ## Intent
 
-- Require measurable non-functional requirements
+- Require measurable non-functional requirements: a vague qualifier (for example fast, reliable, quickly, at all times) needs a stated threshold in the same requirement
 - Require stimulus-response style where expected
 - Require normative, observable, non-ambiguous functional requirements
 - Keep identifier and glossary registries aligned with the workspace

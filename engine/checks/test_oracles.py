@@ -5,7 +5,8 @@ from typing import Iterable
 from engine.artifact_graph import ArtifactGraph
 from engine.findings import Finding, FindingCollection, Severity
 
-_FR_ID = re.compile(r"\bFR-\d{3,5}\b")
+# A requirement identifier: FR, NFR, IR, DR or CON, with optional module segments (FR-META-006).
+_REQUIREMENT_ID = re.compile(r"(?:FR|NFR|IR|DR|CON)(?:-[A-Z][A-Z0-9]{0,7})*-\d{3,5}")
 
 
 def _values(obj) -> list[str]:
@@ -57,14 +58,14 @@ class TestOraclesCheck:
                     location=art.path,
                     line=None,
                 ))
-            bad_trace = [ref for ref in traced if not _FR_ID.fullmatch(ref)]
+            bad_trace = [ref for ref in traced if not _REQUIREMENT_ID.fullmatch(ref)]
             if bad_trace:
                 findings.add(Finding(
                     gate_id=self.gate_id,
                     severity=Severity.HIGH,
                     message=(
-                        f"Test artifact '{art.path}' has non-FR requirement_trace "
-                        f"entries: {', '.join(sorted(bad_trace))}"
+                        f"Test artifact '{art.path}' has non-requirement identifiers in "
+                        f"requirement_trace: {', '.join(sorted(bad_trace))}"
                     ),
                     location=art.path,
                     line=None,

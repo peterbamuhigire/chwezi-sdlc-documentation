@@ -23,3 +23,39 @@ def test_flags_vague_nfr(tmp_path: Path):
     items = list(findings)
     assert len(items) == 1
     assert "fast" in items[0].message
+
+
+def _run(tmp_path: Path, body: str) -> list:
+    findings = FindingCollection()
+    SmartNfrCheck("phase02.smart_nfr").run(_ws(tmp_path, body), findings)
+    return list(findings)
+
+
+@pytest.mark.parametrize("statement,word", [
+    ("The system shall respond quickly to bursar searches.", "quickly"),
+    ("The system shall be available at all times.", "at all times"),
+    ("The reporting screen shall be responsive.", "responsive"),
+    ("The importer shall process files efficiently.", "efficiently"),
+    ("The service shall be highly available.", "highly available"),
+])
+def test_flags_unmeasured_qualifier_without_any_metric(tmp_path: Path, statement: str, word: str) -> None:
+    items = _run(tmp_path, f"# NFRs\n- **NFR-003** {statement}")
+    assert len(items) == 1
+    assert word in items[0].message
+
+
+@pytest.mark.parametrize("statement", [
+    "The system shall be reliable and shall restore service within ≤ 4 hours after an outage.",
+    "The system shall be reliable and restore service within 4 hours of an outage.",
+    "The search shall be responsive: results shall appear in <= 2 seconds at P95.",
+    "The service shall be highly available, with >= 99.9% monthly uptime.",
+    "The export shall be quick, finishing in at most 10 minutes for 1 GB of data.",
+    "The page shall stay responsive at >= 320 px viewport width.",
+])
+def test_accepts_a_stated_threshold_in_common_units(tmp_path: Path, statement: str) -> None:
+    assert _run(tmp_path, f"# NFRs\n- **NFR-004** {statement}") == []
+
+
+def test_does_not_demand_a_number_from_a_conformance_statement(tmp_path: Path) -> None:
+    body = "# NFRs\n- **NFR-005** The system shall conform to WCAG 2.2 Level AA on every public page."
+    assert _run(tmp_path, body) == []
