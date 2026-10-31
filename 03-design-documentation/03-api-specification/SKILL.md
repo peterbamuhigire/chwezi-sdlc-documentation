@@ -141,7 +141,7 @@ Map CRUD operations to HTTP methods following REST conventions: Create = POST, R
 
 ### Step 4: Define Authentication Scheme
 
-Extract the authentication mechanism from SRS Section 3.5.3 (Security Requirements). Define the scheme as one of: JWT Bearer Token, Session Cookies, or API Key. Reference `skills/dual-auth-rbac/` if the project uses role-based access control with multiple authentication strategies.
+Extract the authentication mechanism from SRS Section 3.5.3 (Security Requirements). Define the scheme as one of: JWT Bearer Token, Session Cookies, or API Key. Reference `skills/security/vibe-security-skill/` (Chwezi Dev Engine; it replaced the retired `dual-auth-rbac` skill) if the project uses role-based access control with multiple authentication strategies.
 
 ### Step 5: Define Endpoint Details
 
@@ -257,7 +257,7 @@ Section 10 (Traceability Matrix) shall map each endpoint to its originating SRS 
 | Downstream | Phase 05 (Testing)                           | Endpoint definitions drive API test cases          |
 | Reference  | [`api-design-first` error-handling reference](https://github.com/peterbamuhigire/chwezi-dev-engine/blob/main/skills/architecture/api-design-first/references/api-error-handling.md) | Error response implementation patterns |
 | Reference  | [`api-design-first` pagination reference](https://github.com/peterbamuhigire/chwezi-dev-engine/blob/main/skills/architecture/api-design-first/references/api-pagination.md) | Pagination implementation patterns |
-| Reference  | `skills/dual-auth-rbac/`                     | Authentication and RBAC patterns                   |
+| Reference  | `skills/security/vibe-security-skill/`       | Authentication and RBAC patterns (Chwezi Dev Engine) |
 | Reference  | `references/practical-api-architecture.md`   | Book-distilled API architecture, lifecycle, idempotency, and error-semantics checks |
 
 ## Standards

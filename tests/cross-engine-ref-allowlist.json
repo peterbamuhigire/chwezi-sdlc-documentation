@@ -1,0 +1,7 @@
+[
+  {
+    "path": "09-governance-compliance/plan-canvas/SKILL.md",
+    "reference": "skills/plan-canvas",
+    "reason": "Names a path inside the external upstream repository the skill was ported from; it is provenance, not a link into a Chwezi engine."
+  }
+]

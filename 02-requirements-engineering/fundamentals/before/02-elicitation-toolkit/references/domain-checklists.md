@@ -41,7 +41,7 @@ This reference provides domain-specific checklists that supplement general elici
 
 **Applicable when**: The system is a multi-tenant cloud application with subscription-based access.
 
-**Related skill**: `skills/multi-tenant-saas-architecture`, `skills/modular-saas-architecture`
+**Related skill**: `skills/saas/multi-tenant-saas-architecture`, `skills/saas/modular-saas-architecture` (Chwezi Dev Engine)
 
 | # | Category | Checklist Item | Addressed | Source | Notes |
 |---|----------|----------------|-----------|--------|-------|
@@ -62,7 +62,7 @@ This reference provides domain-specific checklists that supplement general elici
 
 **Applicable when**: The system processes sales transactions, handles payments, or manages inventory at the point of sale.
 
-**Related skill**: `skills/pos-restaurant-ui-standard`, `skills/pos-sales-ui-design`, `skills/inventory-management`
+**Related skill**: `finance-ui-pattern-library`, `inventory-costing-and-stock-accounting` (Chwezi accounting engine; resolve it through the engine-routing table)
 
 | # | Category | Checklist Item | Addressed | Source | Notes |
 |---|----------|----------------|-----------|--------|-------|
@@ -83,7 +83,7 @@ This reference provides domain-specific checklists that supplement general elici
 
 **Applicable when**: The system handles spatial data, map rendering, or geographic analysis.
 
-**Related skill**: `skills/gis-mapping`
+**Related skill**: `skills/gis/gis-platform-engineering` (Chwezi Dev Engine)
 
 | # | Category | Checklist Item | Addressed | Source | Notes |
 |---|----------|----------------|-----------|--------|-------|

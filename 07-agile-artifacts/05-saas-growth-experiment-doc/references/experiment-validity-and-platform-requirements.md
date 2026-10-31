@@ -8,7 +8,7 @@ The parent skill states the hypothesis, metrics, sample, stop rule and decision 
 what makes those statements trustworthy: intent classification, validity checks, concurrency rules,
 long-term measurement, and verifiable platform requirements. It states WHAT the experiment and
 platform must guarantee; the engineering build (assignment service, pipelines, statistics engine)
-belongs to `product-business/experiment-engineering` in the engineering catalog engine.
+belongs to `ai/ai-feature-rollout-and-experimentation` in the engineering catalog engine (the successor of the retired `experiment-engineering` skill).
 
 ## 1. Classify the experiment intent first
 
