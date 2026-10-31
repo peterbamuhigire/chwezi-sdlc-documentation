@@ -1,6 +1,6 @@
 # Chwezi SDLC Documentation — Kaizen pass 2 final report
 
-**Branch:** `kaizen/2026-10-pass2`, created from `main` at `91b987d`, which is also the branch the checkout started on and is restored when the work ends. Eleven commits (frozen baseline, backlog, eight kept changes, router and changelog). Nothing pushed, tagged, released or submitted; no paid model call; no other engine edited. The 95/100 target is not reached.
+**Branch:** `kaizen/2026-10-pass2`, created from `main` at `91b987d`, which is also the branch the checkout started on and is restored when the work ends. The commits are listed by hash below and in `git log main..kaizen/2026-10-pass2`. Nothing pushed, tagged, released or submitted; no paid model call; no other engine edited. The 95/100 target is not reached.
 
 ## Scorecard
 
