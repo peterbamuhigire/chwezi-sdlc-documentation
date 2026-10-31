@@ -1,19 +1,24 @@
-# SDLC-Docs-Engine Project Brief
+# Chwezi SDLC Documentation Project Brief
 
-## Current catalogue and phase model (2026-08-11)
+## Current catalogue and phase model (2026-10-31)
 
-The current catalogue contains **157 filesystem-discovered active skills** and
+The current catalogue contains **159 filesystem-discovered active skills** and
 **1 inactive authoring template**, as recorded in the
 [`skill-quality-baseline.json`](tests/skill-quality-baseline.json) control and
-checked by [`validate_skill_engine.py`](scripts/validate_skill_engine.py).
-The phase model is `00-meta-initialization` plus SDLC phases `01` through `09`;
-Phase 02 contains the Waterfall, Agile, and Hybrid requirements tracks.
+checked by [`validate_skill_engine.py`](scripts/validate_skill_engine.py); both
+counts were also taken with `find` on this date.
+The phase model is SDLC phases `01` through `09`; Phase 02 contains the
+Waterfall, Agile, Hybrid and requirements-fundamentals tracks. Methodology
+selection (`00-meta-initialization`) belongs to the Chwezi Dev Engine and is no
+longer in this repository. Release and validation status are in
+[`README.md`](README.md); the v3.x labels below are the historical numbering of
+the earlier SDLC-Docs-Engine.
 
 ## What Is This?
 
-**SDLC-Docs-Engine** (v3.3) is an AI-powered, standards-driven documentation generator that creates **comprehensive, IEEE/ISO-compliant documentation** across all phases of software development.
+**Chwezi SDLC Documentation** (earlier names: SDLC-Docs-Engine and SRS-Skills) is a standards-driven library of agent skills and a validation kernel for software-lifecycle documentation. Its skills help an agent produce IEEE/ISO-aligned documents across all phases of software development, and the kernel checks the result against deterministic gates.
 
-**Think of it as:** A portable "Documentation Engine" whose skill entrypoints live under `skills/<skill-name>/SKILL.md`, read your project context, and generate professional documentation for **Waterfall, Agile, or Hybrid** methodologies.
+**Think of it as:** A portable documentation engine whose skill entrypoints (`SKILL.md` files under the numbered phase folders) read your project context and guide the generation of documentation for **Waterfall, Agile, or Hybrid** methodologies.
 
 ---
 
@@ -74,7 +79,7 @@ Previously called **SRS-Skills** (focused only on IEEE 830 SRS generation), v3.0
 
 ```bash
 git clone https://github.com/peterbamuhigire/chwezi-sdlc-documentation.git
-cd skills
+cd chwezi-sdlc-documentation
 ```
 
 ### 2. Select Methodology
@@ -108,8 +113,8 @@ Output: user_stories.md, story_map.mmd, backlog_summary.md
 
 ```bash
 Run: 03-design-documentation/01-high-level-design
-Run: 05-testing-documentation/02-test-plans
-Run: 06-deployment-operations/02-runbook-generation
+Run: 05-testing-documentation/02-test-plan
+Run: 06-deployment-operations/02-runbook
 ```
 
 ---
@@ -117,7 +122,7 @@ Run: 06-deployment-operations/02-runbook-generation
 ## What Can It Generate?
 
 ### Requirements Documentation
-- **Waterfall**: IEEE 830 SRS (8-phase pipeline)
+- **Waterfall**: SRS in the IEEE 830 section layout (Waterfall skills 01 to 09)
 - **Agile**: INVEST-compliant user stories with acceptance criteria
 
 ### Design Documentation
@@ -157,28 +162,30 @@ Run: 06-deployment-operations/02-runbook-generation
 ## Architecture Overview
 
 ```
-sdlc-docs-engine/
-├── skills/
-│   ├── 00-meta-initialization/      # START HERE: Methodology selection
-│   └── <skill-name>/SKILL.md        # Standard portable skill layout
-├── 01-strategic-vision/             # PRD, vision statements
+chwezi-sdlc-documentation/
+├── 01-strategic-vision/             # PRD, vision, business case, SaaS and AI strategy
 ├── 02-requirements-engineering/
-│   ├── waterfall/                   # IEEE 830 SRS (8 phases)
-│   └── agile/                       # User stories, backlog
+│   ├── waterfall/                   # Waterfall SRS skills 01 to 09
+│   ├── agile/                       # User stories, acceptance criteria, backlog
+│   ├── fundamentals/                # Before, during and after requirements
+│   └── hybrid/                      # Water-Scrum-Fall synchronisation
 ├── 03-design-documentation/         # HLD, LLD, API specs
 ├── 04-development-artifacts/        # Technical specs, code docs
-├── 05-testing-documentation/        # Test strategy, plans, cases
+├── 05-testing-documentation/        # Test strategy, plans, reports
 ├── 06-deployment-operations/        # Deployment guides, runbooks
 ├── 07-agile-artifacts/              # Sprint planning, DoD, DoR
 ├── 08-end-user-documentation/       # User manuals, FAQs
 ├── 09-governance-compliance/        # Traceability, audits, compliance
-└── skills/                          # 25+ domain-specific patterns
+├── engine/                          # Validation kernel (python3 -m engine)
+├── domains/                         # 11 domain packs
+├── scripts/, templates/, references/, rules/, hooks/, tests/, docs/
+└── projects/                        # Untracked client workspaces
 ```
 
 **Stateless Design:**
-- Skills live under `skills/<skill-name>/SKILL.md`
-- Project data in `../project_context/` (parent project)
-- Generated docs in `../output/` (parent project)
+- Skills live under the numbered phase folders, each at `<NN-phase>/.../<skill-name>/SKILL.md`
+- Project data in `projects/<ProjectName>/_context/` (legacy skill-local alias `../project_context/`)
+- Generated docs in the same project workspace (legacy alias `../output/`)
 - No project-specific data commits to the repository unless explicitly promoted to examples or documentation
 
 ---
@@ -197,27 +204,29 @@ All documentation aligns with industry standards:
 - **ISO 26514**: User Documentation
 - **OpenAPI 3.1.x**: API Documentation (3.2.x optional where the toolchain supports it)
 
+IEEE 830-1998 is superseded and is kept only as the SRS section layout. The status of each edition above, with source and review date, is in `docs/kaizen/2026-10-engine-kaizen-pass-2/standards-source-register.md`, and clause mappings that still cite superseded editions are listed as open findings in `README.md`.
+
 ---
 
 ## Key Features
 
-### 🎯 Methodology-Agnostic
+### Methodology-Agnostic
 Choose Waterfall, Agile, or Hybrid based on your project needs.
 
-### 📊 Standards-Driven
-Every document maps to specific IEEE/ISO standards with clause references.
+### Standards-Driven
+Every document maps to specific IEEE/ISO standards with clause references. Edition status is dated in the source register (see Standards Compliance below).
 
-### 🔁 Iterative & Idempotent
-Re-run skills when context changes; they'll update without losing work.
+### Iterative and Idempotent
+Re-run skills when context changes; they update without losing work.
 
-### 🔍 Verification & Validation
-Built-in IEEE 1012 auditing ensures correctness, completeness, consistency.
+### Verification and Validation
+Built-in IEEE 1012 auditing checks correctness, completeness and consistency, and `python3 -m engine validate` runs the phase gates.
 
-### 🧩 Domain Skills Integration
-25+ reusable patterns (multi-tenant, GIS, security, UI/UX) enhance documentation.
+### Domain and Cross-Engine Integration
+Eleven domain packs live under `domains/`; multi-tenant, security, UI/UX, finance and research skills come from the companion engines named in `README.md`.
 
-### 📝 Token-Efficient
-500-line hard limit on all `.md` files ensures AI comprehension and low cost.
+### Token-Efficient
+Every `SKILL.md` stays at or below 500 lines (`docs/skill-authoring-standard.md`), with longer material moved to linked references.
 
 ---
 
@@ -286,7 +295,7 @@ Existing SRS-Skills users:
 
 **Backward compatible:** Legacy paths still work with deprecation notices.
 
-See `docs/MIGRATION_V2_TO_V3.md` for complete migration guide.
+See `docs/migration/skill-paths-2026-04-16.md` for the recorded path migration.
 
 ---
 
@@ -295,10 +304,10 @@ See `docs/MIGRATION_V2_TO_V3.md` for complete migration guide.
 | Task | Command | Output |
 |------|---------|--------|
 | **Select Methodology** | `00-meta-initialization` (engineering catalog engine) | `methodology.md`, `doc_roadmap.md` |
-| **Waterfall SRS** | `02-requirements-engineering/waterfall/01-initialize-srs` | IEEE 830 SRS |
+| **Waterfall SRS** | `02-requirements-engineering/waterfall/01-initialize-srs` | SRS in the IEEE 830 section layout |
 | **Agile User Stories** | `02-requirements-engineering/agile/01-user-story-generation` | User story backlog |
 | **High-Level Design** | `03-design-documentation/01-high-level-design` | HLD with C4 diagrams |
-| **Test Plans** | `05-testing-documentation/02-test-plans` | IEEE 829 test plans |
+| **Test Plans** | `05-testing-documentation/02-test-plan` | Test plans with cases, data and exit evidence |
 | **Traceability** | `09-governance-compliance/01-traceability-matrix` | RTM + audit report |
 
 ---
@@ -331,8 +340,6 @@ See `docs/MIGRATION_V2_TO_V3.md` for complete migration guide.
 
 ---
 
-**Built with precision. Powered by standards. Designed for portability.**
-
-**Version:** 3.3.0
-**Last Updated:** 2026-03-01
+**Release:** 1.1.0 (`.claude-plugin/plugin.json`); the validation kernel package is 0.1.0 (`pyproject.toml`).
+**Last Updated:** 2026-10-31
 **Maintained by:** Peter Bamuhigire
