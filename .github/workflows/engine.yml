@@ -24,6 +24,18 @@ jobs:
       - name: Routing and Tier-1 lint unit tests (M10-03)
         run: python -m pytest -q -o addopts="" tests/test_routing_smoke_owned_negatives.py tests/test_validate_skill_engine_tier1.py
       - run: python -m engine validate-skills
+      - name: Plugin manifests and package entry budget
+        run: python scripts/validate_plugin_packages.py
+      - name: Portability (no tracked per-user settings, no machine paths)
+        run: python scripts/check_portable_paths.py
+      - name: Dev-engine references (flat-layout names; category paths need a checkout, so NOT_ASSESSED here)
+        run: python scripts/check_cross_engine_refs.py
+      - name: Superseded-standard and WCAG ratchet
+        run: python scripts/check_standards_currency.py
+      - name: Source register review dates
+        run: python scripts/validate_source_register.py
+      - name: Traceability evidence fixture
+        run: python scripts/validate_traceability_evidence.py engine/tests/fixtures/traceability-evidence.json
       - name: Validate SDD phase-boundary contract
         run: python scripts/validate_sdd_phase_boundaries.py --feature-dir engine/tests/fixtures/sdd_feature
       - name: Validate SRS decision and debt contract

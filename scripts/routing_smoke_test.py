@@ -30,7 +30,14 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-from ruamel.yaml import YAML
+try:
+    from ruamel.yaml import YAML
+except ModuleNotFoundError:
+    sys.stderr.write(
+        "ERROR: the Python package 'ruamel.yaml' is not installed, so this check cannot run (NOT_ASSESSED).\n"
+        "Install the pinned dependencies: python -m pip install -c requirements-ci.txt -e \".[dev]\"\n"
+    )
+    raise SystemExit(2)
 
 
 ROOT = Path(__file__).resolve().parents[1]
