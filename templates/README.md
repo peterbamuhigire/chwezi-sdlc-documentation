@@ -17,7 +17,8 @@ used by Pandoc as the style reference for all generated `.docx` output.
 2. Save it as `templates/reference.docx` in this repository root
 
 3. `templates/reference.docx` is gitignored — each consultant uses their own
-   branded template. A generic fallback is used if the file is absent.
+   branded template. When the file is absent, `scripts/build-doc.sh` generates a
+   temporary default style template, which needs the `docs` extra (`python-docx`).
 
 ### Gitignore Note
 
