@@ -6,11 +6,28 @@ The engine follows ISO/IEC/IEEE 29148:2018 for requirements, keeping the IEEE St
 
 ## Installation
 
+The GitHub repository is `chwezi-sdlc-documentation`. A checkout made before the rename may still sit in a folder named `srs-skills`. The scripted installer names the installed copy after the checkout folder, so clone into `chwezi-sdlc-documentation`.
+
 Prerequisites:
 
-- Git, and Python 3.11 or later for the validation kernel (`pyproject.toml`).
-- Node.js 18 or later for the scripted installers (`install.sh`, `install.ps1`).
-- For `.docx` builds: install the `docs` extra for the temporary Word style template and install Pandoc. Diagram builds also require a local Chrome or Edge for the pinned Mermaid renderer (`npm ci` with `PUPPETEER_SKIP_DOWNLOAD=1`). A checked-in or ignored `templates/reference.docx` is optional.
+- Git, and Python 3.11 or later for the validation kernel (`pyproject.toml`). The kernel was last run on Python 3.14.8.
+- The pinned Python packages, installed in a virtual environment: `python3 -m pip install -c requirements-ci.txt -e ".[dev,docs]"`. They are `click`, `ruamel.yaml`, `mistune`, `jsonschema`, `pytest`, `pytest-cov` and `python-docx`, at the versions in `requirements-ci.txt`. `scripts/validate_decision_frontier.py` and `tests/agent-integration/test_srs_agent_contract.py` also import `yaml` (`pyyaml`), which that file does not list; install it before running them.
+- Node.js 18 or later for the scripted installers (`install.sh`, `install.ps1`) and for the hook and Plan Canvas tests.
+- For `.docx` builds: Pandoc, and the `docs` extra for the temporary Word style template. Diagram builds also require a local Chrome or Edge for the pinned Mermaid renderer (`npm ci` in `scripts/diagram-render` with `PUPPETEER_SKIP_DOWNLOAD=1`, and `PUPPETEER_EXECUTABLE_PATH` pointing at the browser). A checked-in or ignored `templates/reference.docx` is optional.
+
+Which checks need which tool:
+
+| Needs | Commands |
+|---|---|
+| Python 3 and Git only (no third-party package) | `scripts/validate_engine.py`, `scripts/validate_plugin_packages.py`, `scripts/check_portable_paths.py`, `scripts/check_cross_engine_refs.py`, `scripts/check_standards_currency.py`, `scripts/validate_source_register.py`, `scripts/validate_sdd_phase_boundaries.py`, `scripts/validate_requirements_decision.py`, `scripts/source_ingestion_guardrail.py` |
+| The pinned packages | `scripts/validate_skill_engine.py` and `scripts/routing_smoke_test.py` (both exit 2 with an install message when `ruamel.yaml` is missing), `scripts/validate_traceability_evidence.py` (`jsonschema`), `scripts/validate_source_reconciliation.py`, every `python3 -m engine` command (`ModuleNotFoundError` when `ruamel.yaml` is missing) and `python3 -m pytest` |
+| Node.js 18 or later | `install.sh`, `node hooks/test-destructive-bash-gate.js`, `node hooks/test-plugin-hook-config.js` and the Plan Canvas tests |
+| Pandoc | `scripts/build-doc.sh` (exits 1 with "Pandoc is required" when it is missing) and the `.docx` tests, which pytest skips without it |
+| Node.js, `npm ci` in `scripts/diagram-render` and a local Chrome or Edge | Mermaid figure rendering inside `scripts/build-doc.sh` |
+| PowerShell | `install.ps1`, `scripts/setup-srs-project.ps1` and the `export-docs.ps1` that `new-project` writes into each workspace. No registered check needs it |
+| LibreOffice or a container | Nothing in this repository requires either |
+
+Companion engines are resolved through the engine-routing table of the active runner, never through a fixed path. Engineering skills live in `chwezi-dev-engine` (earlier local folder `skills-web-dev`), design and typography in `chwezi-design-engine` (`design-system-skills`), research and currentness in `digital-research-skills` (`chwezi-research-engine`) and finance in `chwezi-accounting-doctrine`. To let `scripts/check_cross_engine_refs.py` resolve category paths, pass `--dev-engine-root <checkout>` or set `CHWEZI_DEV_ENGINE_ROOT`.
 
 **Claude Code plugin.** The repository ships a marketplace manifest (`.claude-plugin/marketplace.json`, marketplace `chwezi-sdlc-documentation`, plugin `sdlc-documentation`):
 
@@ -27,7 +44,7 @@ codex plugin marketplace add .
 
 The repo catalogue is `.agents/plugins/marketplace.json`; it points to this
 checkout and reuses the Claude-compatible skill manifest. Run
-`python -X utf8 scripts/validate_plugin_packages.py` to check the local
+`python3 -X utf8 scripts/validate_plugin_packages.py` to check the local
 catalogue, manifest-to-skill parity and package-oriented file count. The check
 also reports the full checkout count. It fails if either count is above the
 OpenAI ZIP submission ceiling of 5,000 entries, but it does not build
@@ -38,34 +55,43 @@ the installed skills exceed its default context budget. The optional
 `skills.max_context_tokens=10000` setting raises the initial-list budget; it
 does not load every full skill body. To verify a local runtime, capture only a
 sanitised summary of `codex debug prompt-input` and run
-`scripts/check_codex_discovery_summary.py` against it. Do not commit the raw
+`python3 scripts/check_codex_discovery_summary.py --expected-paths 159 <summary.json>`
+against it. The summary is a JSON object with `manifest_paths`, `runtime_paths`,
+`missing` (an empty list), `network` set to `none`, `model_calls` set to `0` and a
+`method` string that contains "offline"; the check exits 1 otherwise. Do not commit the raw
 prompt-input dump because it can contain internal instructions. The 10,000-token
 budget produced all 159 paths in the offline Codex 0.165.0 check on 2026-10-29;
 the default run exposed 108. These are path-discovery counts, not evidence of
 correct skill selection or task quality. See
 [`docs/kaizen/2026-10-engine-kaizen/04-validation-record.md`](docs/kaizen/2026-10-engine-kaizen/04-validation-record.md).
 
-**Scripted install.** The installers delegate to `scripts/install-engine.js`. User scope (`~/.claude`) is the default, `--scope project` installs into `.claude` under the current directory, and `--dry-run` prints the plan without writing anything:
+**Scripted install.** The installers delegate to `scripts/install-engine.js`. User scope (`~/.claude`) is the default, `--scope project` installs into `.claude` under the current directory, and `--dry-run` prints the plan without writing anything. The scripts are tracked without the executable bit, so run them through `bash`; `./install.sh` fails with `Permission denied` on Linux. The installer also takes `uninstall`, `list-installed` and `doctor` (`node scripts/install-engine.js <command>`).
 
 ```sh
 git clone https://github.com/peterbamuhigire/chwezi-sdlc-documentation
 cd chwezi-sdlc-documentation
-./install.sh --scope project       # macOS, Linux or Git Bash
-.\install.ps1 --scope project      # Windows PowerShell
+bash install.sh --scope project --dry-run   # macOS, Linux or Git Bash; drop --dry-run to install
+.\install.ps1 --scope project               # Windows PowerShell
 ```
 
-**Codex.** Codex reads `AGENTS.md` as the router. The Codex-only model policy check lives in `.codex/`. Run `python <engine-root>/.codex/ensure_model_policy.py --runtime codex --check`, and run `--apply` only when the check reports drift. Claude skips this step.
+**Codex.** Codex reads `AGENTS.md` as the router. The Codex-only model policy check lives in `.codex/`. Run `python3 <engine-root>/.codex/ensure_model_policy.py --runtime codex --check`, and run `--apply` only when the check reports drift. The check exits 1 with `DRIFT: Codex config.toml is missing` when no Codex configuration exists. Claude skips this step.
 
 **Manual route.** Clone the repository, read `CLAUDE.md`, which is a thin bridge to `AGENTS.md`, then open the `SKILL.md` for the phase and task in hand. To start a project workspace and validate it:
 
 ```sh
-pip install -e ".[dev,docs]"
-python -m engine doctor
-python -m engine new-project Acme --methodology waterfall --domain healthcare
-python -m engine validate projects/Acme
+python3 -m pip install -c requirements-ci.txt -e ".[dev,docs]"
+python3 -m engine doctor
+python3 -m engine new-project Acme --methodology waterfall --domain healthcare
+python3 -m engine validate projects/Acme
 ```
 
-`--methodology` accepts `waterfall`, `agile` or `hybrid`. `--example uganda-public-sector` copies the shipped example from `templates/project-examples/`.
+`--methodology` accepts `waterfall`, `agile` or `hybrid`. `--example uganda-public-sector` copies the shipped example from `templates/project-examples/`. That example supplies only context and registries, not phase documents.
+
+What these commands print on a clean checkout:
+
+- `doctor` reports `[FAIL] Skills submodule` because it looks for a `skills/` directory in the current folder. That check applies to a project repository that vendors this engine as `skills/` (see [`SETUP_GUIDE.md`](SETUP_GUIDE.md)); it does not apply when you run `doctor` inside the engine checkout. It also reports `[FAIL] Pandoc available` when Pandoc is not on `PATH`. It exits 1 in both cases.
+- `validate` on a freshly scaffolded workspace exits 1. A new `healthcare` workspace and a new `uganda-public-sector` workspace each return 22 blocking findings, because the Phase 03 to Phase 09 documents do not exist yet. Exit 0 needs the full document set. To see a passing run, use the seeded demo: `python3 scripts/seed_demo_project.py`, then `python3 -m engine validate projects/_demo-hybrid-regulated` (exit 0).
+- When `pip install -e` has not been run, put the checkout first on the import path with `PYTHONPATH=.`. A non-editable copy of `engine` elsewhere in the environment would otherwise be the one that runs.
 
 [`SETUP_GUIDE.md`](SETUP_GUIDE.md) covers provisioning a separate project repository.
 
@@ -252,16 +278,71 @@ Generated from the `SKILL.md` frontmatter on disk. Skill paths are relative to t
 
 Each project lives in its own workspace at `projects/<ProjectName>/`. Canonical inputs go in `_context/`, identifiers, baselines, waivers and sign-offs go in `_registry/`, and each phase has its own output folder.
 
-- `python -m engine validate projects/<ProjectName>` runs the phase gates for phases 01 to 09 and the hybrid gate. Every check ID maps to a standard and clause in [`docs/standards-clause-registry.md`](docs/standards-clause-registry.md).
-- Before Phase 02, copy `references/source-reconciliation-template.yaml` to `projects/<ProjectName>/_registry/source-reconciliation.yaml`, map each material source statement to a requirement or explicit ambiguity, and run `python scripts/validate_source_reconciliation.py projects/<ProjectName>`. The phase gate reports unresolved ambiguities as blockers; the check validates the register's links and decisions, not semantic completeness of the source review.
-- For a traceability evidence summary, use `references/traceability-evidence.schema.json` and run `python scripts/validate_traceability_evidence.py <report.json>`. Goal/design/test links, oracle readiness, owner decisions and executed results are reported separately.
-- `python -m engine sync`, `baseline snapshot|diff`, `waive`, `signoff` and `pack` maintain the identifier registry, baselines, time-bound waivers and the sign-off ledger, and assemble an evidence-pack ZIP.
-- `python -m engine diagrams validate|generate|manifest|verify-manifest` checks typed diagram IR (`engine/registry/schemas/diagram-ir.schema.json`) against the requirement registry. It then generates Mermaid from the IR and records figure hashes.
-- `scripts/build-doc.sh <doc-dir> <output-name>` renders every Mermaid block to a captioned PNG/SVG figure with alt text and a render manifest. It then builds the `.docx` with Pandoc, generating a temporary reference template when `templates/reference.docx` is absent, and refuses a document that still contains raw Mermaid.
+- `python3 -m engine validate projects/<ProjectName>` runs the phase gates for phases 01 to 09 and the hybrid gate. Every check ID maps to a standard and clause in [`docs/standards-clause-registry.md`](docs/standards-clause-registry.md).
+- Before Phase 02, copy `02-requirements-engineering/fundamentals/during/04-requirements-analysis/references/source-reconciliation-template.yaml` to `projects/<ProjectName>/_registry/source-reconciliation.yaml`, map each material source statement to a requirement or explicit ambiguity, and run `python3 scripts/validate_source_reconciliation.py projects/<ProjectName>`. The script exits 1 when the register is missing or lists no source statement. The Phase 02 gate in `engine validate` reports unresolved ambiguities as blockers, but a project with no register at all passes that check; whether to require the register is an open owner decision. The check validates the register's links and decisions, not semantic completeness of the source review.
+- For a traceability evidence summary, use `references/traceability-evidence.schema.json` and run `python3 scripts/validate_traceability_evidence.py <report.json>`. Goal/design/test links, oracle readiness, owner decisions and executed results are reported separately.
+- `python3 -m engine sync`, `baseline snapshot|diff`, `waive`, `signoff` and `pack` maintain the identifier registry, baselines, time-bound waivers and the sign-off ledger, and assemble an evidence-pack ZIP.
+- `python3 -m engine diagrams validate|generate|manifest|verify-manifest` checks typed diagram IR (`engine/registry/schemas/diagram-ir.schema.json`) against the requirement registry. It then generates Mermaid from the IR and records figure hashes.
+- `bash scripts/build-doc.sh <doc-dir> <output-name>` renders every Mermaid block to a captioned PNG/SVG figure with alt text and a render manifest. It then builds the `.docx` with Pandoc, generating a temporary reference template when `templates/reference.docx` is absent, and refuses a document that still contains raw Mermaid.
 - [`docs/hybrid-operating-model.md`](docs/hybrid-operating-model.md) defines the Water-Scrum-Fall contract for projects that baseline requirements formally and deliver in increments.
 - [`docs/regulated-evidence-model.md`](docs/regulated-evidence-model.md) defines the minimum evidence chain, from regulation to audit record, for regulated delivery.
 
-Repository checks: `python -X utf8 scripts/validate_engine.py` (engine contract), `python -m engine validate-skills` (legacy paths) and `python -m pytest` (kernel tests, 90 per cent coverage floor).
+## Validation
+
+Run these from the repository root. The results were measured on 31 October 2026 on Python 3.14.8 and Node.js 22, with the packages at the versions in `requirements-ci.txt` except `python-docx`, which was absent. Pandoc, the Mermaid renderer, a browser and PowerShell were also absent. `.github/workflows/engine.yml` runs most of the same commands on Python 3.11 and does not run the Node.js tests. Inside an activated virtual environment `python` and `python3` are the same interpreter.
+
+| Command | Result on 2026-10-31 |
+|---|---|
+| `python3 -m pytest` | Runs `engine/tests`: 535 passed, 5 skipped, coverage 96.19% against a 90% floor. Four skips need Pandoc, a renderer or a browser; the fifth, in `engine/tests/test_examples_validate.py`, collects no example because it looks in a folder this repository does not contain. |
+| `python3 -m pytest tests -o addopts=` | 33 passed. CI runs 19 of them (the routing and Tier-1 lint tests). |
+| `python3 -X utf8 scripts/validate_engine.py` | `ENGINE CONTRACT: PASS`. |
+| `python3 -X utf8 scripts/validate_skill_engine.py --baseline tests/skill-quality-baseline.json` | 159 active skills, 1 template, no failures; 5 report-only size warnings. |
+| `python3 -X utf8 scripts/routing_smoke_test.py --min-rank1 83 --lint-fixtures --min-covered 8` | 72 of 72 fixtures in the top three; precision@1 64 of 72 (88.9%); 25 owned negatives, 22 pass and 3 `NOT_ASSESSED` (their owners are in other engines); 8 of 159 skills meet the route-coverage target; fixture lint 0 findings. This is a lexical proxy, not live routing. |
+| `python3 -m engine validate-skills` | `SKILLS OK`. |
+| `python3 -X utf8 scripts/validate_plugin_packages.py` | 159 active skill paths, `errors: 0`, both file counts under the 5,000 limit. |
+| `python3 scripts/check_portable_paths.py` | PASS, 0 findings. |
+| `python3 scripts/check_cross_engine_refs.py` | PASS. Category and URL paths are `NOT_ASSESSED` without a dev-engine checkout; with `--dev-engine-root <checkout>` they resolve and the check passes. |
+| `python3 scripts/check_standards_currency.py` | PASS: no stale-citation count above its ceiling. |
+| `python3 scripts/validate_source_register.py` | PASS: 18 effective records from 2 registers. Date-driven; see the calendar below. |
+| `python3 scripts/validate_traceability_evidence.py engine/tests/fixtures/traceability-evidence.json` | Prints the evidence counts and exits 0. |
+| `python3 scripts/validate_sdd_phase_boundaries.py --feature-dir engine/tests/fixtures/sdd_feature` | PASS, no boundary findings. |
+| `python3 scripts/validate_requirements_decision.py engine/tests/fixtures/requirements_decision/reuse.json` | `"status": "PASS"`. |
+| `python3 -X utf8 scripts/source_ingestion_guardrail.py` | `findings: 0`. |
+| `python3 scripts/seed_demo_project.py`, then `python3 -m engine validate projects/_demo-hybrid-regulated` | Exit 0. Adding the hidden flag `--break-something` makes the same command exit 1, which CI uses to show the gate can fail. |
+| `node hooks/test-destructive-bash-gate.js`, `node hooks/test-plugin-hook-config.js` | 61 of 61 and 7 of 7 passed. |
+| `node tests/plan-canvas/markdown.test.js` and the five other files under `tests/plan-canvas`, `tests/hooks` and `tests/scripts` | Plain Node.js scripts: run each with `node <file>`, not `node --test`. 64, 16, 28, 9, 7 and 4 checks pass. |
+
+Not run on that host, so `NOT_ASSESSED`: `bash scripts/build-doc.sh` (Pandoc absent, so it exits 1 with `ERROR: Pandoc is required`), Mermaid figure rendering, the four pytest skips above, `install.ps1` and `scripts/setup-srs-project.ps1` (no PowerShell), and `pip install -e` itself (the environment already held the packages).
+
+## Quality and improvement
+
+The evidence for the October 2026 kaizen cycles is in the repository. [`docs/kaizen/2026-10-engine-kaizen/`](docs/kaizen/2026-10-engine-kaizen/) holds the 29 October cycle and [`docs/kaizen/2026-10-engine-kaizen-pass-2/`](docs/kaizen/2026-10-engine-kaizen-pass-2/) holds the 31 October cycle (pass 2). Each has a scope record, baseline scorecard, backlog, experiment log, validation record, final report, next-cycle notes and a dated source register. Start with `05-final-report.md` and `06-next-cycle.md`. [`docs/README.md`](docs/README.md) indexes the older audits.
+
+**Latest published score:** 55.68 out of 100 raw and 55.68 out of 100 after the portfolio cap of 65, from the pass 2 final report (31 October 2026). The 29 October cycle ended at 53.98. The pass 2 report also states a stricter initial cap of 45, under which the reported value is 45. The score is an unweighted mean of ten reviewer-judged dimensions. It is not a customer outcome and has had no independent acceptance review. The 95 target is not reached.
+
+Open findings that matter when you use the engine:
+
+- A project with no `_registry/source-reconciliation.yaml` still passes the Phase 02 source check, so source-conflict blocking applies only to projects that keep the register.
+- Gate clause labels still cite IEEE Std 830-1998 (163 live lines), ISO/IEC/IEEE 42010:2011 (13) and ISO/IEC/IEEE 29119-3:2013 (11), which their issuers list as superseded or withdrawn. The router treats IEEE 830 as an SRS layout reference only. `scripts/check_standards_currency.py` stops these counts rising; it does not remap clauses.
+- Phase 09 does not trace NFR, IR, DR and CON identifiers, and it does not block two definitions of the same identifier.
+- Applied proof is thin: 4 of 159 skills have an `examples/` folder, and 44 of the 81 skills with a worked-example section share one of 12 identical paragraphs.
+- Routing evidence is lexical. The phrase "software requirements specification" still ranks the game SRS skill first in the proxy, and pass 2 recorded a second near miss for a school-fees prompt. No live-model routing run has been made.
+- The education pack is a United States baseline with no school-fees module, and 16 domain-pack lines still name WCAG 2.1 pending a jurisdiction decision.
+- The `.docx` build and Mermaid rendering were not assessed on the Linux workstation.
+- The per-user settings file `.claude/settings.local.json` is untracked and ignored, but earlier commits on the public history still contain it. Removing it needs a history rewrite, which is a decision for the maintainer.
+
+**Date-triggered gates.** `scripts/validate_source_register.py` fails when a source record has no review date or its review date has passed. Run with `--today YYYY-MM-DD`, it exits as follows:
+
+| Run date | Exit | Findings and the review dates behind them |
+|---|---:|---|
+| Up to 2026-11-29 | 0 | None. Due-soon notes, which do not fail, start 14 days before a review date, so from 2026-11-15. |
+| 2026-11-30 | 1 | 3: OpenAI plugin schema, OpenAI archive limit and Claude marketplace (review 2026-11-29). |
+| 2026-12-01 | 1 | 4: adds the Codex skill-list budget (review 2026-11-30). |
+| 2027-01-30 | 1 | 8: adds ISO/IEC 25010, Uganda regulations, model catalogue and dev-engine references (review 2027-01-29). |
+| 2027-02-01 | 1 | 14: adds ISO/IEC/IEEE 29148, Uganda DPPA, WCAG, Pandoc, Mermaid CLI and dev-engine aliases (review 2027-01-31). |
+| 2027-10-30 | 1 | 17: adds ISO/IEC/IEEE 42010, ISO/IEC/IEEE 29119-3 and ISO/IEC/IEEE 26514 (review 2027-10-29). |
+
+To clear a finding, re-verify the claim against its primary source and record it in a newer `docs/kaizen/<cycle>/standards-source-register.md`; a newer record supersedes an older one for the same claim identifier. The pass 2 notes propose the next re-audit for 2026-11-30.
 
 ## References
 
