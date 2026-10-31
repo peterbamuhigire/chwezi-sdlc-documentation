@@ -32,6 +32,15 @@ copy with the pinned packages).
   improvement". It gives the scores, a before-and-after table in which each figure is labelled
   re-measured or copied, and the 15 kept changes of the 29 October and pass 2 cycles with their commits.
   Documents only; the counts marked re-measured were taken again on 2026-10-31.
+- README restructured (`84bd602`, `4488804`): a front door (purpose, audience, six measured facts, three
+  start-here steps), a contents list, a twelve-row task-to-skill table, fourteen H2 sections instead of six,
+  shorter sentences and no paragraph over 51 words (`words` 8,995 to 5,663; longest section 2,951 to 1,445
+  words; lines over 300 characters 44 to 5). The 159-row skill list moved to `docs/skill-catalogue.md` and the
+  book, repository and website citations to `docs/references.md`; the full text of the kept-change entries is
+  in `docs/kaizen/2026-10-readme-kaizen/kept-changes-detail.md`. The phase table, the standards list and every
+  heading that other documents cite by name stay in the README. `AGENTS.md` and `skill_overview.md` now point
+  at the catalogue page. The record is `docs/kaizen/2026-10-readme-kaizen/readme-kaizen-record.md`; it
+  publishes no score.
 
 ## [2026-10-31] - Kaizen pass 2: portability, references, gate accuracy and currency guards
 

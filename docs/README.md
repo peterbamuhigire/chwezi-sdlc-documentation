@@ -1,6 +1,6 @@
 # Documentation index
 
-This page indexes `docs/` for Chwezi SDLC Documentation. The root [`README.md`](../README.md) is the entry point and [`AGENTS.md`](../AGENTS.md) is the router for agents. Dated records keep the names and paths they were written with, including the former repository name `srs-skills`; do not rewrite them.
+This page indexes `docs/` for Chwezi SDLC Documentation. The root [`README.md`](../README.md) is the entry point (purpose, start-here steps, task-to-skill table, install, validation, standards and kaizen summary) and [`AGENTS.md`](../AGENTS.md) is the router for agents. Dated records keep the names and paths they were written with, including the former repository name `srs-skills`; do not rewrite them.
 
 ## Contracts and gates
 
@@ -16,16 +16,19 @@ This page indexes `docs/` for Chwezi SDLC Documentation. The root [`README.md`](
 | [`agent-runtime-safety.md`](agent-runtime-safety.md), [`approval-enforcement.md`](approval-enforcement.md), [`approval-adapter.json`](approval-adapter.json), [`control-plane-adoption.md`](control-plane-adoption.md) | The agent safety, approval and control-plane contracts. |
 | [`ai-prompting/domain-prompt-compilation-contract.md`](ai-prompting/domain-prompt-compilation-contract.md) | The contract for prompt handoffs. |
 | [`API.md`](API.md), [`DATABASE.md`](DATABASE.md) | Statements that the engine ships no runtime API and no database. |
+| [`skill-catalogue.md`](skill-catalogue.md) | All 159 active skills by phase, one line each, with a link to each `SKILL.md`. Moved out of the root README on 2026-10-31. |
+| [`references.md`](references.md) | The books, repositories, websites and articles the repository cites. Standards and official sources stay in the root README, where the standards-currency check counts them. |
 | [`CHANGELOG.md`](CHANGELOG.md) | Dated changes, newest first. |
 
 ## Quality and improvement records
 
-The root README summarises the kept changes of both October cycles, with commits and before-and-after figures, under "What the October 2026 kaizen improved". The records below hold the evidence.
+The root README summarises the kept changes of both October cycles, with commits and before-and-after figures, under "What the October 2026 kaizen improved". [`kaizen/2026-10-readme-kaizen/kept-changes-detail.md`](kaizen/2026-10-readme-kaizen/kept-changes-detail.md) holds the full text of each entry. The records below hold the evidence.
 
 | Location | Contents |
 |---|---|
 | [`kaizen/2026-10-engine-kaizen/`](kaizen/2026-10-engine-kaizen/) | The 29 October 2026 cycle: scope, baseline scorecard, backlog, experiment log, validation record, final report, next-cycle notes and a dated source register. |
 | [`kaizen/2026-10-engine-kaizen-pass-2/`](kaizen/2026-10-engine-kaizen-pass-2/) | The 31 October 2026 cycle (pass 2), with the same eight files plus [`07-docs-followups.md`](kaizen/2026-10-engine-kaizen-pass-2/07-docs-followups.md) from the documentation wave. Start with `05-final-report.md` and `06-next-cycle.md`. |
+| [`kaizen/2026-10-readme-kaizen/`](kaizen/2026-10-readme-kaizen/) | The 31 October 2026 README kaizen: baseline and final readability metrics, what moved where, the checks run, and the full text of the kept-change entries. A scoped cycle; it publishes no score. |
 | [`audits/`](audits/) | The September 2026 audits, including the [29 September re-audit](audits/2026-09-29-m10-reaudit/README.md) (published 54.6 out of 100). |
 | [`continuous-improvement/`](continuous-improvement/) | Earlier kaizen waves and records, including the [book-extraction retirement](continuous-improvement/book-extraction-retirement-2026-09-24.md). |
 | [`updates/`](updates/) | Three dated engine updates. |
