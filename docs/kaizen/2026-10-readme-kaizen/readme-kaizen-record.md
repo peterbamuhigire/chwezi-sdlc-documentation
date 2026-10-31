@@ -62,17 +62,15 @@ R8 grep evidence. No script, test, manifest or workflow reads the README skill r
 
 ### Preservation
 
-`python3 -I readme-preserve-check.py <repo> main kaizen/2026-10-readme-kaizen`, run after the last README edit (`4488804`):
+`python3 -I readme-preserve-check.py <repo> main kaizen/2026-10-readme-kaizen`, run after the last README edit (`4488804`) and again at the final tip. Results, abbreviated:
 
-```text
-links: old README 66 targets; new README 34; moved to docs 39; LOST 0
-commands: old README 49; kept in README 49; moved to docs 0; LOST 0
-anchors: 1 README.md#anchor links in tracked files; BROKEN 0
-in-page links: 16 anchors used; BROKEN 0
-RESULT: OK
-```
+- Links: old README 66 targets, new README 34, moved to docs 39, LOST 0.
+- Commands: old README 49, kept in README 49, moved to docs 0, LOST 0.
+- Anchors: 1 anchor link into the README from tracked files, BROKEN 0.
+- In-page links: 16 anchors used, BROKEN 0.
+- Result: OK (exit 0).
 
-No deliberate replacement was flagged. The one `README.md#anchor` link in tracked files is `docs/references.md` pointing back at the standards heading. The commit-hash checker reports 36 cited hashes, all commits and ancestors of the branch (problems: 0).
+No deliberate replacement was flagged. The one anchor link into the README from tracked files is in `docs/references.md`, which points back at the standards heading. The commit-hash checker reports 36 cited hashes, all commits and ancestors of the branch (problems: 0).
 
 ### Metrics
 
@@ -116,6 +114,8 @@ Run in throwaway clones outside the repository, with the pinned-package virtual 
 | `node hooks/test-destructive-bash-gate.js` | 0 | 0 |
 | `node hooks/test-plugin-hook-config.js` | 0 | 0 |
 | `python3 -m pytest -o addopts= tests` (33 passed) and the six Plan Canvas Node.js files | 0 | 0 |
+
+Re-run at `b5a5c13` (the tip with the docs index, the changelog line and the first version of this record): the same 20 commands returned the same exit codes, and pytest again reported 535 passed, 5 skipped and 96.19% coverage. The commit after it edits only this record.
 
 Standards-citation ratchet: the lines in the README that match the counted patterns are unchanged (IEEE 830: 3, 42010 2011: 1, 29119-3 2013: 1), and `scripts/check_standards_currency.py` exits 0.
 
