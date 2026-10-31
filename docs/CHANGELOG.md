@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2026-10-31] - Documentation aligned with the repository after pass 2
+
+Documents only; no skill body, code, test or workflow was edited, and the only change to an existing
+changelog entry is a commit list appended to the pass 2 entry below. Every count and
+result below was measured on 2026-10-31 (`find` for skills; each validator's own output; `pytest` in a scratch
+copy with the pinned packages).
+
+- README (`ce95e9c`, ratchet fix `5676552`): install steps use `python3` and `bash install.sh` (no script is tracked with the
+  executable bit); a table of which check needs which tool; a "Validation" section with each result
+  (`pytest` 535 passed, 5 skipped, 96.19% coverage; 33 more tests under `tests/`; hook tests 61 and 7;
+  Plan Canvas 128 checks); a corrected source-reconciliation template path; a "Quality and improvement"
+  section with the latest score (55.68 raw and capped), the open findings and the source-register
+  calendar (first failure 2026-11-30).
+- AGENTS.md (`8cf62b2`): removed the claim that skills sit under `skills/<name>`, corrected where
+  `00-meta-initialization` lives, added the pinned-environment and date-gate notes. The portfolio-managed
+  router sentences were not touched; the shared renderer proposed no change and a second run was identical.
+- DEPENDENCIES.md (`676dd48`), SETUP_GUIDE.md (`f1c17d6`), CONTRIBUTING.md (`908c6c3`): rewritten from the
+  measured dependency set, the scripts' real location and the CI step list; skill names in the setup guide
+  now resolve in the dev, design and accounting engines; the shipped example is stated to validate with
+  22 findings.
+- ARCHITECTURE.md, TECH_STACK.md, `docs/API.md`, `docs/DATABASE.md`, `docs/pathing-model.md` (`4946c88`),
+  PROJECT_BRIEF.md (`44a3eb3`), `.github/copilot-instructions.md` (`29591d9`), `skill_overview.md` and
+  `templates/README.md` (`21a2382`): stale layout statements corrected (159 active skills, nine numbered
+  phases, no `skills/` directory).
+- New `docs/README.md` index and `docs/kaizen/2026-10-engine-kaizen-pass-2/07-docs-followups.md`
+  (`41615b2`), which records 13 findings for owners.
+
 ## [2026-10-31] - Kaizen pass 2: portability, references, gate accuracy and currency guards
 
 - Untracked a developer's local permission file that had been committed to this public repository
@@ -23,6 +50,8 @@ All notable changes to this project will be documented in this file. This projec
 - `scripts/validate_source_register.py` fails on a source record with no review date or a passed one;
   `docs/kaizen/2026-10-engine-kaizen-pass-2/` holds the evidence and the re-verified register.
 - Catalogue validators exit 2 with an install hint when `ruamel.yaml` is missing; CI runs the new checks.
+- Commits: K2-01 `de1efdf`, K2-02 `2ccbf36`, K2-03 `b8f17be`, K2-04 `08dae96`, K2-05 `17c2179`, K2-06 `87fa205`,
+  K2-07 `4a48a5c`, K2-08 `e2e80e1`; router release gate and changelog `f15543f`; evidence `37cc1af`, `d65b2e9`.
 
 ## [2026-10-29] - Marketplace, discovery and document-build reliability
 
