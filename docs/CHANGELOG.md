@@ -30,7 +30,7 @@ copy with the pinned packages).
   (`41615b2`), which records 13 findings for owners.
 - README (`9029bd6`): a new subsection, "What the October 2026 kaizen improved", under "Quality and
   improvement". It gives the scores, a before-and-after table in which each figure is labelled
-  re-measured or copied, and the 16 kept changes of the 29 October and pass 2 cycles with their commits.
+  re-measured or copied, and the 15 kept changes of the 29 October and pass 2 cycles with their commits.
   Documents only; the counts marked re-measured were taken again on 2026-10-31.
 
 ## [2026-10-31] - Kaizen pass 2: portability, references, gate accuracy and currency guards
