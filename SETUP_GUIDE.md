@@ -1,4 +1,4 @@
-# SDLC-Docs-Engine: New Project Setup Guide
+# Chwezi SDLC Documentation: New Project Setup Guide
 
 ## Prerequisites
 
@@ -7,11 +7,16 @@
 | Git | [git-scm.com](https://git-scm.com/download/win) | `sudo apt install git` / `brew install git` |
 | GitHub CLI (optional) | [cli.github.com](https://cli.github.com/) | `sudo apt install gh` / `brew install gh` |
 | Claude Code | [claude.ai/claude-code](https://claude.ai/claude-code) | Same |
+| Python 3.11 or later, and the pinned packages | Install from python.org, then `python3 -m pip install -c requirements-ci.txt -e ".[dev,docs]"` | Your package manager, then the same `pip` command in a virtual environment |
+| Node.js 18 or later (installer and hook tests) | [nodejs.org](https://nodejs.org/) | Your package manager |
+| Pandoc (only for `.docx` output) | [pandoc.org/installing](https://pandoc.org/installing.html) | Your package manager |
+
+[`DEPENDENCIES.md`](DEPENDENCIES.md) lists every package, pin and optional tool.
 
 ## Quick Start (Junior Operator Path)
 
 If you only need to stand up a new project workspace from a shipped
-example and validate it, run these five commands:
+example and run the validation gates, run these commands:
 
 ```bash
 git clone https://github.com/peterbamuhigire/chwezi-sdlc-documentation.git
@@ -20,11 +25,20 @@ cd chwezi-sdlc-documentation
 #   https://github.com/peterbamuhigire/chwezi-dev-engine
 # Resolve finance/accounting doctrine through the Chwezi Accounting Doctrine:
 #   https://github.com/peterbamuhigire/chwezi-accounting-doctrine
-pip install -e ".[dev]"
-python -m engine doctor
-python -m engine new-project Acme --methodology waterfall --domain government --example uganda-public-sector
-python -m engine validate projects/Acme
+python3 -m pip install -c requirements-ci.txt -e ".[dev,docs]"
+python3 -m engine doctor
+python3 -m engine new-project Acme --methodology waterfall --domain government --example uganda-public-sector
+python3 -m engine validate projects/Acme
 ```
+
+Expect two things on a clean checkout. `doctor` reports `[FAIL] Skills submodule`,
+because that check looks for a `skills/` folder and applies to a project
+repository that vendors this engine (Step 2 below), and it reports
+`[FAIL] Pandoc available` when Pandoc is absent. The shipped example supplies
+context and registries only, so `validate` exits 1 with 22 findings until the
+Phase 03 to Phase 09 documents exist. To see a workspace that passes, run
+`python3 scripts/seed_demo_project.py` and then
+`python3 -m engine validate projects/_demo-hybrid-regulated`.
 
 The remaining sections below cover the full provisioning flow when you
 also need to create an empty GitHub repo, run the setup script, and
@@ -44,6 +58,9 @@ gh repo create my-srs-project --public --clone=false
 
 ## Step 2: Run the Setup Script
 
+Both scripts live in `scripts/` of this repository. Run them from a checkout of
+this engine; the first argument is the empty repository you created in Step 1.
+
 ### Windows (PowerShell)
 
 ```powershell
@@ -51,24 +68,25 @@ gh repo create my-srs-project --public --clone=false
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 
 # Run the setup script:
-.\setup-srs-project.ps1 -RepoUrl "https://github.com/user/my-project.git"
+.\scripts\setup-srs-project.ps1 -RepoUrl "https://github.com/user/my-project.git"
 
 # Or specify a target directory:
-.\setup-srs-project.ps1 -RepoUrl "https://github.com/user/my-project.git" -TargetDir "C:\projects\my-project"
+.\scripts\setup-srs-project.ps1 -RepoUrl "https://github.com/user/my-project.git" -TargetDir "..\my-project"
 ```
 
-### Ubuntu / macOS / WSL
+### Linux / macOS / WSL
 
 ```bash
-# Make executable (one-time):
-chmod +x setup-srs-project.sh
-
-# Run the setup script:
-./setup-srs-project.sh https://github.com/user/my-project.git
+# Run the setup script through bash (the repository does not track the executable bit):
+bash scripts/setup-srs-project.sh https://github.com/user/my-project.git
 
 # Or specify a target directory:
-./setup-srs-project.sh https://github.com/user/my-project.git ~/projects/my-project
+bash scripts/setup-srs-project.sh https://github.com/user/my-project.git ~/projects/my-project
 ```
+
+Neither setup script was run while this guide was last checked (it needs a
+GitHub repository to clone), so the steps below describe what the scripts do,
+read from their source.
 
 ### What the Script Does
 
@@ -81,19 +99,22 @@ chmod +x setup-srs-project.sh
    - `glossary.md` - IEEE 610.12 terminology
 5. Creates `output/` directory for generated documentation
 6. Sets up `.gitignore`
-7. Creates an initial commit and optionally pushes
+7. Creates `export/` and the `export-docs.sh` and `export-docs.ps1` delivery scripts
+8. Creates an initial commit and optionally pushes
 
 ### Resulting Directory Structure
 
 ```
 my-project/
-├── skills/                    # chwezi-sdlc-documentation engine checkout
+├── skills/                    # chwezi-sdlc-documentation engine checkout (git submodule)
+│   ├── 01-strategic-vision/ ... 09-governance-compliance/   # the numbered phase skills
+│   │   └── 02-requirements-engineering/
+│   │       ├── waterfall/     # Waterfall SRS skills (01 to 09)
+│   │       └── agile/         # INVEST user stories
+│   ├── engine/                # validation kernel
+│   ├── domains/               # domain packs
 │   ├── docs/
-│   ├── 02-requirements-engineering/
-│   │   ├── waterfall/         # IEEE 830 SRS pipeline (8 phases)
-│   │   └── agile/             # INVEST user stories
-│   ├── skills/                # skills/<skill-name>/SKILL.md
-│   ├── CLAUDE.md
+│   ├── AGENTS.md              # router; CLAUDE.md imports it
 │   ├── README.md
 │   └── ...
 ├── project_context/           # YOUR project data (source of truth)
@@ -101,6 +122,8 @@ my-project/
 │   ├── stakeholders.md
 │   └── glossary.md
 ├── output/                    # Generated SRS documentation
+├── export/                    # Delivery copies of generated .docx files
+├── export-docs.sh, export-docs.ps1
 ├── .gitignore
 └── .gitmodules
 ```
@@ -171,7 +194,7 @@ This will:
 
 Based on the recommended methodology:
 
-### Waterfall Track (IEEE 830 SRS)
+### Waterfall Track (SRS in the IEEE 830 section layout)
 
 Execute phases sequentially. Each phase builds on the previous:
 
@@ -192,7 +215,8 @@ Execute phases sequentially. Each phase builds on the previous:
 Run skill: 02-requirements-engineering/waterfall/01-initialize-srs
 ```
 
-Then proceed to 02, 03, etc.
+Then proceed to 02, 03, etc. `02-requirements-engineering/waterfall/09-use-case-modeling`
+adds actor-goal use cases when the engagement needs them.
 
 ### Agile Track
 
@@ -204,19 +228,22 @@ Generates INVEST-compliant user stories with acceptance criteria.
 
 ## Step 7: Domain Skills (As Needed)
 
-The engine includes reusable skills under `skills/<skill-name>/SKILL.md`. These are invoked automatically when relevant, or you can request them:
+These skills live in sibling engines, not in this repository. Your agent resolves each engine through its engine-routing table; ask for a skill by name:
 
-| Domain | Skill | When to Use |
-|--------|-------|-------------|
-| Database | `mysql-best-practices` | **Mandatory** for any database work |
-| Security | `vibe-security-skill` | **Mandatory** for web applications |
-| Multi-tenant | `multi-tenant-saas-architecture` | SaaS with tenant isolation |
-| UI/UX | `webapp-gui-design` | Web application interfaces |
-| POS | `pos-sales-ui-design` | Point-of-sale systems |
-| Healthcare | `healthcare-ui-design` | Clinical/medical applications |
-| Mobile | `android-development` | Android app documentation |
-| Mapping | `gis-mapping` | Location-based features |
-| Accounting | `saas-accounting-system` | Financial/bookkeeping modules |
+| Domain | Skill | Engine | When to Use |
+|--------|-------|--------|-------------|
+| Database | `mysql-engineering` (absorbs the retired `mysql-best-practices`) | `chwezi-dev-engine` | **Mandatory** for any MySQL work |
+| Security | `vibe-security-skill` | `chwezi-dev-engine` | **Mandatory** for web applications |
+| Multi-tenant | `multi-tenant-saas-architecture` | `chwezi-dev-engine` | SaaS with tenant isolation |
+| UI/UX | `webapp-gui-design` | `chwezi-design-engine` | Web application interfaces |
+| POS | `pos-and-retail-operations` | `chwezi-design-engine` | Point-of-sale interfaces (replaces the inactive `pos-sales-ui-design` alias) |
+| POS and finance screens | `finance-ui-pattern-library` | `chwezi-accounting-doctrine` | Cash-drawer, receipt and ledger screens |
+| Healthcare | `healthcare-ui-design` | `chwezi-design-engine` | Clinical/medical applications |
+| Mobile | `android-development` | `chwezi-dev-engine` | Android app documentation |
+| Mapping | `gis-platform-engineering` (absorbs the retired `gis-mapping`) | `chwezi-dev-engine` | Location-based features |
+| Accounting | `saas-accounting-system` | `chwezi-dev-engine` | Financial/bookkeeping modules |
+
+Earlier local folder names, once: `chwezi-dev-engine` was `skills-web-dev` and `chwezi-design-engine` was `design-system-skills`.
 
 ## Updating the SRS Engine Checkout
 
@@ -238,9 +265,9 @@ git pull origin main
 
 ### Permission denied on script (Linux/macOS)
 
-```bash
-chmod +x scripts/setup-srs-project.sh
-```
+The repository does not track the executable bit on any script. Run it through
+`bash` (`bash scripts/setup-srs-project.sh ...`), or set the bit yourself with
+`chmod +x scripts/setup-srs-project.sh`.
 
 ### PowerShell script blocked (Windows)
 
