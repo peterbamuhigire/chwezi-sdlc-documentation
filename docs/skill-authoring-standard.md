@@ -37,7 +37,7 @@ python -X utf8 scripts/validate_engine.py
 For a changed skill, also run the canonical validator with the directory path:
 
 ```powershell
-python -X utf8 C:\wamp64\www\chwezi-dev-engine\skills\sdlc-meta\skill-writing\scripts\quick_validate.py <skill-directory>
+python -X utf8 <dev-engine-root>/skills/sdlc-meta/skill-writing/scripts/quick_validate.py <skill-directory>
 ```
 
 ## Release rule

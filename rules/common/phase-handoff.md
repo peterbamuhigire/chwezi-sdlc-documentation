@@ -1,7 +1,7 @@
 # Phase Handoff — Each Arrow Is a File on Disk
 
 > Grounded in ECC's `docs/PLAN-PRD-PATTERN.md`
-> (`C:\Users\Peter\Downloads\ECC-main\docs\PLAN-PRD-PATTERN.md`): *"Each arrow
+> (upstream repository github.com/affaan-m/ECC): *"Each arrow
 > is a file on disk, not a conversation in memory."* Confirmed against this
 > engine's own actual handoff points before being written as a rule — see
 > `01-strategic-vision/README.md`'s Dependencies section and

@@ -1,0 +1,11 @@
+{
+  "comment": "Historical audit, plan and kaizen notes under these prefixes record machine paths as written at the time and are not edited. Their line count may fall, never rise. Lower the ceiling when a note is cleaned.",
+  "history_prefixes": [
+    "docs/audits/",
+    "docs/continuous-improvement/",
+    "docs/engine-upgrade-july-2026/",
+    "docs/plans/",
+    "docs/superpowers/"
+  ],
+  "history_line_ceiling": 65
+}

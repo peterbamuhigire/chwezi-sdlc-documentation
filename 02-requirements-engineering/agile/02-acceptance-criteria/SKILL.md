@@ -125,7 +125,7 @@ Execute this skill after `01-user-story-generation` has produced `projects/<Proj
 ### Must not — the prohibited-side-effect field
 
 > Source: ECC's `intent-driven-development` skill
-> (`C:\Users\Peter\Downloads\ECC-main\skills\intent-driven-development\SKILL.md`),
+> (upstream repository github.com/affaan-m/ECC),
 > AC format.
 
 Add a **Must not** field alongside Given/When/Then wherever a criterion has

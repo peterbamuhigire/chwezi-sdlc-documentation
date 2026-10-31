@@ -22,7 +22,7 @@
  * queue exits 0 with stdin passed through.
  *
  * Ported verbatim (logic unchanged) from ECC's
- * `scripts/hooks/plan-canvas-pending.js` (C:\Users\Peter\Downloads\ECC-main)
+ * `scripts/hooks/plan-canvas-pending.js` (upstream repository github.com/affaan-m/ECC)
  * into this engine's `hooks/`, alongside `destructive-bash-gate.js`. Only
  * the CLI entrypoint at the bottom of this file is new — see the comment
  * there for why.
@@ -236,7 +236,7 @@ module.exports = { run, pendingSessions, describeItem, buildReason, drainViaFile
 // --- CLI entrypoint ------------------------------------------------------
 //
 // Ported from ECC's `scripts/hooks/plan-canvas-pending.js`
-// (C:\Users\Peter\Downloads\ECC-main). ECC invokes this module's `run()`
+// (upstream repository github.com/affaan-m/ECC). ECC invokes this module's `run()`
 // through a plugin-root-resolution bootstrap wrapper baked into ECC's own
 // hooks.json. This engine has no such bootstrap (see
 // `hooks/destructive-bash-gate.js` for the established pattern), so this

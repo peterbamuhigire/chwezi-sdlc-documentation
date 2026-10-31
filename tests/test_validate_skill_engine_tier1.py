@@ -106,7 +106,7 @@ def test_host_absolute_link_is_broken_even_when_the_target_exists(tmp_path):
     target = tmp_path / "outside.md"
     target.write_text("outside", encoding="utf-8")
     # On Windows the drive-letter path exists; on a Linux runner it never does. Both must fail.
-    link = target.resolve().as_posix() if target.resolve().drive else "C:/wamp64/www/outside.md"
+    link = target.resolve().as_posix() if target.resolve().drive else "C:/workspace/outside.md"
     body = _with_reference(link)
     assert "broken_relative_link" in MODULE.assess(make_skill(repo, body), repo)
 

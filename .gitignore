@@ -16,7 +16,7 @@ htmlcov/
 dist/
 build/
 
-# Stale local mirror of the finance engine (canonical: C:\wamp64\www\chwezi-accounting-doctrine; never commit)
+# Stale local mirror of the finance engine (canonical: the chwezi-accounting-doctrine checkout; never commit)
 /doctrine/
 
 # Local-only: client-system documentation alignment analysis (not for public repo)

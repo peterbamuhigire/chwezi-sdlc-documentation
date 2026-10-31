@@ -156,7 +156,7 @@ Produce a classification matrix table listing every requirement with its type, o
 ### Step 2b: Tag Requirement Provenance
 
 > Adapted from ECC's `product-capability` skill
-> (`C:\Users\Peter\Downloads\ECC-main\skills\product-capability\SKILL.md`),
+> (upstream repository github.com/affaan-m/ECC),
 > which frames itself as the PRD-to-SRS lane: "exposes constraints,
 > invariants, interfaces, and unresolved decisions before multi-service work
 > starts."

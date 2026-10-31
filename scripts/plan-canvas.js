@@ -17,7 +17,7 @@
  * session, then prints a JSON payload to stdout. Progress notes go to stderr
  * so stdout stays parseable.
  *
- * Ported from ECC's `scripts/plan-canvas.js` (C:\Users\Peter\Downloads\ECC-main)
+ * Ported from ECC's `scripts/plan-canvas.js` (upstream repository github.com/affaan-m/ECC)
  * into this engine's own `scripts/` the same way `install-engine.js` and
  * `generate-plugin-manifest.js` were vendored: no dependency on ECC's
  * package.json, plugin-root resolution, or bootstrap wrappers. The only

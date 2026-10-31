@@ -14,7 +14,7 @@
  *   agent: open refused / --reopen works / end / stop
  *
  * Ported from ECC's tests/integration/plan-canvas-e2e.test.js
- * (C:\Users\Peter\Downloads\ECC-main). Only the HOOK path below changed:
+ * (upstream repository github.com/affaan-m/ECC). Only the HOOK path below changed:
  * this engine keeps hooks at the repo-root `hooks/` directory (alongside
  * `destructive-bash-gate.js`), not under `scripts/hooks/` as ECC does.
  *

@@ -3,7 +3,7 @@
 This file is self-contained. It was prepared from local EPUB study notes and
 must remain useful even if the EPUBs are deleted.
 
-Source inputs: local EPUBs under `C:\Users\Peter\Downloads\Documents\`:
+Source inputs: purchased EPUBs kept outside this repository:
 `Mastering API Architecture.epub`, `Learning Domain-Driven Design.epub`, and
 `Foundations of Scalable Systems.epub`.
 

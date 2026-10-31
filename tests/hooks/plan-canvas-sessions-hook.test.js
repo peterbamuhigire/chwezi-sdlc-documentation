@@ -2,7 +2,7 @@
  * Integration tests for scripts/hooks/plan-canvas-sessions.js (SessionStart)
  *
  * Ported from ECC's tests/hooks/plan-canvas-sessions-hook.test.js
- * (C:\Users\Peter\Downloads\ECC-main). Only the HOOK path below changed:
+ * (upstream repository github.com/affaan-m/ECC). Only the HOOK path below changed:
  * this engine keeps hooks at the repo-root `hooks/` directory, not under
  * `scripts/hooks/` as ECC does.
  *

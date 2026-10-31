@@ -109,7 +109,7 @@ This skill produces one Architecture Decision Record (ADR) per significant archi
 ### Decision-moment detection (trigger phrases)
 
 > Adapted from ECC's `architecture-decision-records` skill
-> (`C:\Users\Peter\Downloads\ECC-main\skills\architecture-decision-records\SKILL.md`),
+> (upstream repository github.com/affaan-m/ECC),
 > whose contribution over a plain template is that it is a *capture
 > mechanism*, not just a format to fill in by hand.
 

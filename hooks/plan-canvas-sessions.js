@@ -13,7 +13,7 @@
  * nothing to resume.
  *
  * Ported verbatim from ECC's `scripts/hooks/plan-canvas-sessions.js`
- * (C:\Users\Peter\Downloads\ECC-main) into this engine's `hooks/`, alongside
+ * (upstream repository github.com/affaan-m/ECC) into this engine's `hooks/`, alongside
  * `destructive-bash-gate.js`. No changes needed: it already reads no
  * arguments, writes plain text to stdout for SessionStart context injection,
  * and carries its own `require.main === module` CLI entrypoint.

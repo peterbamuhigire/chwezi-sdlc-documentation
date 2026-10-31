@@ -43,8 +43,8 @@ skill, only set the baseline the skill operates within.
 ## Mandatory Digital Research currentness gate for Kaizen
 
 Every Kaizen audit, skill edit, reference update, validator change, and
-standardisation decision MUST begin with the Digital Research Engine at
-`C:\wamp64\www\digital-research-engine`. Read its `source-evaluation` and
+standardisation decision MUST begin with the Digital Research Engine (resolve
+its checkout through the engine-routing table). Read its `source-evaluation` and
 `source-verification` skills and the currentness gate reference
 `docs/continuous-improvement/kaizen-currentness-gate.md` (in the Digital Research
 Engine, not this repository).
@@ -71,25 +71,25 @@ This repository is a dual-compatible skill system for Claude Code and Codex. The
 
 ## Skill Families
 
-- Engineering/methodology skills live in the sibling **engineering catalog engine** at `C:\wamp64\www\chwezi-dev-engine` (skills under `skills/<category>/<skill-name>/SKILL.md`). Consult its router, then read the matching SKILL.md directly. Its `<category>` namespace is grouped into 17 categories (verified 2026-09-24); see the "Skill Categories" section below. Methodology-selection skills such as `00-meta-initialization` live at the outer numbered-phase roots (e.g. `01-strategic-vision/`).
-- Root directories are reserved for project documentation and repository-level folders such as `docs/` and `projects/`, plus operational folders (`engine/`, `templates/`, `scripts/`, `domains/`) where relevant. Finance/accounting is the standalone cross-cutting **finance engine** at `C:\wamp64\www\chwezi-accounting-doctrine` — consult it whenever finance/IFRS/IAS/tax/bookkeeping arises, in addition to the active work.
+- Engineering/methodology skills live in the sibling **engineering catalog engine** (resolve its checkout through the engine-routing table; skills under `skills/<category>/<skill-name>/SKILL.md`). Consult its router, then read the matching SKILL.md directly. Its `<category>` namespace is grouped into 17 categories (verified 2026-09-24); see the "Skill Categories" section below. Methodology-selection skills such as `00-meta-initialization` live at the outer numbered-phase roots (e.g. `01-strategic-vision/`).
+- Root directories are reserved for project documentation and repository-level folders such as `docs/` and `projects/`, plus operational folders (`engine/`, `templates/`, `scripts/`, `domains/`) where relevant. Finance/accounting is the standalone cross-cutting **finance engine** (resolve its checkout through the engine-routing table) — consult it whenever finance/IFRS/IAS/tax/bookkeeping arises, in addition to the active work.
 - Domain packs live under `domains/`. They are not skills by themselves; use them as context sources when a task is domain-specific.
 
 ## Baseline Routing
 
 - New client-documentation or methodology-selection requests: start with `00-meta-initialization` (engineering catalog engine).
 - SDLC document generation or review: route to the relevant numbered phase skill first, then load supporting domain references from `domains/<domain>/`.
-- General software engineering work: start with `sdlc-meta/world-class-engineering` in the engineering catalog engine (`C:\wamp64\www\chwezi-dev-engine`), then add the narrowest relevant skills.
-- Skill authoring or upgrades: use `sdlc-meta/skill-writing` in the engineering catalog engine (`C:\wamp64\www\chwezi-dev-engine`).
-- Word or `.docx` output quality work: use `product-business/professional-word-output` in the engineering catalog engine (`C:\wamp64\www\chwezi-dev-engine`).
-- BDS programme intake, selection, monitoring, or donor dashboard requirements: use `product-business/bds-intake-and-monitoring-system-spec` in the engineering catalog engine (`C:\wamp64\www\chwezi-dev-engine`).
-- E-commerce platform, payment, API, AI, data-protection, or integration audit requirements: use `architecture/ecommerce-platform-audit-requirements` in the engineering catalog engine (`C:\wamp64\www\chwezi-dev-engine`).
+- General software engineering work: start with `sdlc-meta/world-class-engineering` in the engineering catalog engine, then add the narrowest relevant skills.
+- Skill authoring or upgrades: use `sdlc-meta/skill-writing` in the engineering catalog engine.
+- Word or `.docx` output quality work: use `product-business/professional-word-output` in the engineering catalog engine.
+- BDS programme intake, selection, monitoring, or donor dashboard requirements: use `product-business/bds-intake-and-monitoring-system-spec` in the engineering catalog engine.
+- E-commerce platform, payment, API, AI, data-protection, or integration audit requirements: use `architecture/ecommerce-platform-audit-requirements` in the engineering catalog engine.
 
 ## Skill Authoring and Release Gate
 
 The shared agents, commands, hooks, evidence, and handoff contract is mapped
 for SRS work in `docs/control-plane-adoption.md` and governed centrally by
-`C:\wamp64\www\chwezi-dev-engine\docs\engine-control-plane.md`.
+`docs/engine-control-plane.md` in the Chwezi Dev Engine.
 
 On interruption or a blocked phase, write `sdd-handoff.json` with
 `python scripts/create_sdd_handoff.py`; an incomplete phase is never closed
@@ -197,8 +197,8 @@ You are an expert Systems Architect. You are assisting in developing and executi
 
 ## Directory Logic & Pathing
 
-- **Skills:** Engineering/methodology skills live in the [Chwezi Dev Engine](https://github.com/peterbamuhigire/chwezi-dev-engine) — the engineering-catalog engine, local checkout `C:\wamp64\www\chwezi-dev-engine` (skills under `skills/<category>/<skill-name>/SKILL.md`). Consult its router (`CLAUDE.md`/`AGENTS.md`), then read the matching `SKILL.md` directly. Use these skills for methodology selection, document generation support, and reusable engineering workflows.
-- **Finance/Accounting:** Finance/accounting is the standalone cross-cutting [Chwezi Accounting Doctrine](https://github.com/peterbamuhigire/chwezi-accounting-doctrine) engine (local checkout `C:\wamp64\www\chwezi-accounting-doctrine`). Resolve it through the global engine registry and consult it whenever finance, IFRS, IAS, tax, or bookkeeping arises, in addition to the active work.
+- **Skills:** Engineering/methodology skills live in the [Chwezi Dev Engine](https://github.com/peterbamuhigire/chwezi-dev-engine) — the engineering-catalog engine (resolve its local checkout through the engine-routing table; skills under `skills/<category>/<skill-name>/SKILL.md`). Consult its router (`CLAUDE.md`/`AGENTS.md`), then read the matching `SKILL.md` directly. Use these skills for methodology selection, document generation support, and reusable engineering workflows.
+- **Finance/Accounting:** Finance/accounting is the standalone cross-cutting [Chwezi Accounting Doctrine](https://github.com/peterbamuhigire/chwezi-accounting-doctrine) engine (resolve its local checkout). Resolve it through the global engine registry and consult it whenever finance, IFRS, IAS, tax, or bookkeeping arises, in addition to the active work.
 - **Domain Knowledge:** Located in `/domains/`. Read the relevant domain `INDEX.md` when generating requirements for a domain-specific project.
 - **Project Workspace:** Located in `projects/<ProjectName>/` (untracked, gitignored). All client documentation is built here.
 - **Output Destination:** Write all generated section files to `projects/<ProjectName>/<phase>/<document>/`. Write final `.docx` files to `projects/<ProjectName>/<phase>/`.
@@ -228,7 +228,7 @@ If `projects/<ProjectName>/_context/methodology.md` declares `methodology: hybri
 ## Build Document Protocol
 
 When the user says "build the [document]":
-1. Resolve the document directory using the mapping in `00-meta-initialization/new-project/SKILL.md` in the engineering catalog engine (`C:\wamp64\www\chwezi-dev-engine\00-meta-initialization\new-project\SKILL.md` — not a path in this repo)
+1. Resolve the document directory using the mapping in `00-meta-initialization/new-project/SKILL.md` in the engineering catalog engine (`00-meta-initialization/new-project/SKILL.md` there — not a path in this repo)
 2. Check for `manifest.md` in the document directory — use it if present, otherwise sort all `*.md` files (excluding `manifest.md`) alphabetically
 3. Execute: `bash scripts/build-doc.sh <doc-dir> <OutputName>`
 4. Run `projects/<ProjectName>/export-docs.ps1` on Windows or `projects/<ProjectName>/export-docs.sh` on bash-capable shells to refresh `projects/<ProjectName>/export/`
@@ -269,7 +269,7 @@ Refer to `README.md` and `PROJECT_BRIEF.md` for the new eight-phase skill flow: 
 
 ## Skill Categories
 
-These categories belong to the external engineering-catalog engine (`C:\wamp64\www\chwezi-dev-engine`), NOT to this repository — this repo's own skills follow the `NN-phase/NN-skill/SKILL.md` layout described in `README.md`. The [Chwezi Dev Engine](https://github.com/peterbamuhigire/chwezi-dev-engine) organises its portable skill catalogue into category subdirectories under `skills/<category>/<skill-name>/...`. When routing to an individual skill, always include the category segment in the path.
+These categories belong to the external engineering-catalog engine, NOT to this repository — this repo's own skills follow the `NN-phase/NN-skill/SKILL.md` layout described in `README.md`. The [Chwezi Dev Engine](https://github.com/peterbamuhigire/chwezi-dev-engine) organises its portable skill catalogue into category subdirectories under `skills/<category>/<skill-name>/...`. When routing to an individual skill, always include the category segment in the path.
 
 | Category | Scope |
 | --- | --- |
@@ -380,7 +380,7 @@ Project workspaces (`projects/<ProjectName>/`) are **local only** and gitignored
 
 ### Filling Context Gaps
 
-When the kernel reports `[CONTEXT-GAP: <topic>]`, consult `00-meta-initialization/new-project/prompts/context-gap-fillers.md` in the engineering catalog engine (`C:\wamp64\www\chwezi-dev-engine\00-meta-initialization\new-project\prompts\context-gap-fillers.md` — not a path in this repo) before authoring from scratch. It contains an opinionated prompt per topic you can paste into a fresh assistant session.
+When the kernel reports `[CONTEXT-GAP: <topic>]`, consult `00-meta-initialization/new-project/prompts/context-gap-fillers.md` in the engineering catalog engine (that file lives in the dev engine, not in this repo) before authoring from scratch. It contains an opinionated prompt per topic you can paste into a fresh assistant session.
 
 ### Failure Protocols
 
@@ -437,7 +437,7 @@ The validation kernel (`python -m engine validate <project>`) will fail if:
 
 ## Finance & Accounting Trigger
 
-Consult the finance engine at `C:\wamp64\www\chwezi-accounting-doctrine` whenever the user's request, the artefact being generated, or the code being edited touches **any** of:
+Consult the finance engine (resolve its checkout through the engine-routing table) whenever the user's request, the artefact being generated, or the code being edited touches **any** of:
 
 - Money flows: sales, purchases, payments, refunds, credit notes, expenses
 - Stock and inventory
@@ -454,13 +454,13 @@ Consult the finance engine at `C:\wamp64\www\chwezi-accounting-doctrine` wheneve
 
 When the trigger fires:
 
-1. Consult the finance engine at `C:\wamp64\www\chwezi-accounting-doctrine` — start from its `README.md` router.
+1. Consult the finance engine — start from its `README.md` router.
 2. Follow the router to the relevant doctrine and reference material in that engine.
 3. Read the relevant finance skill `SKILL.md` in that engine.
 4. Apply the **finance & accounting quality gate** defined in that engine.
 5. Record the gate run in the artefact manifest.
 
-The `finance-module-audit` skill (in the finance engine at `C:\wamp64\www\chwezi-accounting-doctrine`) auto-runs whenever the user asks to analyse, review, audit, build, propose, or replace any software system with even a slight finance element.
+The `finance-module-audit` skill (in the finance engine) auto-runs whenever the user asks to analyse, review, audit, build, propose, or replace any software system with even a slight finance element.
 
 
 <!-- chwezi-design-engine:trigger v4 -->
@@ -497,4 +497,4 @@ For a prompt handoff, read the local [domain prompt contract](docs/ai-prompting/
 
 ## PORTFOLIO CRAFT CONTRACT
 
-Load `C:\wamp64\www\chwezi-engine-agents\docs\operations\portfolio-craft-standard-2026-09-04.md` when available. Every SRS, requirement, architecture note, and governance artefact is built in named slices: frame the actor and decision, select one flow or requirement, inspect existing context, make the smallest useful change, exercise normal and failure states, refine, and record proof before continuing. Requirements must carry concrete actors, states, constraints, and test oracles; do not generate a whole specification as one opaque batch. Apply `Observe -> Baseline -> Select -> Experiment -> Check -> Standardise -> Teach -> Re-measure` to kaizen itself. Missing execution, render, source, reviewer, or stakeholder evidence is `NOT ASSESSED`, never a pass.
+Load `docs/operations/portfolio-craft-standard-2026-09-04.md` from `chwezi-engine-agents` (resolve it through the engine-routing table) when available. Every SRS, requirement, architecture note, and governance artefact is built in named slices: frame the actor and decision, select one flow or requirement, inspect existing context, make the smallest useful change, exercise normal and failure states, refine, and record proof before continuing. Requirements must carry concrete actors, states, constraints, and test oracles; do not generate a whole specification as one opaque batch. Apply `Observe -> Baseline -> Select -> Experiment -> Check -> Standardise -> Teach -> Re-measure` to kaizen itself. Missing execution, render, source, reviewer, or stakeholder evidence is `NOT ASSESSED`, never a pass.

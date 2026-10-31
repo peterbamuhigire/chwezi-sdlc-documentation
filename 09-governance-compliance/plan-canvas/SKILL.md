@@ -6,7 +6,7 @@ metadata:
   compatible_with:
   - claude-code
   - codex
-  origin: "Adapted from ECC's plan-canvas skill (C:\\Users\\Peter\\Downloads\\ECC-main\\skills\\plan-canvas\\SKILL.md), reframed for SRS-artefact review gates rather than implementation plans."
+  origin: "Adapted from ECC's plan-canvas skill (upstream repository github.com/affaan-m/ECC), reframed for SRS-artefact review gates rather than implementation plans."
 ---
 
 # Plan Canvas for SRS Review
@@ -46,7 +46,7 @@ The `plan-canvas` CLI is vendored into this engine at
 `scripts/plan-canvas.js` and `scripts/lib/plan-canvas/*.js` (plus
 `scripts/lib/loopback-guard.js`), the same way `hooks/destructive-bash-gate.js`
 was vendored — copied from ECC's checkout
-(`C:\Users\Peter\Downloads\ECC-main\scripts\plan-canvas.js` and
+(upstream `scripts/plan-canvas.js` and
 `scripts\lib\plan-canvas\`), with no dependency on ECC's `package.json` or
 plugin-root bootstrap. Invoke it as:
 
@@ -282,7 +282,7 @@ authority, and unavailable or failed checks must remain visible in the review re
   `scripts/plan-canvas.js`, `scripts/lib/plan-canvas/*.js`,
   `scripts/lib/loopback-guard.js`, `scripts/hooks/plan-canvas-pending.js`,
   `scripts/hooks/plan-canvas-sessions.js`
-  (C:\Users\Peter\Downloads\ECC-main).
+  (upstream repository github.com/affaan-m/ECC).
 - This engine's vendored copy: `scripts/plan-canvas.js`,
   `scripts/lib/plan-canvas/*.js`, `scripts/lib/loopback-guard.js`,
   `hooks/plan-canvas-pending.js`, `hooks/plan-canvas-sessions.js`,

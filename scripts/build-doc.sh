@@ -87,10 +87,10 @@ case "$(uname -s)" in
 esac
 
 # Pandoc on Windows is a native program: it cannot read an MSYS/Cygwin path
-# such as /c/wamp64/... inside --resource-path (MSYS does not convert paths
+# such as /c/<dir>/... inside --resource-path (MSYS does not convert paths
 # inside a ';'-separated list), so figures were silently replaced by their
 # descriptions (M10-13 finding). Hand native tools a mixed Windows path
-# (C:/wamp64/...) when cygpath is available; elsewhere the path is unchanged.
+# (C:/<dir>/...) when cygpath is available; elsewhere the path is unchanged.
 native_path() {
   if command -v cygpath >/dev/null 2>&1; then
     cygpath -m "$1"

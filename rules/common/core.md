@@ -31,7 +31,7 @@ engine publishes.
 ## Evidence Rule — self-assessment below full marks must cite the gap
 
 > Grounded in ECC's `agent-self-evaluation` skill
-> (`C:\Users\Peter\Downloads\ECC-main\skills\agent-self-evaluation\SKILL.md`).
+> (upstream repository github.com/affaan-m/ECC).
 
 Before calling any SRS, plan, or proposal deliverable produced by this engine
 complete, any self-assessment that scores below full marks on a given
