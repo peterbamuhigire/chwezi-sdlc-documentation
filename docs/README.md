@@ -20,6 +20,8 @@ This page indexes `docs/` for Chwezi SDLC Documentation. The root [`README.md`](
 
 ## Quality and improvement records
 
+The root README summarises the kept changes of both October cycles, with commits and before-and-after figures, under "What the October 2026 kaizen improved". The records below hold the evidence.
+
 | Location | Contents |
 |---|---|
 | [`kaizen/2026-10-engine-kaizen/`](kaizen/2026-10-engine-kaizen/) | The 29 October 2026 cycle: scope, baseline scorecard, backlog, experiment log, validation record, final report, next-cycle notes and a dated source register. |
