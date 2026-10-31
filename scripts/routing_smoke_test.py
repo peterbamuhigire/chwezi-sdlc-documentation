@@ -11,6 +11,10 @@ Fixture kinds (tests/routing-fixtures.json):
   2686b62), paraphrased. An owner written ``<engine-id>/<skill>`` belongs to another engine: it is
   reported NOT_ASSESSED here and evaluated in union mode by chwezi-engine-agents route oracles.
 
+``--coverage`` reports how many active skills have at least three positive prompts and two owned
+negatives (a negative that names an owner). The count is also given with cross-engine owners
+excluded, because those negatives are `NOT_ASSESSED` here. ``--min-covered N`` fails below N skills.
+
 ``--lint-fixtures`` (M10-03-T05) fails a prompt that names its expected skill slug (numeric prefix
 stripped, hyphens as spaces) or copies the expected description (word-trigram overlap >= 0.6).
 
@@ -23,6 +27,7 @@ import argparse
 import json
 import re
 import sys
+from collections import Counter
 from pathlib import Path
 
 from ruamel.yaml import YAML
@@ -43,6 +48,8 @@ SYNONYMS = {
     "requirements": "requirement", "risks": "risk", "tests": "test",
 }
 POSITIVE_KINDS = {"positive", "collision", "failure-path", "limited-capability"}
+COVERAGE_POSITIVES = 3
+COVERAGE_NEGATIVES = 2
 
 
 def tokens(text: str) -> set[str]:
@@ -135,11 +142,26 @@ def evaluate_negative(fixture: dict, catalogue: list[dict[str, str]]) -> tuple[s
     return "PASS", f"owner {owner} rank {owner_rank} above {skill} rank {self_rank}"
 
 
+def coverage_report(fixtures: list[dict], active: list[str]) -> dict[str, list[str]]:
+    """Skills meeting the fixture target: all owned negatives, and local (same-engine) ones only."""
+    names = set(active)
+    positives = Counter(f["expected"] for f in fixtures if f.get("kind", "positive") in POSITIVE_KINDS and f.get("expected") in names)
+    owned = [f for f in fixtures if f.get("kind") == "negative" and f.get("owner") and f.get("skill") in names]
+    any_owner = Counter(f["skill"] for f in owned)
+    same_engine = Counter(f["skill"] for f in owned if "/" not in f["owner"])
+    return {
+        "meeting": sorted(s for s in names if positives[s] >= COVERAGE_POSITIVES and any_owner[s] >= COVERAGE_NEGATIVES),
+        "meeting_same_engine": sorted(s for s in names if positives[s] >= COVERAGE_POSITIVES and same_engine[s] >= COVERAGE_NEGATIVES),
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--fixtures", type=Path, default=FIXTURES)
     parser.add_argument("--min-rank1", type=float, default=None, help="Fail when precision@1 (percent) falls below this floor.")
     parser.add_argument("--lint-fixtures", action="store_true", help="Fail on prompts that leak the expected slug or copy its description.")
+    parser.add_argument("--coverage", action="store_true", help="Report skills with >=3 positives and >=2 owned negatives.")
+    parser.add_argument("--min-covered", type=int, default=None, help="Fail when fewer skills than this meet the coverage target (implies --coverage).")
     args = parser.parse_args()
     data = json.loads(args.fixtures.read_text(encoding="utf-8"))
     catalogue = read_catalogue()
@@ -190,6 +212,16 @@ def main() -> int:
             exit_code = 1
         else:
             print(f"precision@1 floor {args.min_rank1:.1f}% met")
+    if args.coverage or args.min_covered is not None:
+        report = coverage_report(data["fixtures"], [item["name"] for item in catalogue])
+        print(
+            f"route coverage: {len(report['meeting'])} of {len(catalogue)} active skills have "
+            f">={COVERAGE_POSITIVES} positives and >={COVERAGE_NEGATIVES} owned negatives "
+            f"({len(report['meeting_same_engine'])} with cross-engine owners excluded)"
+        )
+        if args.min_covered is not None and len(report["meeting"]) < args.min_covered:
+            print(f"FAIL route coverage {len(report['meeting'])} is below the floor {args.min_covered}")
+            exit_code = 1
     if args.lint_fixtures:
         lint: list[str] = []
         for fixture in positives:

@@ -1,6 +1,6 @@
 ---
 name: 04-requirements-analysis
-description: "Use when classifying, reconciling, prioritising, and testing the feasibility of elicited requirements; use requirements-validation for the independent pre-baseline review."
+description: "Use when classifying, reconciling, prioritising, and testing the feasibility of elicited requirements, including a vague or contradictory stakeholder brief whose ambiguity must be logged as an open decision instead of resolved silently; use requirements-validation for the independent pre-baseline review."
 metadata:
   portable: true
   compatible_with:
@@ -14,7 +14,7 @@ metadata:
 <!-- dual-compat-start -->
 ## Use When
 
-- classifying, reconciling, prioritising, and testing the feasibility of elicited requirements; use requirements-validation for the independent pre-baseline review.
+- classifying, reconciling, prioritising, and testing the feasibility of elicited requirements, including a vague or contradictory stakeholder brief whose ambiguity must be logged as an open decision instead of resolved silently; use requirements-validation for the independent pre-baseline review.
 - Use this procedure when the required source artefacts are available and `Analysed requirements set and conflict log` is the next lifecycle deliverable.
 
 ## Do Not Use When
@@ -99,27 +99,27 @@ This skill transforms raw elicitation artifacts into a structured analysis repor
 
 ## Quick Reference
 
-| Attribute     | Value                                                                  |
-|---------------|------------------------------------------------------------------------|
-| **Inputs**    | `projects/<ProjectName>/<phase>/<document>/elicitation_log.md`, `vision.md`, `features.md`, `business_rules.md` |
-| **Output**    | `projects/<ProjectName>/<phase>/<document>/requirements_analysis_report.md`                            |
-| **Tone**      | Analytical, objective, evidence-based; no subjective adjectives        |
-| **Standards** | IEEE 29148-2018 Section 6.5, IEEE 830-1998, IEEE 1233-1998            |
+| Attribute | Value |
+|---|---|
+| **Inputs** | `projects/<ProjectName>/<phase>/<document>/elicitation_log.md`, `vision.md`, `features.md`, `business_rules.md` |
+| **Output** | `projects/<ProjectName>/<phase>/<document>/requirements_analysis_report.md` |
+| **Tone** | Analytical, objective, evidence-based; no subjective adjectives |
+| **Standards** | IEEE 29148-2018 Section 6.5, IEEE 830-1998, IEEE 1233-1998 |
 
 ## Input Files
 
-| File               | Location                                  | Required | Purpose                                          |
-|--------------------|-------------------------------------------|----------|--------------------------------------------------|
-| elicitation_log.md | `projects/<ProjectName>/<phase>/<document>/elicitation_log.md`            | Yes      | Raw requirements gathered from stakeholders       |
-| vision.md          | `projects/<ProjectName>/_context/vision.md`            | Yes      | Business goals for traceability and prioritization|
-| features.md        | `projects/<ProjectName>/_context/features.md`          | Yes      | Feature descriptions for classification           |
-| business_rules.md  | `projects/<ProjectName>/_context/business_rules.md`    | No       | Business rules for conflict detection             |
+| File | Location | Required | Purpose |
+|---|---|---|---|
+| elicitation_log.md | `projects/<ProjectName>/<phase>/<document>/elicitation_log.md` | Yes | Raw requirements gathered from stakeholders |
+| vision.md | `projects/<ProjectName>/_context/vision.md` | Yes | Business goals for traceability and prioritization|
+| features.md | `projects/<ProjectName>/_context/features.md` | Yes | Feature descriptions for classification |
+| business_rules.md | `projects/<ProjectName>/_context/business_rules.md` | No | Business rules for conflict detection |
 
 ## Output Files
 
-| File                           | Location                                       | Description                                    |
-|--------------------------------|------------------------------------------------|------------------------------------------------|
-| requirements_analysis_report.md| `projects/<ProjectName>/<phase>/<document>/requirements_analysis_report.md`    | Complete analysis with classification, conflicts, feasibility, and prioritization |
+| File | Location | Description |
+|---|---|---|
+| requirements_analysis_report.md| `projects/<ProjectName>/<phase>/<document>/requirements_analysis_report.md` | Complete analysis with classification, conflicts, feasibility, and prioritization |
 
 ## Core Instructions
 

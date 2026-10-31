@@ -576,6 +576,63 @@
       "prompt": "Define append-only accounting journals, ledger posting invariants, reversals, period locks, and reconciliations for a financial ledger.",
       "skill": "04-database-design",
       "owner": "16-accounting-engine-design"
+    },
+    {
+      "id": "contradictory-brief-positive",
+      "kind": "positive",
+      "prompt": "Turn a vague, contradictory stakeholder brief into requirements and surface each ambiguity instead of resolving it silently.",
+      "expected": "04-requirements-analysis",
+      "comment": "K2-05 pass 2"
+    },
+    {
+      "id": "hld-topology-positive",
+      "kind": "positive",
+      "prompt": "Lay out the deployment topology, the critical request flows and the key architecture decisions for the approved requirements.",
+      "expected": "01-high-level-design",
+      "comment": "K2-05 pass 2"
+    },
+    {
+      "id": "initialise-skeleton-positive",
+      "kind": "positive",
+      "prompt": "Start the specification for a new project: scaffold the SRS document structure and identifiers.",
+      "expected": "01-initialize-srs",
+      "comment": "K2-05 pass 2"
+    },
+    {
+      "id": "initialise-folders-positive",
+      "kind": "positive",
+      "prompt": "Create the SRS folders, the identifier scheme and the source context for a new school-fees project.",
+      "expected": "01-initialize-srs",
+      "comment": "K2-05 pass 2"
+    },
+    {
+      "id": "game-srs-measurable-positive",
+      "kind": "positive",
+      "prompt": "Specify measurable game requirements with GREQ identifiers for save recovery, frame-time targets, matchmaking and player safety.",
+      "expected": "19-game-software-requirements-specification",
+      "comment": "K2-05 pass 2"
+    },
+    {
+      "id": "neg-gateway-interface-not-game-srs",
+      "kind": "negative",
+      "prompt": "Define the message formats, error codes and rate limits that the payment gateway callback must follow.",
+      "skill": "19-game-software-requirements-specification",
+      "owner": "03-api-specification",
+      "comment": "K2-05 pass 2 owned negative"
+    },
+    {
+      "id": "business-case-collection-positive",
+      "kind": "positive",
+      "prompt": "Compare what the new fee-collection system will cost with the collection gains it should bring, give the payback period and risks, and recommend go or no-go.",
+      "expected": "02-business-case",
+      "comment": "K2-05 pass 2"
+    },
+    {
+      "id": "business-case-budget-positive",
+      "kind": "positive",
+      "prompt": "Decision-makers want costs, benefits, NPV, assumptions and sensitivity for replacing the legacy ERP before they approve the budget.",
+      "expected": "02-business-case",
+      "comment": "K2-05 pass 2"
     }
   ]
 }

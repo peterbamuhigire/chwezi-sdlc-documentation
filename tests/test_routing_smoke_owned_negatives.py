@@ -42,3 +42,35 @@ def test_lint_flags_slug_and_description_copy():
 def test_live_fixtures_pass_floor_and_lint_and_seeded_floor_fails():
     assert run("--min-rank1", "83", "--lint-fixtures").returncode == 0
     assert run("--min-rank1", "99").returncode == 1
+
+
+def _fixtures(skill, positives, negatives):
+    rows = [{"id": f"p{i}", "kind": "positive", "prompt": "x", "expected": skill} for i in range(positives)]
+    rows += [{"id": f"n{i}", "kind": "negative", "prompt": "x", "skill": skill, "owner": owner} for i, owner in enumerate(negatives)]
+    return rows
+
+
+def test_coverage_needs_three_positives_and_two_owned_negatives():
+    active = ["a", "b", "c"]
+    rows = _fixtures("a", 3, ["b", "c"]) + _fixtures("b", 2, ["a", "c"]) + _fixtures("c", 3, ["a"])
+    assert MODULE.coverage_report(rows, active)["meeting"] == ["a"]
+
+
+def test_coverage_separates_cross_engine_owners_and_ignores_unowned_negatives():
+    active = ["a", "b"]
+    rows = _fixtures("a", 3, ["b", "other-engine/skill"]) + _fixtures("b", 3, ["a"])
+    rows.append({"id": "unowned", "kind": "negative", "prompt": "x", "skill": "b"})
+    report = MODULE.coverage_report(rows, active)
+    assert report["meeting"] == ["a"]
+    assert report["meeting_same_engine"] == []
+
+
+def test_coverage_ignores_fixtures_for_inactive_skills():
+    rows = _fixtures("gone", 3, ["a", "b"])
+    assert MODULE.coverage_report(rows, ["a", "b"]) == {"meeting": [], "meeting_same_engine": []}
+
+
+def test_live_coverage_floor_and_seeded_floor():
+    ok = run("--min-covered", "8")
+    assert ok.returncode == 0 and "route coverage: " in ok.stdout
+    assert run("--min-covered", "999").returncode == 1
