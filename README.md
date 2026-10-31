@@ -38,6 +38,7 @@ Use it when a project needs requirements, design, test, deployment, user or gove
 
 **Contents**
 
+- [Capabilities](#capabilities)
 - [Find the right skill](#find-the-right-skill)
 - [How it works](#how-it-works)
 - [What is inside](#what-is-inside)
@@ -51,7 +52,11 @@ Use it when a project needs requirements, design, test, deployment, user or gove
 - [References](#references)
 - [Contributing and licence](#contributing-and-licence)
 
-## Find the right skill
+## Capabilities
+
+The engine holds 159 skills in nine numbered phases, grouped under [What is inside](#what-is-inside). The [skill catalogue](docs/skill-catalogue.md) lists each one. The table under Find the right skill is the capability map: common tasks and the skill that handles each.
+
+### Find the right skill
 
 Describe the task in plain words and the router (`AGENTS.md`) picks the skill. The tasks below paraphrase the routing test fixtures. Each folder sits at the repository root.
 
