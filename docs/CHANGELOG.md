@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2026-10-31] - Kaizen pass 2: portability, references, gate accuracy and currency guards
+
+- Untracked a developer's local permission file that had been committed to this public repository
+  (it stays on the author's disk and is now ignored) and added `scripts/check_portable_paths.py`, which
+  fails on any tracked per-user `*.local.json` file and on machine-specific paths in live content.
+  Eighteen live files were rewritten with portable wording. The file remains in git history.
+- Repaired eight skill references that used the retired flat `skills/<name>` layout or an inactive alias,
+  and added `scripts/check_cross_engine_refs.py` (flat-layout names always; category paths against a
+  dev-engine checkout given by `--dev-engine-root` or `CHWEZI_DEV_ENGINE_ROOT`, otherwise `NOT_ASSESSED`).
+- Phase 02 NFR check: now flags "quickly", "responsive", "efficient", "highly available" and "at all times"
+  without a threshold and accepts spelled-out units and "within / at least / at most" phrasing. Phase 05
+  test-trace check: accepts `NFR`, `IR`, `DR`, `CON` and module-qualified identifiers. A requirement that
+  passed before with a bare qualifier can now be flagged; add the threshold.
+- `04-requirements-analysis` description now names contradictory or ambiguous stakeholder briefs; eight
+  routing fixtures added; `routing_smoke_test.py --coverage --min-covered N` reports and enforces the
+  three-positive, two-owned-negative target (8 of 159 skills).
+- Engine-level templates now target WCAG 2.2 AA. `scripts/check_standards_currency.py` stops citations of
+  superseded editions and engine-level WCAG 2.1 from growing (clause mappings are unchanged).
+- `scripts/validate_source_register.py` fails on a source record with no review date or a passed one;
+  `docs/kaizen/2026-10-engine-kaizen-pass-2/` holds the evidence and the re-verified register.
+- Catalogue validators exit 2 with an install hint when `ruamel.yaml` is missing; CI runs the new checks.
+
 ## [2026-10-29] - Marketplace, discovery and document-build reliability
 
 - Added a repo-scoped Codex marketplace beside the Claude Code marketplace and
