@@ -110,7 +110,7 @@ These items apply to all domains and shall be checked regardless of the primary 
 | CD-02 | Security | The system shall define data encryption requirements (at rest, in transit) | | | |
 | CD-03 | Privacy | The system shall define data retention and deletion policies | | | |
 | CD-04 | Privacy | The system shall handle user consent for data collection (GDPR, CCPA if applicable) | | | |
-| CD-05 | Accessibility | The system shall define WCAG 2.1 compliance level (A, AA, or AAA) | | | |
+| CD-05 | Accessibility | The system shall define WCAG 2.2 compliance level (A, AA, or AAA) | | | |
 | CD-06 | Localization | The system shall define supported languages and locales | | | |
 | CD-07 | Integration | The system shall define all external system integrations and API contracts | | | |
 | CD-08 | Performance | The system shall define response time, throughput, and concurrency targets | | | |

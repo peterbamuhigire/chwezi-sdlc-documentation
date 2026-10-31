@@ -41,7 +41,7 @@ Generate a comprehensive UX specification document covering information architec
 3. **Wireframe Standards** -- Define low/mid/high fidelity levels with annotation requirements and responsive breakpoints (mobile, tablet, desktop).
 4. **Design System** -- Document design tokens (color, typography, spacing, elevation), component catalog, and pattern library.
 5. **Interaction Specs** -- Define micro-interactions, transitions, loading states, and error states with timing and easing.
-6. **Accessibility** -- Specify WCAG 2.1 AA requirements with verification methods.
+6. **Accessibility** -- Specify WCAG 2.2 AA requirements with verification methods.
 7. **Usability Testing** -- Create task scenarios, success metrics (completion rate, time, errors, SUS), observation format, findings-to-requirements loop.
 8. **Design Handoff** -- Generate annotation standards (token-based), asset delivery checklist, implementation acceptance criteria.
 

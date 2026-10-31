@@ -1,0 +1,13 @@
+{
+  "comment": "Line-count ceilings for citations of superseded standards in live content (tracked .md and .py files outside docs/). A count may fall, never rise; lower a ceiling when a citation is retired. Clause remapping needs authoritative clause text and owner approval and is not done here. Edition status and sources: docs/kaizen/2026-10-engine-kaizen-pass-2/standards-source-register.md.",
+  "ceilings": {
+    "ieee-830": 163,
+    "iso-42010-2011": 13,
+    "iso-29119-3-2013": 11,
+    "iso-25010-2011": 1,
+    "iso-29148-2011": 1,
+    "iso-26514-2008": 0,
+    "wcag-2.1-engine": 0,
+    "wcag-2.1-domain-packs": 16
+  }
+}

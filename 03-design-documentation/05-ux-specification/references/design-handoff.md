@@ -174,7 +174,7 @@ The system shall provide this checklist for each component or screen after imple
 - [ ] Visual appearance matches high-fidelity design at all three breakpoints.
 - [ ] All interactive states implemented (default, hover, focus, active, disabled, loading).
 - [ ] Transitions and animations match specified timing and easing.
-- [ ] WCAG 2.1 AA automated audit passes (axe-core or Lighthouse score >= 90).
+- [ ] WCAG 2.2 AA automated audit passes (axe-core or Lighthouse score >= 90).
 - [ ] Keyboard navigation functions correctly for all interactive elements.
 - [ ] Screen reader announces labels, roles, and state changes correctly.
 - [ ] Assets use correct format, naming convention, and resolution.

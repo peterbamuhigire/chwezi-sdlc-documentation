@@ -66,7 +66,7 @@ Repository-level pathing is canonicalized to `projects/<ProjectName>/...`.
 | Skill ID & Name | Inputs | Process Logic | Governing Standard | Primary Output |
 |-----------------|--------|----------------|-------------------|----------------|
 | 08-engineering-strategy-brief | PRD/SRS, tech stack, risks, constraints, current architecture, quality attributes | Produce engineering strategy diagnosis, guiding policies, coherent actions, operating mechanisms, ADR candidates, and SaaS assumptions | IEEE 1016; engineering strategy | Engineering_Strategy_Brief.md |
-| 09-ux-content-and-form-specification | UX spec, SRS/user stories, personas, existing screens/forms, content evidence | Generate UX content, microcopy, form, validation, error-state, accessibility, and completion-metric requirements | ISO 9241-210; WCAG 2.1 AA | UX_Content_And_Form_Specification.md |
+| 09-ux-content-and-form-specification | UX spec, SRS/user stories, personas, existing screens/forms, content evidence | Generate UX content, microcopy, form, validation, error-state, accessibility, and completion-metric requirements | ISO 9241-210; WCAG 2.2 AA | UX_Content_And_Form_Specification.md |
 
 ## Phase 04: Development Artifacts
 

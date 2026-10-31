@@ -160,7 +160,7 @@ Requirements mandated by law or regulation that apply to any system within scope
 | HIPAA | Business Associate Agreement, PHI encryption, access logging, breach notification |
 | SOX | Financial controls, audit trails, segregation of duties, data retention |
 | PCI DSS | Cardholder data protection, network segmentation, vulnerability management |
-| WCAG 2.1 | Perceivable, operable, understandable, robust accessibility requirements |
+| WCAG 2.2 | Perceivable, operable, understandable, robust accessibility requirements |
 
 ### Step 3: Classify Reuse Type
 
