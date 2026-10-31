@@ -21,3 +21,7 @@ build/
 
 # Local-only: client-system documentation alignment analysis (not for public repo)
 docs/alignment-2026-06/
+
+# Per-user tool settings: permission allowlists, local usernames and project names; never commit
+.claude/settings.local.json
+.claude/*.local.json
