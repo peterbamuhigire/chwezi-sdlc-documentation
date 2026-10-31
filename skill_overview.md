@@ -2,7 +2,7 @@
 
 This registry documents the inputs, process logic, governing standards, and outputs for each skill in the Chwezi SDLC Documentation pipeline. It is formatted as an Engineering Interface Control Document to ensure compliance with ISO/IEC 15504 and IEEE 1002 taxonomy requirements.
 
-Scope on 2026-10-31: the tables below describe 52 of the 159 active skills (the Waterfall SRS pipeline and selected skills from each phase); every row name resolves to a skill on disk. The generated table in [`README.md`](README.md) is the complete catalogue, and the governing-standard column keeps the editions as first written, so read it with the open standards findings in `README.md` ("Quality and improvement").
+Scope on 2026-10-31: the tables below describe 52 of the 159 active skills (the Waterfall SRS pipeline and selected skills from each phase); every row name resolves to a skill on disk. The [skill catalogue](docs/skill-catalogue.md) is the complete list, and the governing-standard column keeps the editions as first written, so read it with the open standards findings in `README.md` ("Quality and improvement").
 
 ## Path Interpretation
 
