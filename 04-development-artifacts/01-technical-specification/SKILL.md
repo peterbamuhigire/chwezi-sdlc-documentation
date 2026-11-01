@@ -98,6 +98,8 @@ Given an approved project source and a conflicting implementation detail, record
 
 ## References
 
+- [Signup Human Validation Requirements](references/signup-human-validation.md) — read when specifying account creation, signup verification, or signup-related resend flows for web and Android clients.
+
 - [logic.prompt](logic.prompt) - load only when its template, logic, or detail is needed.
 - [README.md](README.md) - load only when its template, logic, or detail is needed.
 <!-- dual-compat-end -->
