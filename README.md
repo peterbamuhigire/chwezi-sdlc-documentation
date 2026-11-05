@@ -12,7 +12,7 @@ Use it when a project needs requirements, design, test, deployment, user or gove
 - **Eleven domain packs** under `domains/` add sector context: healthcare, finance, government, agriculture, logistics, Uganda and five more.
 - **A validation kernel**, `python3 -m engine`, runs deterministic gates for phases 01 to 09 and a hybrid gate.
 - **535 tests passed and 5 skipped** under `engine/tests`, with 96.19% coverage against a 90% floor (pytest, re-run 2026-11-05).
-- **Routing proxy:** 72 of 72 fixtures rank the expected skill in the top three, and 64 of 72 rank it first. The proxy is lexical, not live routing.
+- **Routing proxy:** 73 of 73 fixtures rank the expected skill in the top three, and 65 of 73 rank it first (re-run 2026-11-06). The proxy is lexical, not live routing.
 - **Latest published score:** 55.68 out of 100 after pass 2 on 2026-10-31. It is a reviewer judgement, not a customer outcome.
 
 ## Start here
@@ -253,7 +253,7 @@ On 2026-11-05 the first eleven commands in this table were re-run (Python 3.14.1
 | `python3 -m pytest tests -o addopts=` | 33 passed. Continuous integration (CI) runs 19 of them (the routing and Tier-1 lint tests). |
 | `python3 -X utf8 scripts/validate_engine.py` | `ENGINE CONTRACT: PASS`. |
 | `python3 -X utf8 scripts/validate_skill_engine.py --baseline tests/skill-quality-baseline.json` | 159 active skills, 1 template, no failures; 5 report-only size warnings. |
-| `python3 -X utf8 scripts/routing_smoke_test.py --min-rank1 83 --lint-fixtures --min-covered 8` | 72 of 72 fixtures in the top three; precision@1 64 of 72 (88.9%); fixture lint 0 findings. |
+| `python3 -X utf8 scripts/routing_smoke_test.py --min-rank1 83 --lint-fixtures --min-covered 8` | 73 of 73 fixtures in the top three; precision@1 65 of 73 (89.0%); fixture lint 0 findings over 99 prompts. Re-run on 2026-11-06 after two fixtures were added; on 2026-10-31 it was 72 of 72 and 64 of 72 (88.9%). |
 | `python3 -m engine validate-skills` | `SKILLS OK`. |
 | `python3 -X utf8 scripts/validate_plugin_packages.py` | 159 active skill paths, `errors: 0`, both file counts under the 5,000 limit. |
 | `python3 scripts/check_portable_paths.py` | PASS, 0 findings. |
@@ -271,7 +271,7 @@ On 2026-11-05 the first eleven commands in this table were re-run (Python 3.14.1
 Notes on the table:
 
 - **Pytest skips.** Four of the five skips need Pandoc, a renderer or a browser. The fifth, in `engine/tests/test_examples_validate.py`, collects no example because it looks in a folder this repository does not contain.
-- **Routing.** The routing result is a lexical proxy, not live routing. The same run reports 25 owned negatives: 22 pass and 3 are `NOT_ASSESSED` because their owners are in other engines. 8 of 159 skills meet the route-coverage target.
+- **Routing.** The routing result is a lexical proxy, not live routing. The same run reports 26 owned negatives: 23 pass and 3 are `NOT_ASSESSED` because their owners are in other engines (25 and 22 on 2026-10-31). 8 of 159 skills meet the route-coverage target.
 
 Not run on that host, so `NOT_ASSESSED`:
 
@@ -325,7 +325,7 @@ These findings matter when you use the engine.
 
 To clear a finding, re-verify the claim against its primary source. Record it in a newer `docs/kaizen/<cycle>/standards-source-register.md`; a newer record supersedes an older one for the same claim identifier. The pass 2 notes propose the next re-audit for 2026-11-30.
 
-### Changes after the October kaizen (1 to 5 November 2026)
+### Changes after the October kaizen (1 to 6 November 2026)
 
 - **Signup human-validation requirements (1 November, `c8cf4f6`).** The technical-specification skill gained the reference [`signup-human-validation.md`](04-development-artifacts/01-technical-specification/references/signup-human-validation.md).
   - Web signup: Turnstile with mandatory backend verification.
@@ -337,7 +337,11 @@ To clear a finding, re-verify the claim against its primary source. Record it in
   - A multi-tenant SRS now gets a "Document Numbering" feature by default. Leaving it out needs a recorded waiver.
   - It is wired into feature decomposition, attribute mapping, SRS initialisation, the SaaS NFR catalogue, the multi-tenancy architecture spec (new section 10 and a halt rule), database design, API specification, low-level design, the accounting SRS and design, the billing spec, business rules, acceptance criteria, the test plan, the retail and hospitality SRS skills and the finance domain gate.
   - No skill was added, so the count stays 159 skills and 1 template. A step-numbering defect in `05-feature-decomposition` (steps 1 to 6, then 5) was fixed on the way. Record: [`docs/continuous-improvement/document-numbering-kaizen-2026-11-05.md`](docs/continuous-improvement/document-numbering-kaizen-2026-11-05.md).
-- **Validation re-run (5 November).** The first eleven commands in [Validation](#validation) were re-run on 2026-11-05 and gave the figures already shown. Details are under that table.
+- **AI assistant use section (6 November, `6d4d158`, `b8febfd`).** The coding-guidelines skill gained an optional section 9 for teams that use AI coding assistants. It follows a 2026 reading of CODE Magazine articles, compared with the engine's own text before any change.
+  - The new reference [`ai-assistant-use-section.md`](04-development-artifacts/02-coding-guidelines/references/ai-assistant-use-section.md) sets eight required elements, AU-1 to AU-8: encouraged uses and ownership, uses that need extra review, output that needs human approval, architecture rules the assistant cannot know, testing expectations, security and data rules, disclosure and review of assisted work, and instruction files with an owner and precedence.
+  - It has a checklist applied by hand, one worked example that passes and one that fails. No automated document-conformance check exists for coding guidelines.
+  - It points to the community development engine for the how and keeps the AI-agent addendum for AI-agent products. Two routing fixtures cover the boundary. No skill was added (159 skills and 1 template). Record: [`docs/continuous-improvement/assistant-use-section-kaizen-2026-11-06.md`](docs/continuous-improvement/assistant-use-section-kaizen-2026-11-06.md).
+- **Validation re-run (5 November).** The first eleven commands in [Validation](#validation) were re-run on 2026-11-05 and gave the figures already shown. Details are under that table. The routing row was re-run again on 2026-11-06 after the fixtures above.
 
 ## What the October 2026 kaizen improved
 

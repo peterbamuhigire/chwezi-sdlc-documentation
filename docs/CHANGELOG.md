@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2026-11-06] - Optional AI assistant use section in the coding-guidelines contract
+
+- New `04-development-artifacts/02-coding-guidelines/references/ai-assistant-use-section.md`: an optional section 9 of `Coding_Guidelines.md` for teams that use AI coding assistants. Eight required elements (AU-1 to AU-8), a hand-applied checklist, one worked example that passes and one that fails, the boundary with the model-calling addendum and the AI-agent addendum, and pointers to the community development engine for the how.
+- `02-coding-guidelines/SKILL.md` gains an optional Step 6a, an Output Format sentence, a pitfall row and a verification item; `logic.prompt` gains step 6a. No skill added (159 active skills, 1 template); no description changed.
+- Two routing fixtures: a positive (a team that uses coding assistants routes to `02-coding-guidelines`) and an owned negative (the coding guidelines of an AI-agent product route to `05-ai-agent-coding-guidelines-addendum`). Routing: 73 of 73 in the top three, precision@1 65 of 73, 26 owned negatives (23 pass, 3 not assessed), 8 of 159 covered. pytest 535 passed, 5 skipped.
+- README "At a glance", Validation routing row and routing note re-measured on 2026-11-06. Record: [`docs/continuous-improvement/assistant-use-section-kaizen-2026-11-06.md`](continuous-improvement/assistant-use-section-kaizen-2026-11-06.md).
+
 ## [2026-11-05] - README measured refresh
 
 - README "At a glance", "Validation" and "Quality and improvement" now describe the signup human-validation requirements (1 November, `c8cf4f6`) and the document numbering requirements (5 November, `904d9da`), with links to their update records.
