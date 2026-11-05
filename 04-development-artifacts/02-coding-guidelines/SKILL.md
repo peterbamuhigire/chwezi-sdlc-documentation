@@ -185,13 +185,17 @@ Establish logging conventions:
 - Sensitive data redaction rules (mask PII, credentials, tokens)
 - Debug tooling recommendations aligned with tech stack
 
+### Step 6a (optional): Define AI Assistant Use
+
+If the requester or `tech_stack.md` states that the team uses AI coding assistants, apply `references/ai-assistant-use-section.md`: write section 9 with elements AU-1 to AU-8 and apply its checklist by hand. If it is unknown whether the team uses an assistant, record `[CONTEXT-GAP: assistant use]` and omit section 9. For the coding guidelines of an AI-agent product, route to `05-ai-agent-coding-guidelines-addendum` instead; section 9 governs the team's own use of assistants, not the product.
+
 ### Step 7: Write Output
 
 Write the completed document to `projects/<ProjectName>/<phase>/<document>/Coding_Guidelines.md`. The document shall include a Code Review Checklist section that summarizes all conventions as a reviewable checklist. Log the total count of conventions defined.
 
 ## Output Format
 
-The generated `Coding_Guidelines.md` shall contain these sections in order: Document Header (project name, date, version, standard), 1. Naming Conventions, 2. Code Structure, 3. Design Patterns to Use, 4. Anti-Patterns to Avoid, 5. Error Handling, 6. Logging, 7. Security Practices, 8. Code Review Checklist.
+The generated `Coding_Guidelines.md` shall contain these sections in order: Document Header (project name, date, version, standard), 1. Naming Conventions, 2. Code Structure, 3. Design Patterns to Use, 4. Anti-Patterns to Avoid, 5. Error Handling, 6. Logging, 7. Security Practices, 8. Code Review Checklist. When Step 6a applies, the document also contains 9. AI Assistant Use, after the Code Review Checklist.
 
 ## Common Pitfalls
 
@@ -201,6 +205,7 @@ The generated `Coding_Guidelines.md` shall contain these sections in order: Docu
 | No concrete examples | Every naming convention shall include a compliant and non-compliant example |
 | Anti-patterns without alternatives | Every anti-pattern shall include the recommended alternative approach |
 | Missing security practices | Security conventions shall address injection prevention, authentication handling, and data sanitization |
+| Section 9 added to the guidelines of an AI-agent product, or omitted for a team that uses assistants | Route an AI-agent product to `05-ai-agent-coding-guidelines-addendum`; add section 9 only for the team's own use of assistants (`references/ai-assistant-use-section.md`, section 1) |
 
 ## Verification Checklist
 
@@ -210,6 +215,7 @@ The generated `Coding_Guidelines.md` shall contain these sections in order: Docu
 - [ ] Error handling conventions define an exception hierarchy and message format.
 - [ ] Logging standards define structured format with redaction rules for sensitive data.
 - [ ] Code Review Checklist summarizes all conventions as reviewable items.
+- [ ] When section 9 is present, elements AU-1 to AU-8 each pass the hand-applied checklist in `references/ai-assistant-use-section.md`, and the reviewer and date are recorded.
 
 ## Integration
 
