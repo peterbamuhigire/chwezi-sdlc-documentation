@@ -633,6 +633,21 @@
       "prompt": "Decision-makers want costs, benefits, NPV, assumptions and sensitivity for replacing the legacy ERP before they approve the budget.",
       "expected": "02-business-case",
       "comment": "K2-05 pass 2"
+    },
+    {
+      "id": "coding-guidelines-assistant-use-positive",
+      "kind": "positive",
+      "prompt": "Our team uses coding assistants. Update the project guidelines on coding conventions with permitted uses of the assistants, enforceable review checks for assisted changes and the instruction files the assistants read.",
+      "expected": "02-coding-guidelines",
+      "comment": "SD-KZ-05: a team that uses coding assistants gets the optional AI assistant use section."
+    },
+    {
+      "id": "ai-agent-product-guidelines-neighbour",
+      "kind": "negative",
+      "prompt": "Write the coding conventions for an AI agent product: typed tool schemas, reversible actions, blast-radius caps, idempotent writes, timeouts and human approval gates.",
+      "skill": "02-coding-guidelines",
+      "owner": "05-ai-agent-coding-guidelines-addendum",
+      "comment": "SD-KZ-05 owned negative: the coding guidelines of an AI-agent product belong to the addendum, not to the assistant use section."
     }
   ]
 }
