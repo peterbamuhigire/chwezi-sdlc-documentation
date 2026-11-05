@@ -11,7 +11,7 @@ Use it when a project needs requirements, design, test, deployment, user or gove
 - **159 skills in nine numbered phases**, from `01-strategic-vision` to `09-governance-compliance` (counted with `find` on 2026-10-31).
 - **Eleven domain packs** under `domains/` add sector context: healthcare, finance, government, agriculture, logistics, Uganda and five more.
 - **A validation kernel**, `python3 -m engine`, runs deterministic gates for phases 01 to 09 and a hybrid gate.
-- **535 tests passed and 5 skipped** under `engine/tests`, with 96.19% coverage against a 90% floor (pytest, 2026-10-31).
+- **535 tests passed and 5 skipped** under `engine/tests`, with 96.19% coverage against a 90% floor (pytest, re-run 2026-11-05).
 - **Routing proxy:** 72 of 72 fixtures rank the expected skill in the top three, and 64 of 72 rank it first. The proxy is lexical, not live routing.
 - **Latest published score:** 55.68 out of 100 after pass 2 on 2026-10-31. It is a reviewer judgement, not a customer outcome.
 
@@ -245,7 +245,9 @@ Run these from the repository root. The results were measured on 31 October 2026
 
 `.github/workflows/engine.yml` runs most of the same commands on Python 3.11. It does not run the Node.js tests. Inside an activated virtual environment, `python` and `python3` are the same interpreter.
 
-| Command | Result on 2026-10-31 |
+On 2026-11-05 the first eleven commands in this table were re-run (Python 3.14.10, pytest 9.2.0, a fresh virtual environment with `PYTHONPATH=.`). They gave the results below, with `validate_plugin_packages.py` reporting 2,196 checkout entries and 1,290 package entries against the 5,000 limit and `validate_source_register.py` reporting 18 effective records as of that date. The six commands after them were not re-run and keep their 2026-10-31 results. Without `PYTHONPATH=.`, `engine/tests/test_agent_brief.py::test_script_writes_beside_the_handoff` fails with `ModuleNotFoundError: No module named 'engine'`.
+
+| Command | Result on 2026-10-31, same on 2026-11-05 where re-run |
 |---|---|
 | `python3 -m pytest` | Runs `engine/tests`: 535 passed, 5 skipped, coverage 96.19% against a 90% floor. |
 | `python3 -m pytest tests -o addopts=` | 33 passed. Continuous integration (CI) runs 19 of them (the routing and Tier-1 lint tests). |
@@ -322,6 +324,20 @@ These findings matter when you use the engine.
 | 2027-10-30 | 1 | 17: adds ISO/IEC/IEEE 42010, ISO/IEC/IEEE 29119-3 and ISO/IEC/IEEE 26514 (review 2027-10-29). |
 
 To clear a finding, re-verify the claim against its primary source. Record it in a newer `docs/kaizen/<cycle>/standards-source-register.md`; a newer record supersedes an older one for the same claim identifier. The pass 2 notes propose the next re-audit for 2026-11-30.
+
+### Changes after the October kaizen (1 to 5 November 2026)
+
+- **Signup human-validation requirements (1 November, `c8cf4f6`).** The technical-specification skill gained the reference [`signup-human-validation.md`](04-development-artifacts/01-technical-specification/references/signup-human-validation.md).
+  - Web signup: Turnstile with mandatory backend verification.
+  - Android signup on Google Play: Firebase App Check with Play Integrity, with a Turnstile WebView fallback.
+  - Acceptance evidence covers failure and abuse cases such as invalid, expired, replayed and wrong-host tokens, outages and emulators.
+  - Provider claims were checked on 1 November 2026. Review them by 1 February 2027. Record: [`docs/updates/2026-11-01-signup-human-validation-standard.md`](docs/updates/2026-11-01-signup-human-validation-standard.md).
+- **Document numbering requirements (5 November, `904d9da`).** A new reusable block, [`document-numbering-requirements.md`](02-requirements-engineering/references/document-numbering-requirements.md), states the rule that every user-facing document number in a multi-tenant SaaS system is contiguous per tenant and document type.
+  - It holds 28 functional requirements, 7 non-functional requirements, 9 transition requirements, 5 design constraints and 4 controls, each with an ID, a rationale and a verification method. It also holds 20 test cases and a document type register.
+  - A multi-tenant SRS now gets a "Document Numbering" feature by default. Leaving it out needs a recorded waiver.
+  - It is wired into feature decomposition, attribute mapping, SRS initialisation, the SaaS NFR catalogue, the multi-tenancy architecture spec (new section 10 and a halt rule), database design, API specification, low-level design, the accounting SRS and design, the billing spec, business rules, acceptance criteria, the test plan, the retail and hospitality SRS skills and the finance domain gate.
+  - No skill was added, so the count stays 159 skills and 1 template. A step-numbering defect in `05-feature-decomposition` (steps 1 to 6, then 5) was fixed on the way. Record: [`docs/continuous-improvement/document-numbering-kaizen-2026-11-05.md`](docs/continuous-improvement/document-numbering-kaizen-2026-11-05.md).
+- **Validation re-run (5 November).** The first eleven commands in [Validation](#validation) were re-run on 2026-11-05 and gave the figures already shown. Details are under that table.
 
 ## What the October 2026 kaizen improved
 

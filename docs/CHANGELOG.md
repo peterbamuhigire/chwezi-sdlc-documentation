@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2026-11-05] - README measured refresh
+
+- README "At a glance", "Validation" and "Quality and improvement" now describe the signup human-validation requirements (1 November, `c8cf4f6`) and the document numbering requirements (5 November, `904d9da`), with links to their update records.
+- The first eleven commands in the README validation table were re-run on 2026-11-05 (Python 3.14.10, pytest 9.2.0, `PYTHONPATH=.`) and gave the same results as on 2026-10-31: 535 passed and 5 skipped at 96.19% coverage, 159 active skills and 1 template, routing 72 of 72 in the top three and 64 of 72 first, `validate_source_register.py` PASS with 18 effective records. The last six commands were not re-run.
+- No skill, validator or routing fixture changed.
+
 ## [2026-11-05] - Contiguous document numbering requirements for multi-tenant SaaS
 
 - New `02-requirements-engineering/references/document-numbering-requirements.md`: the owner's standing rule of
