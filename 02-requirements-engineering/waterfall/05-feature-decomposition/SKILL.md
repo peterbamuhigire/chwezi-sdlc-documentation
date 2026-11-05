@@ -81,6 +81,7 @@ Fallback: if a required file, reviewer, standard source, network check, renderer
 - [Skill authoring and release standard](../../../docs/skill-authoring-standard.md)
 - [Skill guidance](README.md)
 - [Executable generation logic](logic.prompt)
+- [Document numbering requirements](../../references/document-numbering-requirements.md): load for every multi-tenant system that issues numbered documents; supplies the Document Numbering feature and its acceptance stubs.
 <!-- dual-compat-end -->
 <!-- local-contract-end -->
 
@@ -134,7 +135,8 @@ The system shall [verb] [object] when [condition].
 4. Every requirement MUST have an importance ranking (Essential/Conditional/Optional) per IEEE 830 §4.3.5 and a backward traceability reference `[Source: features.md > Feature Name]` per IEEE 830 §4.3.8.
 5. Confirm Section 3.2 references ISO/IEC 25010 Functional Suitability and that each requirement is traceable back to a feature in `features.md`.
 6. Reference `../ieee-830-compliance-checklist.md` (ID IEEE830-5.3.2) for compliance verification.
-5. Validate that the updated `SRS_Draft.md` retains Sections 1.0, 2.0, and 3.1 content while replacing or appending Section 3.2.
+7. For a multi-tenant system that issues document numbers, add a cross-cutting feature subsection "Document Numbering" carrying FR-DOCNUM-001 to FR-DOCNUM-047 from `../../references/document-numbering-requirements.md`, one row per document type from the document type register. A missing register is `[CONTEXT-GAP: document type register]`; omitting the feature needs a recorded waiver.
+8. Validate that the updated `SRS_Draft.md` retains Sections 1.0, 2.0, and 3.1 content while replacing or appending Section 3.2.
 
 ## Final Step: Write `manifest.md`
 

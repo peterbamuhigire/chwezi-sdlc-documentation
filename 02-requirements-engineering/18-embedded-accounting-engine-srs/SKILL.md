@@ -79,6 +79,7 @@ Fallback: if a required file, reviewer, standard source, network check, renderer
 ## References
 
 - [Skill authoring and release standard](../../docs/skill-authoring-standard.md)
+- [Document numbering requirements](../references/document-numbering-requirements.md): load for subsection 11.
 <!-- dual-compat-end -->
 <!-- local-contract-end -->
 
@@ -106,6 +107,7 @@ Add these to functional requirements for every money-handling system:
 8. Reports: trial balance, income statement, statement of financial position, cash flow statement, statement of changes in equity/net assets, GL detail, ageing, tax schedules, inventory valuation, payroll liabilities, fixed asset register, donor/fund reports where relevant.
 9. Integrity invariants: balanced entries, control-account reconciliation, inventory tie-out, period enforcement, idempotency enforcement, tenant isolation, rebuildable balances.
 10. Audit trail: actor, timestamp, source document, posting rule version, mapping changes, CoA changes, reversals, exports, and close approvals.
+11. Document numbering: contiguous per tenant and document type for source documents and journals, voided not deleted, with credit notes and platform invoices on their own series ([standard](../references/document-numbering-requirements.md)).
 
 ## Requirement Wording Pattern
 

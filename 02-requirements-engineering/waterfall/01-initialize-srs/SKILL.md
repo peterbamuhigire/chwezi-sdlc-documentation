@@ -109,6 +109,7 @@ Fallback: if a required file, reviewer, standard source, network check, renderer
 
 - [Skill authoring and release standard](../../../docs/skill-authoring-standard.md)
 - [Final requirements quality gate](../../references/final-requirements-quality-gate.md): the exit gate every SRS started here must pass before review or build.
+- [Document numbering requirements](../../references/document-numbering-requirements.md): for a multi-tenant system, seed `_context/business_rules.md` with a TODO for the document type register (section 3) and the glossary with its terms (section 2).
 <!-- dual-compat-end -->
 <!-- local-contract-end -->
 

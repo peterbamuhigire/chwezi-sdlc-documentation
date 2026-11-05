@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2026-11-05] - Contiguous document numbering requirements for multi-tenant SaaS
+
+- New `02-requirements-engineering/references/document-numbering-requirements.md`: the owner's standing rule of
+  5 November 2026 as a reusable requirement block. One series per tenant and document type, never reset;
+  allocated at issue inside the save; voided, never deleted; clash handling (seed, probe, unique backstop,
+  one retry); separate platform and credit-note series; durable idempotency; offline provisional tags;
+  capacity and sorting; zero-disruption migration; single allocator, CI ratchet, schema test and nightly gap
+  report. 28 FR, 7 NFR, 9 transition NFR, 5 DC and 4 CTRL items, 20 test cases and Given-When-Then criteria.
+- Wired in by default for multi-tenant specs: `05-feature-decomposition` (SRS 3.2 Document Numbering feature),
+  `07-attribute-mapping` (3.3-3.6), `01-initialize-srs`, SaaS NFR catalogue section 11,
+  `10-saas-multi-tenancy-architecture-spec` (new section 10 and a halt rule), database design, API
+  specification, LLD, accounting SRS and design, billing spec, business rules, acceptance criteria, test plan,
+  retail and hospitality SRS and the finance domain gate. Omission needs a recorded waiver.
+- Fixed the step numbering in `05-feature-decomposition/SKILL.md` core instructions.
+- Record: `docs/continuous-improvement/document-numbering-kaizen-2026-11-05.md`.
+
 ## [2026-10-31] - Documentation aligned with the repository after pass 2
 
 Documents only; no skill body, code, test or workflow was edited, and the only change to an existing

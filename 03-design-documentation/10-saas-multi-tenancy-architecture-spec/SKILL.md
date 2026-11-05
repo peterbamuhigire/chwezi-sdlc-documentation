@@ -82,6 +82,7 @@ If any required capability is unavailable, return the narrowest useful qualified
 - [Tenancy decision template](references/saas-tenancy-decision-template.md)
 - [Control-plane services](references/saas-control-plane-services.md)
 - [HLD neighbour](../01-high-level-design/SKILL.md)
+- [Document numbering requirements](../../02-requirements-engineering/references/document-numbering-requirements.md): load for spec section 10; section 8 lists the design obligations.
 <!-- dual-compat-end -->
 
 
@@ -231,8 +232,9 @@ Write `Multi_Tenancy_Architecture_Spec.md` with the following sections in order:
 7. Noisy-Neighbor & Per-Tier SLOs
 8. Per-Tenant Cost Attribution
 9. Tenant Lifecycle Event Catalogue (cross-link to lifecycle runbook)
-10. ADR Seed Index
-11. Traceability Matrix (every section → SRS clause or PRD requirement)
+10. Document Numbering Design: the allocator component, document type register, tenant and platform series, issue events, void path, idempotency, offline provisional tags and gap report (per the document numbering standard, section 8). Write "Not applicable: no numbered documents" only when the SRS confirms it.
+11. ADR Seed Index
+12. Traceability Matrix (every section → SRS clause or PRD requirement)
 
 Log the section count and ADR-seed count.
 
@@ -260,6 +262,7 @@ Strict heading order as above. Mermaid for all diagrams. LaTeX for any quota / c
 - [ ] Per-tier SLOs exist for every pooled service.
 - [ ] Per-tenant cost attribution method exists for every pooled service.
 - [ ] One ADR seed exists per microservice plus one for the control-plane boundary.
+- [ ] Document Numbering Design names the single allocator, lists every document type with its series scope and issue event, and traces to the FR-DOCNUM and NFR-DOCNUM items.
 - [ ] Traceability matrix maps every section to SRS or PRD.
 
 ## Integration

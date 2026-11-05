@@ -80,6 +80,7 @@ Fallback: if a required file, reviewer, standard source, network check, renderer
 
 - [Skill authoring and release standard](../../../../docs/skill-authoring-standard.md)
 - [Rule Catalog Pattern](references/rule-catalog-pattern.md)
+- [Document numbering requirements](../../../references/document-numbering-requirements.md): load when rules govern invoice, receipt, order or other document numbers; catalogue each type's issue event, format and void rule from its document type register.
 <!-- dual-compat-end -->
 <!-- local-contract-end -->
 

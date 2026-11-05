@@ -82,6 +82,7 @@ Fallback: if a required file, reviewer, standard source, network check, renderer
 - [Skill guidance](README.md)
 - [Executable generation logic](logic.prompt)
 - [Scenario quality rules](references/scenario-quality-rules.md): load when writing or reviewing Given-When-Then criteria, NFR ranges, or post-delivery scenario filing.
+- [Document numbering requirements](../../references/document-numbering-requirements.md): load for stories that issue, void or replay numbered documents; reuse its section 9 criteria.
 <!-- dual-compat-end -->
 <!-- local-contract-end -->
 

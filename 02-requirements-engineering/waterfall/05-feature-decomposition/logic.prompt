@@ -14,5 +14,6 @@ You are executing the 05-Feature-Decomposition skill. Your task is to transform 
    - Each requirement MUST include a backward traceability reference to its source: `[Source: features.md > Feature Name]` or `[Source: vision.md > Goal Name]` (IEEE 830 §4.3.8).
 3. Avoid AI filler language; describe triggers and behaviors precisely (no "intelligent" or "easy-to-use" qualifiers). Include a note about how each feature subtree fits into the Functional Decomposition Tree.
 4. Reference the IEEE 830 compliance checklist at `../ieee-830-compliance-checklist.md` (ID IEEE830-5.3.2) to verify all required sub-items (a–e) are addressed for each feature.
-5. Replace only Section 3.2 in `../output/SRS_Draft.md` with the new content, maintaining the rest of the document.
-6. Log the number of features processed and the Section 3.2 write action with relative paths.
+5. If the project is multi-tenant and issues document numbers (invoices, receipts, orders, stock or money documents, journals, payroll runs), add a "Document Numbering" feature subsection with FR-DOCNUM-001 to FR-DOCNUM-047 from `../../references/document-numbering-requirements.md`, adapted to the document type register; flag a missing register as `[CONTEXT-GAP: document type register]`.
+6. Replace only Section 3.2 in `../output/SRS_Draft.md` with the new content, maintaining the rest of the document.
+7. Log the number of features processed and the Section 3.2 write action with relative paths.

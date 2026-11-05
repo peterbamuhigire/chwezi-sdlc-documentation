@@ -81,6 +81,7 @@ If any required capability is unavailable, return the narrowest useful qualified
 
 - [Database Design neighbour](../04-database-design/SKILL.md)
 - [Finance engine router](../../AGENTS.md#finance--accounting-trigger)
+- [Document numbering requirements](../../02-requirements-engineering/references/document-numbering-requirements.md)
 <!-- dual-compat-end -->
 
 
@@ -97,6 +98,7 @@ If any required capability is unavailable, return the narrowest useful qualified
 - NEVER design mutable posted journals.
 - MUST show how materialized balances rebuild from journal lines.
 - MUST include `tenant_id` on accounting tables unless explicitly single-tenant.
+- MUST number journals and source documents from the single document-number allocator, inside the posting transaction, contiguous per tenant and type.
 
 ## Canonical Data Model
 

@@ -84,6 +84,7 @@ If any required capability is unavailable, return the narrowest useful qualified
 - [Database Design neighbour](../04-database-design/SKILL.md)
 - [Diagram IR authoring](../01-high-level-design/references/diagram-ir-authoring.md): load before Steps 4 and 5; sequence and state figures are authored as IR against `diagram-ir.schema.json`, validated and generated.
 - [As-built recovery](../01-high-level-design/references/as-built-recovery.md): load when the LLD describes existing code rather than a new design.
+- [Document numbering requirements](../../02-requirements-engineering/references/document-numbering-requirements.md): load when a module issues numbered documents; specify the allocation algorithm, retry wrapper, lock order, issue-event methods and void path from its section 8.
 <!-- dual-compat-end -->
 
 

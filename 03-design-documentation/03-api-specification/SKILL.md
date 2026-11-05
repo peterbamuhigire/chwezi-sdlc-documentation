@@ -82,6 +82,7 @@ If any required capability is unavailable, return the narrowest useful qualified
 - [Advanced API patterns](references/advanced-api-patterns.md)
 - [Long-running operations](references/long-running-operations.md)
 - [Practical API architecture](references/practical-api-architecture.md)
+- [Document numbering requirements](../../02-requirements-engineering/references/document-numbering-requirements.md): load when any resource carries a document number.
 <!-- dual-compat-end -->
 
 
@@ -245,6 +246,7 @@ Section 10 (Traceability Matrix) shall map each endpoint to its originating SRS 
 - [ ] The `openapi.yaml` file declares `openapi: 3.1.x` (or a recorded 3.2.x decision), parses with a 3.1-aware validator, and contains all endpoints defined in `API_Specification.md`.
 - [ ] Every error response uses the RFC 9457 `application/problem+json` shape, and every `type`/`code` appears in the Error Code Registry.
 - [ ] The rate-limit header scheme is documented as a project decision, not claimed as a standard.
+- [ ] Every numbered resource returns `document_number` as a string and `number_status`; numbered creates require an idempotency key, ignore client-sent numbers and return the stored number on replay.
 - [ ] For long-lived or side-effecting APIs, the specification includes a consumer contract matrix, idempotency map, stable error-code registry with retryability, versioning/deprecation policy, and contract-test obligations.
 
 ## Integration

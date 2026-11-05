@@ -101,6 +101,7 @@ Given `FR-PAY-014` and a payment retry design, map successful, declined, timeout
 - [logic.prompt](logic.prompt) - load only when its template, logic, or detail is needed.
 - [README.md](README.md) - load only when its template, logic, or detail is needed.
 - [references/pairwise-combinatorial-test-design.md](references/pairwise-combinatorial-test-design.md) - load when three or more interacting parameters call for pairwise test design.
+- [Document numbering requirements](../../02-requirements-engineering/references/document-numbering-requirements.md) - load when the SRS carries FR-DOCNUM or NFR-DOCNUM items; section 10 is the test case catalogue.
 <!-- dual-compat-end -->
 ## Overview
 
@@ -159,7 +160,7 @@ Establish the test case format using the nine normative 29119-3 fields: TC-ID, O
 
 ### Step 5: Generate Functional Test Cases
 
-For each functional requirement extracted in Step 2, generate one or more test cases. Each test case shall define preconditions, sequential steps, and a deterministic expected result. Group test cases by SRS feature (Section 3.2.x subsections).
+For each functional requirement extracted in Step 2, generate one or more test cases. Each test case shall define preconditions, sequential steps, and a deterministic expected result. Group test cases by SRS feature (Section 3.2.x subsections). When the SRS carries FR-DOCNUM items, instantiate TC-DOCNUM-001 to TC-DOCNUM-020 from the document numbering standard with project data; at minimum contiguity under concurrency, rollback burns no number, replay returns the same number, void keeps its number, draft delete leaves no gap and history untouched after migration.
 
 ### Step 6: Generate Non-Functional Test Cases
 

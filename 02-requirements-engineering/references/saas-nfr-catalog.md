@@ -86,6 +86,10 @@ Reusable non-functional-requirement library for multi-tenant SaaS. Every NFR has
 | NFR-PRC-002 | Soft-limit breach SHALL emit a warning event; hard-limit breach SHALL throttle. | per quota table | Synthetic quota test |
 | NFR-PRC-003 | Quota counts SHALL be visible to the tenant admin in real time. | < 1 min lag | UX test |
 
+## 11. Document Numbering NFRs
+
+Every multi-tenant SaaS that issues user-facing document numbers (invoices, receipts, credit notes, orders, stock and money documents, journals, payroll runs) carries the contiguous-numbering block: one series per tenant and document type, never reset, allocated at issue inside the save, voided not deleted, replay-safe, sized for decades. Take the FR, NFR, DC, CTRL and transition (NFR-DOCMIG) items and the test cases from [Document numbering requirements](document-numbering-requirements.md); do not restate them here.
+
 ## Usage in Phase 02
 
 Drop relevant NFRs into Section 3 of the SRS. Each project picks the rows applicable, customises thresholds, and traces them to the per-tier SLO doc and the Multi-Tenancy Architecture Spec.

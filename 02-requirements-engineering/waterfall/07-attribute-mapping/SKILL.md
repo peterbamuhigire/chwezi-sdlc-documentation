@@ -82,6 +82,7 @@ Fallback: if a required file, reviewer, standard source, network check, renderer
 - [Skill guidance](README.md)
 - [Executable generation logic](logic.prompt)
 - [ISO/IEC 25010:2023 NFR coverage map](references/iso-25010-2023-nfr-coverage.md): load before writing Sections 3.3-3.6 to record a relevance decision for all nine 2023 characteristics and place each in the existing section layout.
+- [Document numbering requirements](../../references/document-numbering-requirements.md): load for every multi-tenant system that issues invoices, receipts, orders or other numbered documents; supplies the capacity, transition and design-constraint items.
 <!-- dual-compat-end -->
 <!-- local-contract-end -->
 
@@ -102,7 +103,8 @@ Apply this skill after Sections 1.0–3.2 exist. It produces the non-functional 
 6. Generate **Section 3.6 – Other Requirements** (IEEE 830 §5.3.8) for requirements not fitting 3.1–3.5 (portability, installation, localization). If none, state "No additional requirements beyond those specified in Sections 3.1–3.5 have been identified."
 7. Reference `../ieee-830-compliance-checklist.md` (IDs IEEE830-5.3.3 through IEEE830-5.3.7) for compliance verification.
 8. Before finalising, apply `references/iso-25010-2023-nfr-coverage.md`: every one of the nine ISO/IEC 25010:2023 characteristics (including interaction capability, flexibility and safety) carries a relevance decision; write Sections 3.3-3.6 items here and return any uncovered 3.1 or 3.2 item to `04-interface-specification` or `05-feature-decomposition` as a `[CONTEXT-GAP]`. Section numbering stays unchanged for the build pipeline.
-9. Preserve existing sections (1.0–3.2, 4.0+) when writing to `projects/<ProjectName>/<phase>/<document>/SRS_Draft.md`; only replace Sections 3.3–3.6.
+9. For a multi-tenant system that issues document numbers, write the NFR-DOCNUM, NFR-DOCMIG, DC-DOCNUM and CTRL-DOCNUM items from `../../references/document-numbering-requirements.md` into Sections 3.3-3.6 using its placement map (section 4). Replace every *default* threshold with a measured or owner-approved value, or tag `[CONTEXT-GAP: document numbering peak load]`. Omission needs a recorded waiver.
+10. Preserve existing sections (1.0–3.2, 4.0+) when writing to `projects/<ProjectName>/<phase>/<document>/SRS_Draft.md`; only replace Sections 3.3–3.6.
 
 ## Resources
 - `README.md`: Quality model rationale and measurement reminders.

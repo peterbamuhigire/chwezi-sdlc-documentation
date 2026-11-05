@@ -153,5 +153,6 @@ replayable test with two concurrent requests. The requirement remains
 ## References
 
 - [Hospitality domain pack](../../domains/hospitality/INDEX.md)
+- [Document numbering requirements](../references/document-numbering-requirements.md): load for bills, kitchen tickets, folios, reservations, receipts and city-ledger invoices.
 - [Chwezi Accounting Doctrine](https://github.com/peterbamuhigire/chwezi-accounting-doctrine/blob/main/README.md)
 - [Hospitality engineering system skill](https://github.com/peterbamuhigire/chwezi-dev-engine/blob/main/skills/product-business/hospitality-hotel-restaurant-systems/SKILL.md)

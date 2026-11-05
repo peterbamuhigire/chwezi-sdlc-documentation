@@ -79,6 +79,7 @@ Fallback: if a required file, reviewer, standard source, network check, renderer
 ## References
 
 - [Skill authoring and release standard](../../docs/skill-authoring-standard.md)
+- [Document numbering requirements](../references/document-numbering-requirements.md): load for receipts, invoices, credit notes, held sales, purchase orders, goods receipts, transfers and counts.
 <!-- dual-compat-end -->
 <!-- local-contract-end -->
 

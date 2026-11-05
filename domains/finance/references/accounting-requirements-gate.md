@@ -10,7 +10,7 @@ Use this reference when an SRS, BRD, architecture, data model, or test plan invo
 | Accounting engine | Chart of accounts, posting rules, balanced journals, subledgers, control accounts, fiscal periods, reversals, period close |
 | Source documents | Invoice, receipt, bill, PO, GRN, delivery note, stock count, timesheet, payroll run, bank/mobile money statement, tax return evidence |
 | Management accounting | Cost centers, profit centers, projects, branches, cost drivers, budgets, variance reports, contribution margin, break-even |
-| Controls | Segregation of duties, maker-checker approvals, audit logs, role permissions, document numbering, closed periods, exception handling |
+| Controls | Segregation of duties, maker-checker approvals, audit logs, role permissions, document numbering (contiguous per tenant and type; see `02-requirements-engineering/references/document-numbering-requirements.md`), closed periods, exception handling |
 | Reconciliations | Bank/mobile money, AR, AP, inventory, payroll, tax, loans, fixed assets, intercompany where relevant |
 | Reporting | Trial balance, GL, P&L, balance sheet, cash flow, aging, inventory valuation, tax schedules, management accounts, dashboards |
 | Compliance | IFRS/local GAAP basis, VAT/sales tax, payroll taxes, withholding, record retention, privacy, audit evidence |

@@ -143,6 +143,7 @@ Document for each price-list line: revenue-recognition pattern (ratable / point-
 - Daily reconciliation: metering aggregate vs gateway raw count vs charged amount.
 - Discrepancy alarm threshold: 0.1%.
 - Annual external audit (for series-B+ companies).
+- Platform invoices and credit notes to tenants use platform-wide contiguous series that never consume a tenant's own series (FR-DOCNUM-030 in [document numbering requirements](../references/document-numbering-requirements.md)).
 
 ### Step 8: ERP / finance handoff
 

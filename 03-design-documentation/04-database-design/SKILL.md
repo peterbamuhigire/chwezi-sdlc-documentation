@@ -84,6 +84,7 @@ If any required capability is unavailable, return the narrowest useful qualified
 - [Accounting Engine Design neighbour](../16-accounting-engine-design/SKILL.md)
 - [Diagram IR authoring](../01-high-level-design/references/diagram-ir-authoring.md): load before Step 4; the ERD is authored as IR against `diagram-ir.schema.json`, validated and generated.
 - [As-built recovery](../01-high-level-design/references/as-built-recovery.md): load when recovering a schema design from DDL and migrations of a running system.
+- [Document numbering requirements](../../02-requirements-engineering/references/document-numbering-requirements.md): load when any table holds a user-facing document number.
 <!-- dual-compat-end -->
 
 
@@ -186,7 +187,7 @@ Document the migration approach: versioned migrations (up/down scripts), seed da
 
 ### Step 11: Multi-Tenancy and Final Output
 
-If multi-tenancy is detected in SRS or HLD, define the tenant isolation strategy: shared database with `tenant_id` FK on every tenant-scoped table, or separate schemas. The `tenant_id` column SHALL have a foreign key constraint and be included in composite indexes for query performance. Write `Database_Design.md` and `diagrams/erd.ir.json` to `projects/<ProjectName>/<phase>/<document>/`, then validate and generate. Log total table count, column count, and relationship count.
+If multi-tenancy is detected in SRS or HLD, define the tenant isolation strategy: shared database with `tenant_id` FK on every tenant-scoped table, or separate schemas. The `tenant_id` column SHALL have a foreign key constraint and be included in composite indexes for query performance. Where the system issues document numbers, specify the counter table keyed on (tenant, document type), a nullable number column while draft, a unique key on (tenant, number) per numbered table, a durable idempotency-key column, the column widths and the numbering audit table from the document numbering standard (sections 7 and 8). Write `Database_Design.md` and `diagrams/erd.ir.json` to `projects/<ProjectName>/<phase>/<document>/`, then validate and generate. Log total table count, column count, and relationship count.
 
 ## Output Format
 
@@ -242,6 +243,7 @@ Example ERD IR (generated into Mermaid `erDiagram` by `python -m engine diagrams
 - [ ] Foreign keys have ON DELETE and ON UPDATE cascade rules defined.
 - [ ] Monetary columns use `DECIMAL(19,4)`.
 - [ ] Data dictionary covers every field in every table.
+- [ ] Every numbered document table has a unique key on (tenant, number), a number column of at least 40 characters and no delete path for numbered rows.
 - [ ] Engineering catalog `mysql-engineering` skill and linked best-practices reference reviewed if MySQL or MariaDB is the selected platform.
 
 ## Integration
