@@ -31,7 +31,7 @@ Command results are in the commit message of this change and in the report to th
 
 - Whether a specification that uses the declaration produces a more consistent app. No project has used it yet.
 - Platform touch-target guidance (48 dp, 44 pt) was not re-read against a dated platform source.
-- `money-figures-and-statement-display` was being written in parallel in the design engine and did not exist in the checkout when this record was written; the reference names its intended path.
+- `money-figures-and-statement-display` was being written in parallel in the design engine and did not exist in the checkout when this record was written; the reference names its intended path. Resolved later on 2026-11-07: the skill landed in `chwezi-design-engine` at commit `21583e7` at that path.
 - The worked example was applied by its author only; no independent review.
 
 ## Rollback
