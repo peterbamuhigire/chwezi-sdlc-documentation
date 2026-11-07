@@ -82,6 +82,7 @@ If any required capability is unavailable, return the narrowest useful qualified
 - [Design handoff](references/design-handoff.md)
 - [Usability testing](references/usability-testing.md)
 - [Premium UX specification](references/premium-ui-ux-specification.md)
+- [House-style declaration](references/house-style-declaration.md): required section HS-01 to HS-12 when the product follows the Chwezi business-app house style.
 - [UX content neighbour](../09-ux-content-and-form-specification/SKILL.md)
 - Presentation handoff: typeface, colour, layout, motion and visual QA are owned by the `chwezi-design-engine` engine (resolve via the global engine table); this skill states what the experience must achieve and how it is verified.
 <!-- dual-compat-end -->
@@ -253,7 +254,7 @@ The specification shall define:
 - the review path for new variants or states
 - how deprecated components are retired
 
-See `references/design-system-guide.md` for token taxonomy and documentation templates.
+See `references/design-system-guide.md` for token taxonomy and documentation templates. If the product follows the Chwezi business-app house style, add the declaration in `references/house-style-declaration.md`.
 
 **4.5 Premium Experience Foundation**
 

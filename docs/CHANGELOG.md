@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2026-11-07] - House-style declaration for UX specifications (SD-KZ-06)
+
+- New `03-design-documentation/05-ux-specification/references/house-style-declaration.md`: the section a UX specification (or SRS user-interface section) must contain when the product follows the Chwezi business-app house style. Twelve requirements HS-01 to HS-12 with acceptance criteria and evidence: brand primary contrast >= 4.5:1, tinted ground and near-white cards, one warm next-step accent per screen, type pair with tabular figures and the banned-font check, compact amounts, one date format, no raw identifiers, motion once per visit and none under reduced motion, illustrated icon source and licence, target size and non-text contrast, guardrail tests as release gates, and the screenshot and contrast evidence matrix. Fill-in template and a fictional worked example.
+- `05-ux-specification/SKILL.md` and its `README.md` point to the reference. No skill added (159 active, 1 template); no description changed.
+- Presentation values stay in the `chwezi-design-engine` engine (`chwezi-business-app-house-style`, `money-figures-and-statement-display`).
+- WCAG 2.2 SC 1.4.3, 1.4.11, 2.5.8 and 2.3.3 verified against W3C on 2026-11-07: `docs/kaizen/2026-11-house-style-declaration/standards-source-register.md`. Record: [`docs/continuous-improvement/house-style-declaration-kaizen-2026-11-07.md`](continuous-improvement/house-style-declaration-kaizen-2026-11-07.md).
+
 ## [2026-11-06] - Optional AI assistant use section in the coding-guidelines contract
 
 - New `04-development-artifacts/02-coding-guidelines/references/ai-assistant-use-section.md`: an optional section 9 of `Coding_Guidelines.md` for teams that use AI coding assistants. Eight required elements (AU-1 to AU-8), a hand-applied checklist, one worked example that passes and one that fails, the boundary with the model-calling addendum and the AI-agent addendum, and pointers to the community development engine for the how.

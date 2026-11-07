@@ -1,0 +1,12 @@
+# Source and currentness register: house-style declaration (SD-KZ-06)
+
+**Checked:** 2026-11-07. **Reviewer:** SDLC engine operator (Claude). **Scope:** the four WCAG 2.2 success criteria cited by `03-design-documentation/05-ux-specification/references/house-style-declaration.md`. Claims not listed here keep their earlier records (`C-WCAG` in `docs/kaizen/2026-10-engine-kaizen-pass-2/standards-source-register.md`).
+
+**Method and limits.** Primary W3C pages were fetched on 2026-11-07 and read as data. Level and threshold wording were checked; clause-level conformance of any product is not established. No archive snapshot was taken (archival verification is `NOT_ASSESSED`). Platform touch-target guidance (48 dp Android, 44 pt iOS) was not re-read and stays `NOT_ASSESSED`.
+
+| Claim ID | Claim in scope | Source and tier | Publication/version date; accessed/verified | Freshness; review date | Support state, uncertainty, confidence |
+|---|---|---|---|---|---|
+| C-WCAG22-1-4-3 | SC 1.4.3 Contrast (Minimum) is Level AA: text at least 4.5:1, large text at least 3:1. | W3C, tier 1: [WCAG 2.2](https://www.w3.org/TR/WCAG22/) | Recommendation 12 December 2024 (REC-WCAG22-20241212); accessed and verified 2026-11-07 | Time-sensitive; review by 2027-05-07 | `supported`. Applicability to a project or jurisdiction not established. High confidence. |
+| C-WCAG22-1-4-11 | SC 1.4.11 Non-text Contrast is Level AA: at least 3:1 against adjacent colours. | W3C, tier 1: [WCAG 2.2](https://www.w3.org/TR/WCAG22/) | Recommendation 12 December 2024; accessed and verified 2026-11-07 | Time-sensitive; review by 2027-05-07 | `supported`. High confidence. |
+| C-WCAG22-2-5-8 | SC 2.5.8 Target Size (Minimum) is Level AA: pointer targets at least 24 by 24 CSS pixels, with listed exceptions. | W3C, tier 1: [Understanding 2.5.8](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html) | WCAG 2.2 Recommendation 12 December 2024; accessed and verified 2026-11-07 | Time-sensitive; review by 2027-05-07 | `supported` from the Understanding page; the normative text was not read past the fetch limit. Medium-high confidence. |
+| C-WCAG22-2-3-3 | SC 2.3.3 Animation from Interactions is Level AAA: interaction-triggered motion can be disabled unless essential. | W3C, tier 1: [WCAG 2.2](https://www.w3.org/TR/WCAG22/) | Recommendation 12 December 2024; accessed and verified 2026-11-07 | Time-sensitive; review by 2027-05-07 | `supported`. Level AAA, so the reference states that HS-08 exceeds an AA target by owner choice. High confidence. |

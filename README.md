@@ -325,7 +325,7 @@ These findings matter when you use the engine.
 
 To clear a finding, re-verify the claim against its primary source. Record it in a newer `docs/kaizen/<cycle>/standards-source-register.md`; a newer record supersedes an older one for the same claim identifier. The pass 2 notes propose the next re-audit for 2026-11-30.
 
-### Changes after the October kaizen (1 to 6 November 2026)
+### Changes after the October kaizen (1 to 7 November 2026)
 
 - **Signup human-validation requirements (1 November, `c8cf4f6`).** The technical-specification skill gained the reference [`signup-human-validation.md`](04-development-artifacts/01-technical-specification/references/signup-human-validation.md).
   - Web signup: Turnstile with mandatory backend verification.
@@ -341,6 +341,7 @@ To clear a finding, re-verify the claim against its primary source. Record it in
   - The new reference [`ai-assistant-use-section.md`](04-development-artifacts/02-coding-guidelines/references/ai-assistant-use-section.md) sets eight required elements, AU-1 to AU-8: encouraged uses and ownership, uses that need extra review, output that needs human approval, architecture rules the assistant cannot know, testing expectations, security and data rules, disclosure and review of assisted work, and instruction files with an owner and precedence.
   - It has a checklist applied by hand, one worked example that passes and one that fails. No automated document-conformance check exists for coding guidelines.
   - It points to the community development engine for the how and keeps the AI-agent addendum for AI-agent products. Two routing fixtures cover the boundary. No skill was added (159 skills and 1 template). Record: [`docs/continuous-improvement/assistant-use-section-kaizen-2026-11-06.md`](docs/continuous-improvement/assistant-use-section-kaizen-2026-11-06.md).
+- **House-style declaration (7 November, SD-KZ-06).** The UX specification skill gained the reference [`house-style-declaration.md`](03-design-documentation/05-ux-specification/references/house-style-declaration.md). A product that follows the Chwezi business-app house style declares it as twelve verifiable requirements (HS-01 to HS-12) with evidence; presentation values stay in the design engine. No skill was added (159 skills and 1 template). Record: [`docs/continuous-improvement/house-style-declaration-kaizen-2026-11-07.md`](docs/continuous-improvement/house-style-declaration-kaizen-2026-11-07.md).
 - **Validation re-run (5 November).** The first eleven commands in [Validation](#validation) were re-run on 2026-11-05 and gave the figures already shown. Details are under that table. The routing row was re-run again on 2026-11-06 after the fixtures above.
 
 ## What the October 2026 kaizen improved

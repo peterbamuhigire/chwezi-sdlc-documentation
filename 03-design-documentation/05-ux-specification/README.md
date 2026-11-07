@@ -53,3 +53,4 @@ Generate a comprehensive UX specification document covering information architec
 - `references/design-system-guide.md` -- Token taxonomy and component documentation template.
 - `references/usability-testing.md` -- Test planning, SUS scoring, and observation format.
 - `references/design-handoff.md` -- Annotation standards and developer acceptance criteria.
+- `references/house-style-declaration.md` -- Required house-style declaration (HS-01 to HS-12) for products that follow the Chwezi business-app house style.
