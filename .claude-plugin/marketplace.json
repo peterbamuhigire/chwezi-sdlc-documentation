@@ -6,7 +6,7 @@
     {
       "name": "sdlc-documentation",
       "source": "./",
-      "description": "159 skills across strategic vision, requirements engineering, design documentation, development artefacts, testing docs, deployment operations, agile artefacts, end-user docs, and governance/compliance",
+      "description": "160 skills across strategic vision, requirements engineering, design documentation, development artefacts, testing docs, deployment operations, agile artefacts, end-user docs, and governance/compliance",
       "version": "1.1.0",
       "author": { "name": "Peter Bamuhigire" },
       "homepage": "https://github.com/peterbamuhigire/chwezi-sdlc-documentation",

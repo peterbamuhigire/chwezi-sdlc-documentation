@@ -231,6 +231,18 @@
       "expected": "15-game-product-and-production-brief"
     },
     {
+      "id": "hr-srs-positive",
+      "kind": "positive",
+      "prompt": "Write the requirements and acceptance criteria for an HR module covering positions, employee master, contract classes, leave, payroll inputs, appraisal, disciplinary access and audit.",
+      "expected": "20-hr-module-srs"
+    },
+    {
+      "id": "hr-srs-neighbour",
+      "kind": "collision",
+      "prompt": "Specify HR system requirements with FR-HR identifiers, parameterised statutory rates, role and field access tests and a payroll parallel run.",
+      "expected": "20-hr-module-srs"
+    },
+    {
       "id": "game-srs-positive",
       "kind": "positive",
       "prompt": "Write the testable requirements for our game covering gameplay state, saves, platforms, multiplayer, content, performance, accessibility, security, and live operations.",

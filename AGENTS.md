@@ -194,7 +194,7 @@ When the user says "build the [document]":
 
 ## Full Skill Suite
 
-Refer to `README.md` for the phase table (159 active skills in nine numbered phases on 2026-10-31), to `docs/skill-catalogue.md` for the skill-by-skill list and to `PROJECT_BRIEF.md` for the engine's history. The Waterfall SRS skills run under `02-requirements-engineering/waterfall/`, from `01-initialize-srs` through `08-semantic-auditing`, with `09-use-case-modeling` alongside them.
+Refer to `README.md` for the phase table (160 active skills in nine numbered phases on 2026-11-10), to `docs/skill-catalogue.md` for the skill-by-skill list and to `PROJECT_BRIEF.md` for the engine's history. The Waterfall SRS skills run under `02-requirements-engineering/waterfall/`, from `01-initialize-srs` through `08-semantic-auditing`, with `09-use-case-modeling` alongside them.
 
 ## Skill Categories
 

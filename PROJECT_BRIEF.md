@@ -2,7 +2,7 @@
 
 ## Current catalogue and phase model (2026-10-31)
 
-The current catalogue contains **159 filesystem-discovered active skills** and
+The current catalogue contains **160 filesystem-discovered active skills** and
 **1 inactive authoring template**, as recorded in the
 [`skill-quality-baseline.json`](tests/skill-quality-baseline.json) control and
 checked by [`validate_skill_engine.py`](scripts/validate_skill_engine.py); both

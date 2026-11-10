@@ -1,6 +1,6 @@
 # Chwezi SDLC Documentation
 
-Chwezi SDLC Documentation is a library of 159 skills and a Python validation kernel for software-lifecycle documentation. Each skill tells a coding agent how to write one document, from a product requirements document (PRD) to an auditor-ready evidence pack.
+Chwezi SDLC Documentation is a library of 160 skills and a Python validation kernel for software-lifecycle documentation. Each skill tells a coding agent how to write one document, from a product requirements document (PRD) to an auditor-ready evidence pack.
 
 The kernel checks a project's documents against phase gates and builds them into a styled `.docx`. The engine is for product owners, business analysts, architects, delivery teams, testers, operators and compliance reviewers on waterfall, Agile or hybrid projects.
 
@@ -8,7 +8,7 @@ Use it when a project needs requirements, design, test, deployment, user or gove
 
 ## At a glance
 
-- **159 skills in nine numbered phases**, from `01-strategic-vision` to `09-governance-compliance` (counted with `find` on 2026-10-31).
+- **160 skills in nine numbered phases**, from `01-strategic-vision` to `09-governance-compliance` (counted with `find` on 2026-11-10).
 - **Eleven domain packs** under `domains/` add sector context: healthcare, finance, government, agriculture, logistics, Uganda and five more.
 - **A validation kernel**, `python3 -m engine`, runs deterministic gates for phases 01 to 09 and a hybrid gate.
 - **535 tests passed and 5 skipped** under `engine/tests`, with 96.19% coverage against a 90% floor (pytest, re-run 2026-11-05).
@@ -54,7 +54,7 @@ Use it when a project needs requirements, design, test, deployment, user or gove
 
 ## Capabilities
 
-The engine holds 159 skills in nine numbered phases, grouped under [What is inside](#what-is-inside). The [skill catalogue](docs/skill-catalogue.md) lists each one. The table under Find the right skill is the capability map: common tasks and the skill that handles each.
+The engine holds 160 skills in nine numbered phases, grouped under [What is inside](#what-is-inside). The [skill catalogue](docs/skill-catalogue.md) lists each one. The table under Find the right skill is the capability map: common tasks and the skill that handles each.
 
 ### Find the right skill
 
@@ -88,12 +88,12 @@ Describe the task in plain words and the router (`AGENTS.md`) picks the skill. T
 
 ## What is inside
 
-The 159 active skills sit in nine phase folders. Skills are discovered from the filesystem, not from this table.
+The 160 active skills sit in nine phase folders. Skills are discovered from the filesystem, not from this table.
 
 | Category (folder) | Skills |
 |---|---:|
 | Strategic vision (`01-strategic-vision`) | 13 |
-| Requirements engineering (`02-requirements-engineering`) | 41 |
+| Requirements engineering (`02-requirements-engineering`) | 42 |
 | Design documentation (`03-design-documentation`) | 18 |
 | Development artefacts (`04-development-artifacts`) | 6 |
 | Testing documentation (`05-testing-documentation`) | 10 |
@@ -101,7 +101,7 @@ The 159 active skills sit in nine phase folders. Skills are discovered from the 
 | Agile artefacts (`07-agile-artifacts`) | 5 |
 | End-user documentation (`08-end-user-documentation`) | 9 |
 | Governance and compliance (`09-governance-compliance`) | 34 |
-| **Total** | **159** |
+| **Total** | **160** |
 
 Requirements engineering nests `agile/`, `fundamentals/`, `hybrid/` and `waterfall/` subfolders. The skeleton in `templates/skill/` is excluded. The full list, with a one-line description of every skill, is in the [skill catalogue](docs/skill-catalogue.md).
 
@@ -252,10 +252,10 @@ On 2026-11-05 the first eleven commands in this table were re-run (Python 3.14.1
 | `python3 -m pytest` | Runs `engine/tests`: 535 passed, 5 skipped, coverage 96.19% against a 90% floor. |
 | `python3 -m pytest tests -o addopts=` | 33 passed. Continuous integration (CI) runs 19 of them (the routing and Tier-1 lint tests). |
 | `python3 -X utf8 scripts/validate_engine.py` | `ENGINE CONTRACT: PASS`. |
-| `python3 -X utf8 scripts/validate_skill_engine.py --baseline tests/skill-quality-baseline.json` | 159 active skills, 1 template, no failures; 5 report-only size warnings. |
+| `python3 -X utf8 scripts/validate_skill_engine.py --baseline tests/skill-quality-baseline.json` | 160 active skills, 1 template, no failures; 5 report-only size warnings. |
 | `python3 -X utf8 scripts/routing_smoke_test.py --min-rank1 83 --lint-fixtures --min-covered 8` | 73 of 73 fixtures in the top three; precision@1 65 of 73 (89.0%); fixture lint 0 findings over 99 prompts. Re-run on 2026-11-06 after two fixtures were added; on 2026-10-31 it was 72 of 72 and 64 of 72 (88.9%). |
 | `python3 -m engine validate-skills` | `SKILLS OK`. |
-| `python3 -X utf8 scripts/validate_plugin_packages.py` | 159 active skill paths, `errors: 0`, both file counts under the 5,000 limit. |
+| `python3 -X utf8 scripts/validate_plugin_packages.py` | 160 active skill paths, `errors: 0`, both file counts under the 5,000 limit. |
 | `python3 scripts/check_portable_paths.py` | PASS, 0 findings. |
 | `python3 scripts/check_cross_engine_refs.py` | PASS. Category and URL paths are `NOT_ASSESSED` without a dev-engine checkout. With `--dev-engine-root <checkout>` they resolve and the check passes. |
 | `python3 scripts/check_standards_currency.py` | PASS: no stale-citation count above its ceiling. |

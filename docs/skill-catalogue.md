@@ -1,6 +1,6 @@
 # Skill catalogue
 
-This page lists the 159 active skills of Chwezi SDLC Documentation by phase (count taken on 2026-10-31 with `find`, excluding `templates/`). Each name links to its `SKILL.md`, which is the authority: the descriptions here are short summaries, so read the skill's own file before relying on one. Requirements engineering nests `agile/`, `fundamentals/`, `hybrid/` and `waterfall/` subfolders. This page was moved out of the root README on 2026-10-31 with the rows unchanged.
+This page lists the 160 active skills of Chwezi SDLC Documentation by phase (count taken on 2026-11-10 with `find`, excluding `templates/`). Each name links to its `SKILL.md`, which is the authority: the descriptions here are short summaries, so read the skill's own file before relying on one. Requirements engineering nests `agile/`, `fundamentals/`, `hybrid/` and `waterfall/` subfolders. This page was moved out of the root README on 2026-10-31 with the rows unchanged.
 
 The root [`README.md`](../README.md) holds the phase table and the task-to-skill table.
 
@@ -49,6 +49,7 @@ Folder `02-requirements-engineering`, 41 skills.
 | [`17-ai-agent-action-catalogue-spec`](../02-requirements-engineering/17-ai-agent-action-catalogue-spec/SKILL.md) | Schema-bound agent tools with side effects, approvals, audit fields and kill switches |
 | [`18-embedded-accounting-engine-srs`](../02-requirements-engineering/18-embedded-accounting-engine-srs/SKILL.md) | Requirements for software that touches money, inventory value, payroll, tax or reports |
 | [`19-game-software-requirements-specification`](../02-requirements-engineering/19-game-software-requirements-specification/SKILL.md) | Testable game requirements (GREQ): loop, saves, multiplayer, monetisation, certification |
+| [`20-hr-module-srs`](../02-requirements-engineering/20-hr-module-srs/SKILL.md) | Requirements and acceptance criteria for an HR module: positions, contract classes, leave, payroll inputs, access, audit |
 | [`agile/01-user-story-generation`](../02-requirements-engineering/agile/01-user-story-generation/SKILL.md) | INVEST user stories, epics, story points and initial acceptance criteria |
 | [`agile/02-acceptance-criteria`](../02-requirements-engineering/agile/02-acceptance-criteria/SKILL.md) | Deterministic Given-When-Then acceptance criteria for existing stories |
 | [`agile/03-story-mapping`](../02-requirements-engineering/agile/03-story-mapping/SKILL.md) | Story map with user activities, walking skeleton and release slices |

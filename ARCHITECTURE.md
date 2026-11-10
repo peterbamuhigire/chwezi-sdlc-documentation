@@ -10,7 +10,7 @@ Agile, Hybrid and fundamentals tracks under `02-requirements-engineering`.
 Methodology selection (`00-meta-initialization`) belongs to the Chwezi Dev
 Engine, not to this repository. The active count is controlled by the
 [`skill-quality-baseline.json`](tests/skill-quality-baseline.json) catalogue
-control (159 active skills and 1 template on 2026-10-31) and checked against
+control (160 active skills and 1 template on 2026-11-10) and checked against
 filesystem truth by
 [`validate_skill_engine.py`](scripts/validate_skill_engine.py). Each skill is a
 `SKILL.md` playbook that an agent follows, with local `references/`, templates and

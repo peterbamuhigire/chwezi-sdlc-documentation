@@ -1,6 +1,6 @@
 {
   "standard": "canonical-july-2026-zero-debt",
-  "active_skill_count": 159,
+  "active_skill_count": 160,
   "active_skill_paths": [
     "01-strategic-vision/01-prd-generation/SKILL.md",
     "01-strategic-vision/02-business-case/SKILL.md",
@@ -22,6 +22,7 @@
     "02-requirements-engineering/17-ai-agent-action-catalogue-spec/SKILL.md",
     "02-requirements-engineering/18-embedded-accounting-engine-srs/SKILL.md",
     "02-requirements-engineering/19-game-software-requirements-specification/SKILL.md",
+    "02-requirements-engineering/20-hr-module-srs/SKILL.md",
     "02-requirements-engineering/agile/01-user-story-generation/SKILL.md",
     "02-requirements-engineering/agile/02-acceptance-criteria/SKILL.md",
     "02-requirements-engineering/agile/03-story-mapping/SKILL.md",

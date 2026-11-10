@@ -16,7 +16,7 @@ This page indexes `docs/` for Chwezi SDLC Documentation. The root [`README.md`](
 | [`agent-runtime-safety.md`](agent-runtime-safety.md), [`approval-enforcement.md`](approval-enforcement.md), [`approval-adapter.json`](approval-adapter.json), [`control-plane-adoption.md`](control-plane-adoption.md) | The agent safety, approval and control-plane contracts. |
 | [`ai-prompting/domain-prompt-compilation-contract.md`](ai-prompting/domain-prompt-compilation-contract.md) | The contract for prompt handoffs. |
 | [`API.md`](API.md), [`DATABASE.md`](DATABASE.md) | Statements that the engine ships no runtime API and no database. |
-| [`skill-catalogue.md`](skill-catalogue.md) | All 159 active skills by phase, one line each, with a link to each `SKILL.md`. Moved out of the root README on 2026-10-31. |
+| [`skill-catalogue.md`](skill-catalogue.md) | All 160 active skills by phase, one line each, with a link to each `SKILL.md`. Moved out of the root README on 2026-10-31. |
 | [`references.md`](references.md) | The books, repositories, websites and articles the repository cites. Standards and official sources stay in the root README, where the standards-currency check counts them. |
 | [`CHANGELOG.md`](CHANGELOG.md) | Dated changes, newest first. |
 
