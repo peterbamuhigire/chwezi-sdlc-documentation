@@ -1,3 +1,7 @@
+# Unattended execution handoff ? 2026-11-11
+
+Added a project-local driver route to the AI-agent operations runbook skill. Runtime behavior remains subject to local configuration and evidence.
+
 # Changelog - Chwezi SDLC Documentation
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
