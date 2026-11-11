@@ -616,3 +616,5 @@ When all 10 phases are executed the skills library will cover the complete SDLC 
 # 2026-11-01
 
 - Added web and Android signup human-validation requirements: Turnstile with server-side validation for web; Firebase App Check with Play Integrity and Turnstile fallback for Android. Added abuse-control, rollout, outage, privacy, and acceptance evidence requirements.
+
+- 2026-11-11: Expanded the AI-agent runbook handoff with durable plan, acceptance, recovery and second-review guidance for unattended execution.
