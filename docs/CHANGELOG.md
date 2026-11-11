@@ -1,3 +1,7 @@
+# Managed unattended-tool propagation ? 2026-11-11
+
+Added a managed-update handoff to the agent runbook route.
+
 # Unattended execution handoff ? 2026-11-11
 
 Added a project-local driver route to the AI-agent operations runbook skill. Runtime behavior remains subject to local configuration and evidence.
