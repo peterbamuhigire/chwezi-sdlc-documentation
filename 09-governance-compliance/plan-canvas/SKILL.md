@@ -278,6 +278,8 @@ authority, and unavailable or failed checks must remain visible in the review re
 
 ## References
 
+- [Resumable execution contract](../../rules/common/resumable-execution-contract.md): use when turning review findings into owned, resumable work or handing off a pending verdict; this does not replace the canvas verdict record.
+
 - [ECC original](https://agentskills.io/): `skills/plan-canvas/SKILL.md`, `docs/design/plan-canvas.md`,
   `scripts/plan-canvas.js`, `scripts/lib/plan-canvas/*.js`,
   `scripts/lib/loopback-guard.js`, `scripts/hooks/plan-canvas-pending.js`,

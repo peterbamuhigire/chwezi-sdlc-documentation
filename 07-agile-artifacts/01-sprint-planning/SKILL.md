@@ -88,6 +88,8 @@ Example: if capacity or dependency evidence is missing, do not commit the affect
 
 ## References
 
+- [Resumable execution contract](../../rules/common/resumable-execution-contract.md): use when breaking selected work into executable, dependency-ordered slices and preparing a resumable handoff.
+
 - [Generation logic](logic.prompt): load when creating the complete artefact.
 - [Skill notes](README.md): consult for local examples and invocation context.
 - [Repository operating rules](../../AGENTS.md): apply the engine's routing, evidence, and release gates.

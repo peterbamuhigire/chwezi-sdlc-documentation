@@ -79,6 +79,8 @@ If any required capability is unavailable, return the narrowest useful qualified
 
 ## References
 
+- [Resumable execution contract](../../rules/common/resumable-execution-contract.md): specify specialist capability/readiness, independence, evidence verdicts, and interruption-safe replay and reconciliation.
+
 - [Coordination template](references/ai-agent-multi-agent-coordination-spec-template.md)
 - [Agent Architecture neighbour](../14-ai-agent-architecture-spec/SKILL.md)
 <!-- dual-compat-end -->

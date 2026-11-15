@@ -11,7 +11,9 @@ Use it when a project needs requirements, design, test, deployment, user or gove
 - **160 skills in nine numbered phases**, from `01-strategic-vision` to `09-governance-compliance` (counted with `find` on 2026-11-10).
 - **Eleven domain packs** under `domains/` add sector context: healthcare, finance, government, agriculture, logistics, Uganda and five more.
 - **A validation kernel**, `python3 -m engine`, runs deterministic gates for phases 01 to 09 and a hybrid gate.
+- **Resumable execution guidance**, added 2026-11-15, gives Claude and Codex runners a bounded contract for task IDs, dependencies, scoped writes, acceptance evidence, recovery and concise handoffs. It does not change either runtime's model policy.
 - **535 tests passed and 5 skipped** under `engine/tests`, with 96.19% coverage against a 90% floor (pytest, re-run 2026-11-05).
+- **Current root checks:** 33 root tests passed; 160 skills validated with no failures and 5 report-only size warnings; source-ingestion guardrail reports 0 findings. The 535-test engine suite above is the historical 2026-11-05 result and was not rerun for this update.
 - **Routing proxy:** 73 of 73 fixtures rank the expected skill in the top three, and 65 of 73 rank it first (re-run 2026-11-06). The proxy is lexical, not live routing.
 - **Latest published score:** 55.68 out of 100 after pass 2 on 2026-10-31. It is a reviewer judgement, not a customer outcome.
 
@@ -55,6 +57,12 @@ Use it when a project needs requirements, design, test, deployment, user or gove
 ## Capabilities
 
 The engine holds 160 skills in nine numbered phases, grouped under [What is inside](#what-is-inside). The [skill catalogue](docs/skill-catalogue.md) lists each one. The table under Find the right skill is the capability map: common tasks and the skill that handles each.
+
+The local [unattended runner](auto-agents/README.md) executes a configured, committed plan with Codex or Claude.
+Release 2.0.0 adds durable job supervision, separate slice and completion gates, saved recovery state and descriptive watch output.
+From `auto-agents`, run `./run.ps1` or `run.cmd` after following [ENGINE.md](auto-agents/ENGINE.md).
+The shared runtime passed 64 tests on 15 November 2026. Both CLIs passed bounded smoke checks;
+real quota-reset and power-cut recovery remain unassessed. [RECOVERY.md](auto-agents/RECOVERY.md) explains the optional logon helper.
 
 ### Find the right skill
 
@@ -241,11 +249,13 @@ Each project lives in its own workspace at `projects/<ProjectName>/`. Canonical 
 
 ## Validation
 
-Run these from the repository root. The results were measured on 31 October 2026 on Python 3.14.8 and Node.js 22. The packages were at the versions in `requirements-ci.txt`, except `python-docx`, which was absent. Pandoc, the Mermaid renderer, a browser and PowerShell were also absent.
+Run these from the repository root. The table keeps the measured 31 October and 5 November 2026 results. Current root-level results are stated in the overview below; the 535-test `engine/tests` result remains historical and was not rerun for the 15 November contract update. The earlier environment used Python 3.14.8 and Node.js 22. Pandoc, the Mermaid renderer, a browser and PowerShell were absent then.
 
 `.github/workflows/engine.yml` runs most of the same commands on Python 3.11. It does not run the Node.js tests. Inside an activated virtual environment, `python` and `python3` are the same interpreter.
 
 On 2026-11-05 the first eleven commands in this table were re-run (Python 3.14.10, pytest 9.2.0, a fresh virtual environment with `PYTHONPATH=.`). They gave the results below, with `validate_plugin_packages.py` reporting 2,196 checkout entries and 1,290 package entries against the 5,000 limit and `validate_source_register.py` reporting 18 effective records as of that date. The six commands after them were not re-run and keep their 2026-10-31 results. Without `PYTHONPATH=.`, `engine/tests/test_agent_brief.py::test_script_writes_beside_the_handoff` fails with `ModuleNotFoundError: No module named 'engine'`.
+
+Current root checks on 2026-11-15: `python -X utf8 scripts/validate_engine.py` passes; `python -X utf8 scripts/validate_skill_engine.py --baseline tests/skill-quality-baseline.json` finds 160 active skills, no failures and 5 report-only size warnings; `python -X utf8 scripts/source_ingestion_guardrail.py` reports 0 findings. The root test suite has 33 passes. These results do not replace the historical `engine/tests` result.
 
 | Command | Result on 2026-10-31, same on 2026-11-05 where re-run |
 |---|---|

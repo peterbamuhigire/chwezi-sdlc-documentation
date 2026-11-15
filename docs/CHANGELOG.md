@@ -10,6 +10,13 @@ Added a project-local driver route to the AI-agent operations runbook skill. Run
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2026-11-15] - Resumable plan and acceptance contracts
+
+- Added `rules/common/resumable-execution-contract.md` for stable work IDs, dependencies, scoped write ownership, verifiable commands and environments, revision-bound evidence, applicable user/error states, durable resumability, replay/idempotency and external-effect reconciliation, specialist readiness and independence, and concise handoffs.
+- Linked the shared procedure from phase handoffs, acceptance criteria, sprint planning, plan-canvas review, and multi-agent coordination. It sets no arbitrary task or scenario quotas and preserves each runtime's model policy.
+- No schema, helper, generated manifest, runtime adapter, or installed cache changed; no tests added.
+- Currentness: `NO_TIME_SENSITIVE_CLAIMS`; no platform command or current capability is asserted. See `docs/continuous-improvement/resumable-execution-contract-kaizen-2026-11-15.md`.
+
 ## [2026-11-07] - House-style declaration for UX specifications (SD-KZ-06)
 
 - New `03-design-documentation/05-ux-specification/references/house-style-declaration.md`: the section a UX specification (or SRS user-interface section) must contain when the product follows the Chwezi business-app house style. Twelve requirements HS-01 to HS-12 with acceptance criteria and evidence: brand primary contrast >= 4.5:1, tinted ground and near-white cards, one warm next-step accent per screen, type pair with tabular figures and the banned-font check, compact amounts, one date format, no raw identifiers, motion once per visit and none under reduced motion, illustrated icon source and licence, target size and non-text contrast, guardrail tests as release gates, and the screenshot and contrast evidence matrix. Fill-in template and a fictional worked example.

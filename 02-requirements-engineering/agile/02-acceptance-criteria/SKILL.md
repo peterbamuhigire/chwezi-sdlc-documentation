@@ -78,6 +78,8 @@ Fallback: if a required file, reviewer, standard source, network check, renderer
 
 ## References
 
+- [Resumable execution contract](../../../rules/common/resumable-execution-contract.md): use for stable criterion identity, revision-bound verification evidence, applicable interrupted/error/denied states, and downstream handoff.
+
 - [Skill authoring and release standard](../../../docs/skill-authoring-standard.md)
 - [Skill guidance](README.md)
 - [Executable generation logic](logic.prompt)

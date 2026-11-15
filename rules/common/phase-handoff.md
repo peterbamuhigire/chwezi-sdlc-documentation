@@ -46,6 +46,12 @@ them.
 
 ## What to check
 
+For implementation plans and acceptance artefacts, apply the shared
+[resumable execution contract](resumable-execution-contract.md): stable work
+IDs, dependency order, write ownership, observable criteria, revision-bound
+evidence, and a compact durable handoff. This supplements the phase-file rule;
+it does not require every small task to create extra phases or artefacts.
+
 - A phase's skill that claims to consume "the vision" or "the requirements"
   without naming the file path it read is violating this rule — require the
   explicit path (e.g., `projects/<ProjectName>/_context/vision.md`,
