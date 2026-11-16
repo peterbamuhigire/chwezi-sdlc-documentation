@@ -10,6 +10,12 @@ Added a project-local driver route to the AI-agent operations runbook skill. Run
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2026-11-16] - Owner acceptance and supervised plan continuation
+
+- Separate approved plan intent from executor progress; preserve user/buyer/operator evidence and require an owner decision for changed acceptance.
+- Use owner-selected Codex Terra/medium defaults while preserving explicit Astra/high, semantic role checks and Claude configuration.
+- Integrate approved-intent runtime drift checks. See [evidence and limits](kaizen/2026-11-16-plan-authority.md).
+
 ## [2026-11-15] - Resumable plan and acceptance contracts
 
 - Added `rules/common/resumable-execution-contract.md` for stable work IDs, dependencies, scoped write ownership, verifiable commands and environments, revision-bound evidence, applicable user/error states, durable resumability, replay/idempotency and external-effect reconciliation, specialist readiness and independence, and concise handoffs.

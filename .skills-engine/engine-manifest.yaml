@@ -34,6 +34,7 @@ invariants:
     phrase: "Missing execution, render, source, reviewer, or stakeholder evidence is `NOT ASSESSED`, never a pass."
   - id: iso-29148
     phrase: "Requirement quality is judged against ISO/IEC/IEEE 29148:2018 (individual and set characteristics;"
+    files: [docs/agents-reference.md]
 invariant_exemptions:
   british-english: "No British English output rule exists in the SRS router (AGENTS.md, former CLAUDE.md, README.md, rules/common/); adding one is new doctrine outside M10-02-T02 scope."
 plugin_exclusions:

@@ -28,6 +28,20 @@ state may omit it with a short rationale rather than add filler.
 
 ## Preserve evidence and resume safely
 
+Keep approved intent separate from execution state. The executor may update task
+status and evidence, but a change to scope, dependency, acceptance criterion or
+test oracle returns to the accountable requirement owner. Record the reason,
+decision, changed baseline and affected downstream tests and release commitments.
+Preserve prior evidence as historical; reassess claims whose inputs changed.
+Passing a weakened test does not satisfy the original requirement.
+
+For product work, connect each material slice to the observed user problem and
+the decision it serves. Distinguish users, buyers, decision makers and operators;
+record whose evidence supports the need and whose acceptance is required. An
+agent's proposed feature or invented persona is not stakeholder validation.
+After a pilot or operational observation, route new evidence back to the owner
+for a baseline decision rather than silently expanding the implementation plan.
+
 Bind evidence to the input revision or baseline, work-item ID, command and
 environment, timestamp, result, and durable evidence path. When relevant input
 changes, mark dependent evidence stale and rerun only those checks. Distinguish
