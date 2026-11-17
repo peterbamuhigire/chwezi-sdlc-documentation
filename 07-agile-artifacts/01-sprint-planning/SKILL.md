@@ -175,6 +175,7 @@ Generate a task breakdown template that SHALL:
 Generate a risk and dependency tracking section that SHALL:
 - List known risks with probability, impact, and mitigation strategy.
 - Identify external dependencies with owner and expected resolution date.
+- At a planned integration point, name the artifact and acceptance check for each required predecessor. If two methods are interchangeable, name the shared acceptance check and the condition for trying the second. Keep mandatory independent reviews explicit.
 - Include a blocked-items tracker for impediments surfaced during planning.
 
 ### Step 7: Assemble and Write Output
