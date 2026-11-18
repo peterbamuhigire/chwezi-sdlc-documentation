@@ -4,6 +4,10 @@ This registry documents the inputs, process logic, governing standards, and outp
 
 Scope on 2026-10-31: the tables below describe 52 of the 159 active skills (the Waterfall SRS pipeline and selected skills from each phase); every row name resolves to a skill on disk. The [skill catalogue](docs/skill-catalogue.md) is the complete list, and the governing-standard column keeps the editions as first written, so read it with the open standards findings in `README.md` ("Quality and improvement").
 
+Use the [software delivery specialist guide](docs/delivery-specialists.md) to assign responsibility from discovery to production and agree the evidence due at handoff.
+
+For document work, select [editorial specialists](docs/editorial-specialists.md) according to the audience, format and publication stage.
+
 ## Path Interpretation
 
 Repository-level pathing is canonicalized to `projects/<ProjectName>/...`.

@@ -8,6 +8,10 @@ The kernel checks a project's documents against phase gates and builds them into
 
 Use it when a project needs requirements, design, test, deployment, user or governance documents that trace to one another. It records missing stakeholder decisions as open questions rather than inventing requirements. It supports engineering, legal and compliance work; it replaces none of them.
 
+Use the [software delivery specialist guide](docs/delivery-specialists.md) to assign responsibility from discovery to production and agree the evidence due at handoff.
+
+For document work, select [editorial specialists](docs/editorial-specialists.md) according to the audience, format and publication stage.
+
 ## At a glance
 
 - **160 skills in nine numbered phases**, from `01-strategic-vision` to `09-governance-compliance` (counted with `find` on 2026-11-10).
