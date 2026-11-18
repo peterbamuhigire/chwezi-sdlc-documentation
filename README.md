@@ -1,5 +1,7 @@
 # Chwezi SDLC Documentation
 
+For delivery studies across machines, record runner revisions, test exposure and observed limit events in the [test report](05-testing-documentation/03-test-report/SKILL.md).
+
 Chwezi SDLC Documentation is a library of 160 skills and a Python validation kernel for software-lifecycle documentation. Each skill tells a coding agent how to write one document, from a product requirements document (PRD) to an auditor-ready evidence pack.
 
 The kernel checks a project's documents against phase gates and builds them into a styled `.docx`. The engine is for product owners, business analysts, architects, delivery teams, testers, operators and compliance reviewers on waterfall, Agile or hybrid projects.

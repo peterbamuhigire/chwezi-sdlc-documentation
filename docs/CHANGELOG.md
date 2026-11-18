@@ -1,3 +1,7 @@
+# Cross-machine delivery evidence - 2026-11-18
+
+The test report now distinguishes operator recollections from timestamped usage-limit events and records the machine and revision for matched comparisons.
+
 # Agent memory correction and access revocation - 2026-11-18
 
 The AI agent architecture specification now asks authors to trace a corrected source through dependent memory and exercise revocation in a warm session and a fresh session.

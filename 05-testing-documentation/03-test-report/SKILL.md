@@ -176,6 +176,12 @@ The generated `Test_Report_Template.md` shall contain these sections in order: D
 | Coverage metrics without gap identification | The coverage section shall list specific unexecuted or failed traceability entries |
 | Missing sign-off fields | The template shall include named approval fields for QA Lead and Project Manager |
 
+## Reporting a runner change across machines
+
+For each comparison give the observation window, time zone, machine label, revision in use, eligible tasks, accepted tasks and incomplete attempts. Identify repeated observations of the same commit or session on another PC. Record paired full-gate counts and queue time separately. A shorter test or fewer invocations can support a specific mechanism; a production throughput claim also needs comparable accepted work and elapsed time.
+
+Record operator recollection of earlier usage limits as testimony. Only report incident counts or wait durations where the provider or runner events identify distinct episodes and their bounds.
+
 ## Verification Checklist
 
 - [ ] `Test_Report_Template.md` exists in `projects/<ProjectName>/<phase>/<document>/` with all seven sections populated.
