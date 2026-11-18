@@ -70,6 +70,7 @@ Describe the task in plain words and the router (`AGENTS.md`) picks the skill. T
 
 | Task | Skill | Folder |
 |---|---|---|
+| Specify how a corrected source or revoked permission affects agent memory and cached answers | [AI agent architecture specification](03-design-documentation/14-ai-agent-architecture-spec/SKILL.md) | `03-design-documentation` |
 | Set product objectives, users, features and success measures | `01-prd-generation` | `01-strategic-vision` |
 | Compare costs and benefits and recommend go or no-go | `02-business-case` | `01-strategic-vision` |
 | List stakeholders and build the stakeholder register | `01-stakeholder-analysis` | `02-requirements-engineering/fundamentals/before` |

@@ -6,7 +6,8 @@ Produce the AI Agent Architecture Spec: runtime decomposition, loop and state ma
 
 1. Verify `AI_Architecture_Spec.md`, `AI_Agent_Feature_PRD_Spec.md`, `Action_Catalogue_Spec.md`, `Multi_Tenancy_Architecture_Spec.md`, and tech-stack inputs exist.
 2. Invoke `logic.prompt`.
-3. Review with the architect, AI lead, platform lead, and security lead. Promote ADR seeds via the agent ADR catalogue.
+3. In the [architecture template](references/ai-agent-architecture-spec-template.md), trace a source correction through memory and test a revoked reader in both a warm and a fresh session.
+4. Review with the architect, AI lead, platform lead, and security lead. Promote ADR seeds via the agent ADR catalogue.
 
 ## Standards
 

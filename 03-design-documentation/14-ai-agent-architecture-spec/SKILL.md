@@ -166,6 +166,12 @@ State the enforcement points: planner (no cross-tenant retrieval), dispatcher (t
 
 ADR seeds: planner choice per feature, memory store technology, durable state store, supervisor topology, kill-switch propagation SLA, irreversibility-gating policy, tool-call audit log retention.
 
+### Specify how a corrected memory takes effect
+
+For a design that stores summaries, include one worked correction in the Memory Tiers section. Identify the source record, summary, dependent index or cache, the actor allowed to correct it and what a reader sees during propagation. Specify the observable result after correction and after access revocation. A test can warm the cache with a permitted answer, revoke the reader's access, then repeat the same question in the same session and in a fresh one. State which component enforces the decision in each path.
+
+Concept source: Labaschin et al. (2025), *Managing Memory for AI Agents*, chapters 1 and 5, on lossy summaries and versioned collective memory.
+
 ### Step 12: Write the spec
 
 `AI_Agent_Architecture_Spec.md` sections: 1) Agent Runtime Diagram, 2) Loop & State Machine, 3) Memory Tiers, 4) Planner, 5) Tool Dispatcher, 6) Supervisor (if applicable), 7) Durability & Resumability, 8) Kill-switch Wiring, 9) Per-Tenant Isolation, 10) ADR Seed Index, 11) Traceability.

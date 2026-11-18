@@ -68,6 +68,8 @@ Durability points: every state transition writes the new state, the last observa
 | Episodic | 30 d default; tenant-configurable | `(tenant_id, user_id)` | Postgres per-tenant table | TDE | PII redactor v1 |
 | Long-term | unbounded; opt-in | `(tenant_id)` | Postgres + pgvector per-tenant table | TDE + envelope encryption | PII redactor v1; sensitive-class redactor |
 
+For summarised or indexed memory, trace a concrete correction through the source, summary and index. Record the source revision, refresh watermark, permitted propagation delay, reader identity and observable decision before and after catch-up. Exercise a revoked reader against the warm cache and a fresh session. Identify where each read is authorised.
+
 ## 4. Planner
 
 - Pattern: Plan-and-execute (initial plan + per-step revision); fallback to ReAct when plan adherence fails twice.

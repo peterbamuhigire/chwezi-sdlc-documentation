@@ -1,3 +1,7 @@
+# Agent memory correction and access revocation - 2026-11-18
+
+The AI agent architecture specification now asks authors to trace a corrected source through dependent memory and exercise revocation in a warm session and a fresh session.
+
 # Managed unattended-tool propagation ? 2026-11-11
 
 Added a managed-update handoff to the agent runbook route.
