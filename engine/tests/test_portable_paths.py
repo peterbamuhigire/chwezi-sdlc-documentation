@@ -27,7 +27,8 @@ def git_repo(root: Path, files: dict[str, str]) -> None:
         target = root / name
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(body, encoding="utf-8")
-    subprocess.run(["git", "-C", str(root), "add", "--", *files], check=True)
+    # The fixture explicitly names tracked files, including intentionally ignored settings.
+    subprocess.run(["git", "-C", str(root), "add", "--force", "--", *files], check=True)
 
 
 def test_tracked_local_settings_is_reported(tmp_path: Path) -> None:

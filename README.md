@@ -18,7 +18,7 @@ For document work, select [editorial specialists](docs/editorial-specialists.md)
 - **Eleven domain packs** under `domains/` add sector context: healthcare, finance, government, agriculture, logistics, Uganda and five more.
 - **A validation kernel**, `python3 -m engine`, runs deterministic gates for phases 01 to 09 and a hybrid gate.
 - **Resumable execution guidance**, added 2026-11-15, gives Claude and Codex runners a bounded contract for task IDs, dependencies, scoped writes, acceptance evidence, recovery and concise handoffs. It does not change either runtime's model policy.
-- **535 tests passed and 5 skipped** under `engine/tests`, with 96.19% coverage against a 90% floor (pytest, re-run 2026-11-05).
+- **535 tests passed and 5 skipped** under `engine/tests` on Windows on 19 November 2026, with 96.43% coverage against the 90% floor. The separate `tests/` suite passed 43 tests and 8 subtests.
 - **Current root checks:** 33 root tests passed; 160 skills validated with no failures and 5 report-only size warnings; source-ingestion guardrail reports 0 findings. The 535-test engine suite above is the historical 2026-11-05 result and was not rerun for this update.
 - **Routing proxy:** 73 of 73 fixtures rank the expected skill in the top three, and 65 of 73 rank it first (re-run 2026-11-06). The proxy is lexical, not live routing.
 - **Latest published score:** 55.68 out of 100 after pass 2 on 2026-10-31. It is a reviewer judgement, not a customer outcome.
@@ -148,7 +148,7 @@ Some gate clause labels still cite superseded editions (see [Quality and improve
 - The pinned Python packages, installed in a virtual environment: `python3 -m pip install -c requirements-ci.txt -e ".[dev,docs]"`. They are `click`, `ruamel.yaml`, `mistune`, `jsonschema`, `pytest`, `pytest-cov` and `python-docx`, at the versions in `requirements-ci.txt`.
 - `pyyaml` (`import yaml`), which `requirements-ci.txt` does not list. `scripts/validate_decision_frontier.py` and `tests/agent-integration/test_srs_agent_contract.py` import it, so install it before running them.
 - Node.js 18 or later for the scripted installers (`install.sh`, `install.ps1`) and for the hook and Plan Canvas tests.
-- For `.docx` builds: Pandoc, and the `docs` extra for the temporary Word style template. A checked-in or ignored `templates/reference.docx` is optional.
+- For `.docx` builds: Pandoc, and the `docs` extra for the temporary Word style template. A checked-in or ignored `templates/reference.docx` is optional. On Windows, the DOCX tests use the Bash shipped with Git for Windows when available. The missing-Pandoc test simulates that dependency failure in its own shell.
 - For Mermaid figures: a local Chrome or Edge for the pinned renderer. Run `npm ci` in `scripts/diagram-render` with `PUPPETEER_SKIP_DOWNLOAD=1`, and point `PUPPETEER_EXECUTABLE_PATH` at the browser.
 
 ### Which checks need which tool
