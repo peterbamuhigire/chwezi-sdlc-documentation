@@ -16,6 +16,17 @@ class Phase01Gate(Gate):
     severity = Severity.HIGH
 
     def evaluate(self, graph: ArtifactGraph, findings: FindingCollection) -> None:
+        required = any(a.path.as_posix() == "_context/methodology.md" and
+                       a.frontmatter.get("product_market_strategy") == "required"
+                       for a in graph.artifacts)
+        if required:
+            strategies = [a for a in graph.artifacts if a.document == "product-market-strategy"]
+            if len(strategies) != 1 or strategies[0].frontmatter.get("strategy_status") != "reviewed":
+                findings.add(Finding(
+                    gate_id="phase01.product_market_strategy", severity=Severity.HIGH,
+                    message="Register one reviewed product marketing and website strategy or internal adoption plan.",
+                    location=strategies[0].path if strategies else None, line=None,
+                ))
         # Check 1: canonical inputs present
         present = {a.path.name for a in graph.artifacts if a.path.parts[0] == "_context"}
         for fname in _REQUIRED:

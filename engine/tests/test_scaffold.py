@@ -40,3 +40,21 @@ def test_new_project_without_example_seeds_minimum_context(tmp_path: Path, monke
     assert (project / "export-docs.sh").exists()
     # No example => no baseline-trace.yaml for agile
     assert not (project / "_registry" / "baseline-trace.yaml").exists()
+    from engine.artifact_graph import ArtifactGraph
+    from engine.findings import FindingCollection
+    from engine.gates.phase01 import Phase01Gate
+    from engine.workspace import Workspace
+
+    strategy = project / "01-strategic-vision" / "digital-marketing-social-media-and-website-strategy.md"
+    brief = strategy.read_text(encoding="utf-8")
+    def strategy_findings():
+        findings = FindingCollection()
+        Phase01Gate().evaluate(ArtifactGraph.build(Workspace.load(project)), findings)
+        return [f for f in findings if f.gate_id == "phase01.product_market_strategy"]
+
+    assert strategy_findings()
+    strategy.unlink()
+    assert strategy_findings()
+    (project / "01-strategic-vision" / "existing-strategy.md").write_text(
+        brief.replace("strategy_status: draft", "strategy_status: reviewed"), encoding="utf-8")
+    assert not strategy_findings()

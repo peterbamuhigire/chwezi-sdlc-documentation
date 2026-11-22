@@ -101,7 +101,7 @@ def scaffold(project_root: Path, methodology: str, domain: str, example: Optiona
     methodology_path = project_root / "_context" / "methodology.md"
     methodology_path.parent.mkdir(exist_ok=True)
     methodology_path.write_text(
-        f"---\nmethodology: {methodology}\ndomain: {domain}\n---\n# Methodology\n",
+        f"---\nmethodology: {methodology}\ndomain: {domain}\nproduct_market_strategy: required\n---\n# Methodology\n",
         encoding="utf-8",
     )
     # Seed _registry/ if not present; for hybrid, seed baseline-trace.yaml; for all, seed controls.yaml.
@@ -122,4 +122,15 @@ def scaffold(project_root: Path, methodology: str, domain: str, example: Optiona
     if not domain_path.exists():
         domain_path.write_text(f"# Domain\ndomain: {domain}\n", encoding="utf-8")
 
+    # Examples can already own an equivalent strategy at a different location.
+    from engine.artifact_graph import ArtifactGraph
+    from engine.workspace import Workspace
+
+    graph = ArtifactGraph.build(Workspace.load(project_root))
+    if not any(a.document == "product-market-strategy" for a in graph.artifacts):
+        strategy_dir = project_root / "01-strategic-vision"
+        strategy_dir.mkdir(exist_ok=True)
+        target = strategy_dir / "digital-marketing-social-media-and-website-strategy.md"
+        if not target.exists():
+            shutil.copyfile(Path(__file__).parent / "templates" / "product-market-strategy.md", target)
     _ensure_export_contract(project_root)
