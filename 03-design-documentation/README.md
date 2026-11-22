@@ -4,6 +4,17 @@
 
 This phase generates design documentation that translates verified requirements into implementable system blueprints. It covers core software architecture plus UX, infrastructure, and IoT-specific design so the engine can support both conventional systems and connected products.
 
+## Design Bible review
+
+Peter's standing standard applies to every SDLC plan and design document. Use the current *Chwezi Core Systems Design Studio Bible* and *Chwezi Product Excellence Standard* from the private Chwezi Design System collection. Record the edition, relevant pages or rule IDs, decision and evidence. The 2026 Bible covers progressive disclosure on p. 53, older Android and offline performance on p. 59, and document accessibility on p. 288. Apply the relevant rules to screens, reports, interactions and the document itself. A backend-only plan should trace its latency, freshness and error semantics to the user journey it supports.
+
+- **Visual economy.** Sketch the primary task in its actual role and device context. Use clear type hierarchy, consistent spacing and one prominent next action where appropriate. Give every field, navigation item and visual element a user purpose. Defer advanced controls while keeping costs, consent, errors, recovery and financial or clinical safeguards visible.
+- **Speed and efficiency.** Name the baseline device, data volume, connection, cold/warm state and measurement method. Set justified numeric budgets for first usable content, response to input and the critical task; include scrolling, memory, transfer size or offline recovery where relevant. Compare measured results with budgets on representative hardware. Use a target and a verification owner when measurement is pending.
+- **User experience.** Walk first-time and repeat users through the principal task, an empty state and a recoverable failure. Include keyboard, assistive technology, enlarged text, slow networks and localisation where relevant. Record task completion, time, errors, confidence and the friction users actually describe. Revise and repeat the failed journey before claiming acceptance.
+- **Document craft.** Apply the house typography and rights decision, semantic headings, readable diagrams, accessible tables and restrained page layouts. Inspect the final DOCX and PDF for navigation, clipping, reading order and legibility. Record representative pages, issues and repairs. Keep proposed design, measured product behaviour and reviewed document output separately identifiable.
+
+At handoff link each material finding to its acceptance case, reviewer or accountable role, evidence location and unresolved action. An untested product can have a reviewed design and explicit verification work outstanding.
+
 ## Sub-Skills
 
 | Order | Skill | Output | Standard |
