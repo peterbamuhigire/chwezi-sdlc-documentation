@@ -139,3 +139,11 @@
 - Eval report: <link>
 - Red-team report: <link>
 - Provider model card: <link>
+
+## Example model card decision · FR-K1-01
+
+Card MC-K1 refers to evaluation EVAL-01, labels tickets-v1, comparator rules-v1 and candidate-v1. These frozen predictions illustrate dispatch policy. The shift lead retains dispatch authority.
+
+Under CAP-2 the candidate proposes five reviews for two slots. Reject this configuration. Under CAP-ALL its fixture penalty is 2 versus 11 for the rule. Defer rollout pending confirmed ownership, timing and representative outcome evidence. Record live uncertainty, subgroup size and label coverage before any broader claim.
+
+For a retrieved answer under atlas-v2, record the retriever result and claim support separately. P2 revision 2 retrieved first can coexist with a failed answer. An uncalibrated judge cannot approve an unsupported answer or a failed permission check. See the [worked evaluation record](../../../05-testing-documentation/04-ai-eval-harness-spec/references/ai-evaluation-release-evidence.md).
