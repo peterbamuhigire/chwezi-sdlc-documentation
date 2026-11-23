@@ -18,8 +18,17 @@
           "evidence_oracle": "An evaluator can distinguish the proposed classifier, deterministic dispatch and manual triage. Removing the deadline or label owner leaves a specific open requirement. A rollout cannot inherit an invented target."
         }
       ],
-      "state": "pending",
-      "evidence": []
+      "state": "complete",
+      "evidence": [
+        {
+          "criterion_id": "AC-S01",
+          "path": "docs/plans/ai-engine-kaizen/evidence/S01/independent-review.md",
+          "tested_revision": "22421ba7c10d9f9f19ae33b567d99c6f14a7e6a5",
+          "sha256": "b6e6a55beeb82ff132fa49d4e80476598d93dd53ada1eb8cfb8afc80c3c314cb",
+          "command": "Independent K1 table recomputation and deadline/owner omission walkthrough",
+          "result": "PASS"
+        }
+      ]
     },
     {
       "id": "S02",
