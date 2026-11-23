@@ -82,8 +82,17 @@
           "evidence_oracle": "On K1 recompute both classifiers’ results. A release recommendation cites its exact policy. On K2 a correct document with an unsupported answer fails the answer criterion while retrieval retains its own result. A judge favoring first position on identical-content pairs produces a calibration finding. No fixed vendor or judge rank can clear a failed deterministic product criterion. The K1 regression fixture rejects a mislabeled scorer and distinguishes MSE of 1/3 from R-squared of 7/8."
         }
       ],
-      "state": "pending",
-      "evidence": []
+      "state": "complete",
+      "evidence": [
+        {
+          "criterion_id": "AC-S03",
+          "path": "docs/plans/ai-engine-kaizen/evidence/S03/independent-review.md",
+          "tested_revision": "2b855d4f2e0874dc4f9d670d3c9bdf4e1b57230a",
+          "sha256": "234a833be6ae2dbb1d0319e9b1b57b09516601e43a490cc50c4c0f75aa4257c1",
+          "command": "Reproduce the case and apply the negative controls recorded in the acceptance walkthrough",
+          "result": "PASS"
+        }
+      ]
     },
     {
       "id": "S04",
