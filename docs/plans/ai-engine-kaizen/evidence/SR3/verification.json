@@ -1,0 +1,80 @@
+{
+  "tested_revision": "85b69cc1bb7392fef925718f2c65d83c8e22f63b",
+  "baseline": "65d3f6fd587f96e411e6e18b10889c3661f6f1b3",
+  "fixture_sha256_git_blob": "400bbec95b3567ffa084435243573b609ee9e558212130a6c40b7dbb6759a5c0",
+  "local_readme_links": 82,
+  "preserved_heading_anchors": 30,
+  "broken_local_links": [],
+  "negative_link_rejected": true,
+  "runs": [
+    {
+      "tool": "readme_metrics.py",
+      "arguments": [
+        "README.md",
+        "--check"
+      ],
+      "exit": 0,
+      "observed": "file                                     words          h2         toc   first_cmd longest_sec  long_lines    max_line    sent_len         fre     bullets      tables\ncheckout                                  6945          14           1          27        1445          20         612        11.6          52         146          93\nlimits: 6 checked on 1 file(s); all met"
+    },
+    {
+      "tool": "check_readme_preservation.py",
+      "arguments": [
+        ".",
+        "65d3f6fd587f96e411e6e18b10889c3661f6f1b3",
+        "85b69cc1bb7392fef925718f2c65d83c8e22f63b"
+      ],
+      "exit": 0,
+      "observed": "links: old README 49 targets; new README 56; moved to docs 0; LOST 0\ncommands: old README 53; kept in README 53; moved to docs 0; LOST 0\nanchors: 1 README anchor links in tracked files; BROKEN 0\nin-page links: 19 anchors used; BROKEN 0\nRESULT: OK"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "-o",
+        "addopts=",
+        "tests/test_ai_kaizen_handoff.py"
+      ],
+      "exit": 0,
+      "observed": "....                                                                     [100%]\n4 passed in 0.07s"
+    },
+    {
+      "command": [
+        "python",
+        "-X",
+        "utf8",
+        "scripts/validate_engine.py"
+      ],
+      "exit": 0,
+      "observed": "ENGINE CONTRACT: PASS\n- Canonical pathing and alias semantics are documented.\n- Deterministic gate docs exist for phases 01-09.\n- Standards clause registry is complete.\n- Hybrid operating model is documented.\n- Regulated evidence model is documented.\n\nNOTE: For per-project validation, use `python -m engine validate <projects/<Name>>`."
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "engine",
+        "new-project",
+        "Acme",
+        "--methodology",
+        "waterfall",
+        "--domain",
+        "healthcare"
+      ],
+      "exit": 0,
+      "observed": "Scaffolded projects/Acme."
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "engine",
+        "validate",
+        "projects/Acme"
+      ],
+      "exit": 1,
+      "observed": "f-ready' or 'DoR') [PMBOK Guide 7th Edition \u00a72.6]\n- [HIGH] phase07.dod_references_compliance: No Definition of Done document found under 07-agile-artifacts/ (expected filename containing 'definition-of-done' or 'DoD') [PMBOK Guide 7th Edition \u00a72.6]\n- [HIGH] phase07.velocity_history_present: No velocity history found under 07-agile-artifacts/ (expected filename containing 'velocity', 'sprint-metrics', or 'sprint-history') [PMBOK Guide 7th Edition \u00a72.6]\n- [HIGH] phase08.user_manual_has_screenshots: No user manual found under 08-end-user-documentation/ (expected filename containing 'user-manual', 'user-guide', or 'manual') [IEEE Std 26514-2022 \u00a78]\n- [HIGH] phase08.release_notes_link_to_fr: No release notes found under 08-end-user-documentation/ (expected filename containing 'release-notes', 'changelog.md', or 'release.md') [IEEE Std 26514-2022 \u00a78]\n- [HIGH] phase08.faq_has_at_least_5_qa: No FAQ found under 08-end-user-documentation/ (expected filename containing 'FAQ') [IEEE Std 26514-2022 \u00a78]\n- [HIGH] phase09.audit_report_present: No audit report found (expected '09-governance-compliance/audit-report.md') [ISO/IEC 27001:2022 \u00a79.2]\n- [HIGH] phase09.risk_register_links_to_fr: No risk register found (expected '09-governance-compliance/risk-register.md' or 'risk-assessment.md') [ISO/IEC 27001:2022 \u00a76.1]\n- [HIGH] phase09.obligations.missing_framework_coverage: Project missing _context/quality-standards.md; cannot determine which regulatory frameworks apply [ISO/IEC 27001:2022 \u00a76.1.3]"
+    }
+  ],
+  "scope": "Windows disposable checkout with locally installed development dependencies. Provider execution, clean dependency installation, external URLs and customer acceptance unassessed."
+}

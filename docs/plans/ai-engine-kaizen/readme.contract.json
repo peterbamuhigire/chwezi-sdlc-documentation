@@ -59,8 +59,17 @@
           "evidence_oracle": "A first-time reader can use the new task table to complete one AI-system journey and one assisted-software journey. A relevant non-AI route still works. Each example resolves on this checkout. No prototype, metadata check, vendor benchmark or planned work is described as a verified production capability."
         }
       ],
-      "state": "pending",
-      "evidence": []
+      "state": "complete",
+      "evidence": [
+        {
+          "criterion_id": "AC-SR2",
+          "path": "docs/plans/ai-engine-kaizen/evidence/SR2/reader-review.md",
+          "tested_revision": "f10ff25f89cc4f0fa81aad372403f7c99dba8efa",
+          "sha256": "869fa152cf6feb963c2cf2ec71123d79ff4239634385438f187e59a1291d4d02",
+          "command": "Read the README at the recorded revision and reproduce the linked check procedure in the receipt.",
+          "result": "PASS: independent reader traced K1 and K3 and found the non-AI project workflow."
+        }
+      ]
     },
     {
       "id": "SR3",
@@ -82,8 +91,17 @@
           "evidence_oracle": "All material links and anchors resolve or have a working compatibility anchor. Each changed command is exercised or explicitly qualified. Capabilities appears among the first four H2 headings. Dated results match the tested revision; an independent reader locates the cases, artifacts and limitations."
         }
       ],
-      "state": "pending",
-      "evidence": []
+      "state": "complete",
+      "evidence": [
+        {
+          "criterion_id": "AC-SR3",
+          "path": "docs/plans/ai-engine-kaizen/evidence/SR3/verification.json",
+          "tested_revision": "85b69cc1bb7392fef925718f2c65d83c8e22f63b",
+          "sha256": "9511d97fa6aca2f7fc87bd7747bb35366c27b4656ddcf1ccccf7a4038a9cb12e",
+          "command": "Read the README at the recorded revision and reproduce the linked check procedure in the receipt.",
+          "result": "PASS: disposable Windows checkout, focused execution, expected failure on incomplete project, navigation and preservation verified."
+        }
+      ]
     }
   ]
 }

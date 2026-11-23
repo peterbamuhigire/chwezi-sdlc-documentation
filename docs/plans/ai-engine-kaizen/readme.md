@@ -1,3 +1,4 @@
+STATUS: DONE
 # srs-skills · Post-implementation README rewrite
 
 **Accountable owner** Peter. **Execution role** SDLC specification author. **Observed starting revision** `0fe8d74bbad170cfa9d0efca510af9ef5c7f6924`. Recheck the revision on staging. Apply ordinary commits to the isolated JAD branch. Link a receipt for each criterion. All tasks begin pending.
