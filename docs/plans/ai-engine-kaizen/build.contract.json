@@ -115,8 +115,17 @@
           "evidence_oracle": "Using the filled K3 specification, a reviewer identifies the public entry point, independent oracle owner, expected failing behavior, correct retry behavior, the plausible wrong fix and the legacy-data invariant. The document assigns execution and actual revision receipts to D07/E05 and their reconciliation to C04. For K4 it names the operator, compatible artifact tuple and expected rollback outcome. A walkthrough can reject a specification that omits replay or legacy behavior before engineering begins."
         }
       ],
-      "state": "pending",
-      "evidence": []
+      "state": "complete",
+      "evidence": [
+        {
+          "criterion_id": "AC-S04",
+          "path": "docs/plans/ai-engine-kaizen/evidence/S04/independent-review.md",
+          "tested_revision": "d56eefac9899ceba9623b826211ebcaf99451886",
+          "sha256": "91acfeaaa5b5da0dab5af3f0ead998c1c80a58823e2f6bb7c5d1cc98e6561668",
+          "command": "Reproduce the case and apply the negative controls recorded in the acceptance walkthrough",
+          "result": "PASS"
+        }
+      ]
     },
     {
       "id": "S05",
