@@ -149,8 +149,17 @@
           "evidence_oracle": "Hand the packet to a fresh reader. The reader finds the same case ID and scoped decision for each valid case. A mismatched dataset revision and a missing outcome each prevent acceptance. Record the files and handoff revision."
         }
       ],
-      "state": "pending",
-      "evidence": []
+      "state": "complete",
+      "evidence": [
+        {
+          "criterion_id": "AC-S05",
+          "path": "docs/plans/ai-engine-kaizen/evidence/S05/independent-review.md",
+          "tested_revision": "e1d764be0332b95670728ad3d8e28b029634660b",
+          "sha256": "2fbcb085a3771c71107fe5affa89b8f2979280736ea4de4728396d85167f6316",
+          "command": "Reproduce the case and apply the negative controls recorded in the acceptance walkthrough",
+          "result": "PASS"
+        }
+      ]
     }
   ]
 }
