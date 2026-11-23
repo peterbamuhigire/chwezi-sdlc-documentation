@@ -2,9 +2,13 @@
 
 Use this engine to turn a project decision into a requirement, a test and a record of what happened. Its 160 skills cover the software lifecycle from the product brief to deployment and audit. A Python kernel checks project documents at phase gates and builds a styled DOCX.
 
-For a conventional project, start with [project setup](#start-here) or [find the document you need](#find-the-right-skill). For an AI feature or an AI-assisted change, follow the [worked cases](#worked-ai-and-software-cases). Each case links the requirement to its evidence and decision. Missing approvals or measurements remain open.
+For a conventional project, start with [project setup](#start-here) or [find the document you need](#find-the-right-skill).
+For an AI feature or an AI-assisted change, follow the [worked cases](#worked-ai-and-software-cases).
+Each case links the requirement to its evidence and decision. Missing approvals or measurements remain open.
 
-Use the [delivery specialist guide](docs/delivery-specialists.md) to assign engineering and verification responsibilities. Use the [editorial specialist guide](docs/editorial-specialists.md) to choose a reviewer for the audience and publication stage. For a delivery study across machines, the [test report](05-testing-documentation/03-test-report/SKILL.md) records runner revisions, exposure and observed limits.
+Use the [delivery specialist guide](docs/delivery-specialists.md) to assign engineering and verification responsibilities.
+Use the [editorial specialist guide](docs/editorial-specialists.md) to choose a reviewer for the audience and publication stage.
+For a delivery study across machines, the [test report](05-testing-documentation/03-test-report/SKILL.md) records runner revisions, exposure and observed limits.
 
 ## At a glance
 
