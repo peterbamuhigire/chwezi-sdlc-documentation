@@ -71,4 +71,6 @@ Keep an independent test oracle and the frozen synthetic case IDs. Use original 
 
 For interruption, inspect JAD status, branch, plan and the verification receipt. A matching digest can identify an existing artifact. Reconcile partial effects by their operation ID. Resume the existing lane after confirming the saved intent. Never reissue an uncertain external action. A gate failure retains its log and remains failed until repaired and rerun. Continue independent tasks. Enter a blocked result only if no permitted work remains.
 
-**Handoff.** Accepted tasks: S01, S02, S03, S04, S05. All five SRS criteria have receipts. Submit the local completion candidate for independent JAD verification. See the task-level receipts in evidence/.
+**Handoff.** S01, S02, S03, S04 and S05 have accepted task receipts. Independent supervisor gates are next. See evidence/S05/handoff-metadata.json for input hashes and output paths.
+
+**Recovery session at this completed candidate.** The operator has already committed the reconciled work on the lane branch. If the worktree is clean, the first line is STATUS: DONE, and the installed plan_contract.py reports completion_ready, the reconciliation task is finished. Return immediately with the commit and the observed contract result. Leave the tree clean. Additional edits, evidence fields, handoff rewrites and empty commits are unnecessary. The JAD recovery loop expressly accepts an unchanged worker HEAD when the operator has advanced it beyond the verified baseline. The supervisor alone runs the independent completion gates.
