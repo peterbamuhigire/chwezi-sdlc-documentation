@@ -70,4 +70,4 @@ Keep an independent test oracle and the frozen synthetic case IDs. Use original 
 
 For interruption, inspect JAD status, branch, plan and the verification receipt. A matching digest can identify an existing artifact. Reconcile partial effects by their operation ID. Resume the existing lane after confirming the saved intent. Never reissue an uncertain external action. A gate failure retains its log and remains failed until repaired and rerun. Continue independent tasks. Enter a blocked result only if no permitted work remains.
 
-**Handoff.** S01 is independently reviewed and committed. See evidence/S01/independent-review.md. Next ready task: S02. S03–S05 follow their declared dependencies. Use the schema-v1 example in the first task for evidence fields and valid state names.
+**Handoff.** Accepted tasks: S01, S02. Next ready task: S03. See the task-level receipts in evidence/.

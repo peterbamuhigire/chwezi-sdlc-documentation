@@ -24,7 +24,7 @@
           "criterion_id": "AC-S01",
           "path": "docs/plans/ai-engine-kaizen/evidence/S01/independent-review.md",
           "tested_revision": "22421ba7c10d9f9f19ae33b567d99c6f14a7e6a5",
-          "sha256": "b6e6a55beeb82ff132fa49d4e80476598d93dd53ada1eb8cfb8afc80c3c314cb",
+          "sha256": "671f01babaa9b3de9ebfd0b620660f86c614bb1ebdbf911c7d9afa3921959fbb",
           "command": "Independent K1 table recomputation and deadline/owner omission walkthrough",
           "result": "PASS"
         }
@@ -49,8 +49,17 @@
           "evidence_oracle": "A reviewer can reproduce partition membership and isolate held-out or withdrawn records. With future labels or unknown rights, the affected use stays unresolved and the unaffected case remains testable."
         }
       ],
-      "state": "pending",
-      "evidence": []
+      "state": "complete",
+      "evidence": [
+        {
+          "criterion_id": "AC-S02",
+          "path": "docs/plans/ai-engine-kaizen/evidence/S02/independent-review.md",
+          "tested_revision": "47187e3edb31b71d89739b0486f1e5e97972c458",
+          "sha256": "fad6bc3ece7a332d7ae24d3cf5247243f8c85d2f3542b14a6c6f6edb6a10a1c3",
+          "command": "Reproduce the case and apply the negative controls recorded in the acceptance walkthrough",
+          "result": "PASS"
+        }
+      ]
     },
     {
       "id": "S03",
