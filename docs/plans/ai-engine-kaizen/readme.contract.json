@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "tasks": [
+    {
+      "id": "SR1",
+      "title": "Inventory release evidence and preserve the front door",
+      "depends_on": [],
+      "scope": [
+        "README.md",
+        "docs",
+        "docs/plans/ai-engine-kaizen/readme.md",
+        "docs/plans/ai-engine-kaizen/readme.contract.json",
+        "docs/plans/ai-engine-kaizen/evidence"
+      ],
+      "acceptance": [
+        {
+          "id": "AC-SR1",
+          "description": "Inventory release evidence and preserve the front door with a reproducible observable result",
+          "evidence_oracle": "Every proposed material claim has an owner, real entry point, revision and a result with its environment. Unverified claims have explicit limits. Historic broad capabilities missing from the proposed outline are restored or given an intentional, resolvable destination."
+        }
+      ],
+      "state": "complete",
+      "evidence": [
+        {
+          "criterion_id": "AC-SR1",
+          "path": "docs/plans/ai-engine-kaizen/evidence/SR1/independent-result.md",
+          "tested_revision": "65d3f6fd587f96e411e6e18b10889c3661f6f1b3",
+          "sha256": "4bf600eb5d79440445ea57ef5b0cdfa2b7faaba50859278cf929463cf2c7a48f",
+          "command": "PowerShell local-link resolution and S01-S04 revision/receipt cross-check; Python README-anchor/link check and receipt digest check.",
+          "result": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "SR2",
+      "title": "Write the SDLC documentation README",
+      "depends_on": [
+        "SR1"
+      ],
+      "scope": [
+        "README.md",
+        "docs",
+        "docs/plans/ai-engine-kaizen/readme.md",
+        "docs/plans/ai-engine-kaizen/readme.contract.json",
+        "docs/plans/ai-engine-kaizen/evidence"
+      ],
+      "acceptance": [
+        {
+          "id": "AC-SR2",
+          "description": "Write the SDLC documentation README with a reproducible observable result",
+          "evidence_oracle": "A first-time reader can use the new task table to complete one AI-system journey and one assisted-software journey. A relevant non-AI route still works. Each example resolves on this checkout. No prototype, metadata check, vendor benchmark or planned work is described as a verified production capability."
+        }
+      ],
+      "state": "complete",
+      "evidence": [
+        {
+          "criterion_id": "AC-SR2",
+          "path": "docs/plans/ai-engine-kaizen/evidence/SR2/reader-review.md",
+          "tested_revision": "f10ff25f89cc4f0fa81aad372403f7c99dba8efa",
+          "sha256": "869fa152cf6feb963c2cf2ec71123d79ff4239634385438f187e59a1291d4d02",
+          "command": "Read the README at the recorded revision and reproduce the linked check procedure in the receipt.",
+          "result": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "SR3",
+      "title": "Validate and release the rewritten README",
+      "depends_on": [
+        "SR2"
+      ],
+      "scope": [
+        "README.md",
+        "docs",
+        "docs/plans/ai-engine-kaizen/readme.md",
+        "docs/plans/ai-engine-kaizen/readme.contract.json",
+        "docs/plans/ai-engine-kaizen/evidence"
+      ],
+      "acceptance": [
+        {
+          "id": "AC-SR3",
+          "description": "Validate and release the rewritten README with a reproducible observable result",
+          "evidence_oracle": "All material links and anchors resolve or have a working compatibility anchor. Each changed command is exercised or explicitly qualified. Capabilities appears among the first four H2 headings. Dated results match the tested revision; an independent reader locates the cases, artifacts and limitations."
+        }
+      ],
+      "state": "complete",
+      "evidence": [
+        {
+          "criterion_id": "AC-SR3",
+          "path": "docs/plans/ai-engine-kaizen/evidence/SR3/verification.json",
+          "tested_revision": "85b69cc1bb7392fef925718f2c65d83c8e22f63b",
+          "sha256": "9511d97fa6aca2f7fc87bd7747bb35366c27b4656ddcf1ccccf7a4038a9cb12e",
+          "command": "Read the README at the recorded revision and reproduce the linked check procedure in the receipt.",
+          "result": "PASS"
+        }
+      ]
+    }
+  ]
+}

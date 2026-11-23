@@ -1,0 +1,46 @@
+{
+  "dataset": "tickets-v1",
+  "corpus": "atlas-v2",
+  "cases": [
+    {
+      "id": "K1",
+      "requirement": "FR-K1-01",
+      "spec": "02-requirements-engineering/14-ai-feature-prd-spec/references/ai-feature-prd-addendum.md",
+      "revision": "tickets-v1",
+      "fixture": "02-requirements-engineering/15-ai-data-and-knowledge-base-spec/references/ai-data-and-knowledge-base-spec-template.md",
+      "evaluation": "05-testing-documentation/04-ai-eval-harness-spec/references/ai-evaluation-release-evidence.md",
+      "outcome": "CAP-2 rejects candidate-v1. CAP-ALL requires further evidence.",
+      "decision": "03-design-documentation/12-ai-model-card/references/ai-model-card-template.md"
+    },
+    {
+      "id": "K2",
+      "requirement": "EVAL-01",
+      "spec": "05-testing-documentation/04-ai-eval-harness-spec/references/ai-evaluation-release-evidence.md",
+      "revision": "atlas-v2",
+      "fixture": "02-requirements-engineering/15-ai-data-and-knowledge-base-spec/references/ai-data-and-knowledge-base-spec-template.md",
+      "evaluation": "05-testing-documentation/04-ai-eval-harness-spec/references/ai-evaluation-release-evidence.md",
+      "outcome": "P2 rank one passes retrieval. A five-day answer fails support.",
+      "decision": "03-design-documentation/12-ai-model-card/references/ai-model-card-template.md"
+    },
+    {
+      "id": "K3",
+      "requirement": "SW-K3-01",
+      "spec": "04-development-artifacts/05-ai-agent-coding-guidelines-addendum/references/ai-agent-coding-guidelines-addendum-template.md",
+      "revision": "synthetic-event-store-v1",
+      "fixture": "04-development-artifacts/05-ai-agent-coding-guidelines-addendum/references/ai-agent-coding-guidelines-addendum-template.md",
+      "evaluation": "04-development-artifacts/05-ai-agent-coding-guidelines-addendum/references/ai-agent-coding-guidelines-addendum-template.md",
+      "outcome": "One committed effect per event; distinct E8 is retained.",
+      "decision": "04-development-artifacts/05-ai-agent-coding-guidelines-addendum/references/ai-agent-coding-guidelines-addendum-template.md"
+    },
+    {
+      "id": "K4",
+      "requirement": "OPS-K4-01",
+      "spec": "06-deployment-operations/11-ai-feature-rollout-runbook/references/ai-rollout-runbook-template.md",
+      "revision": "G1",
+      "fixture": "06-deployment-operations/11-ai-feature-rollout-runbook/references/ai-rollout-runbook-template.md",
+      "evaluation": "06-deployment-operations/11-ai-feature-rollout-runbook/references/ai-rollout-runbook-template.md",
+      "outcome": "Restore the entire G1 bundle and compare the eligible response.",
+      "decision": "06-deployment-operations/11-ai-feature-rollout-runbook/references/ai-rollout-runbook-template.md"
+    }
+  ]
+}

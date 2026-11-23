@@ -1,0 +1,165 @@
+{
+  "schema_version": 1,
+  "tasks": [
+    {
+      "id": "S01",
+      "title": "Turn the AI request into a measurable user decision",
+      "depends_on": [],
+      "scope": [
+        "02-requirements-engineering/14-ai-feature-prd-spec",
+        "docs/plans/ai-engine-kaizen/build.md",
+        "docs/plans/ai-engine-kaizen/build.contract.json",
+        "docs/plans/ai-engine-kaizen/evidence"
+      ],
+      "acceptance": [
+        {
+          "id": "AC-S01",
+          "description": "Turn the AI request into a measurable user decision with a reproducible observable result",
+          "evidence_oracle": "An evaluator can distinguish the proposed classifier, deterministic dispatch and manual triage. Removing the deadline or label owner leaves a specific open requirement. A rollout cannot inherit an invented target."
+        }
+      ],
+      "state": "complete",
+      "evidence": [
+        {
+          "criterion_id": "AC-S01",
+          "path": "docs/plans/ai-engine-kaizen/evidence/S01/independent-review.md",
+          "tested_revision": "22421ba7c10d9f9f19ae33b567d99c6f14a7e6a5",
+          "sha256": "671f01babaa9b3de9ebfd0b620660f86c614bb1ebdbf911c7d9afa3921959fbb",
+          "command": "Independent K1 table recomputation and deadline/owner omission walkthrough",
+          "result": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "S02",
+      "title": "Specify corpus ownership and leakage controls",
+      "depends_on": [
+        "S01"
+      ],
+      "scope": [
+        "02-requirements-engineering/15-ai-data-and-knowledge-base-spec",
+        "docs/plans/ai-engine-kaizen/build.md",
+        "docs/plans/ai-engine-kaizen/build.contract.json",
+        "docs/plans/ai-engine-kaizen/evidence"
+      ],
+      "acceptance": [
+        {
+          "id": "AC-S02",
+          "description": "Specify corpus ownership and leakage controls with a reproducible observable result",
+          "evidence_oracle": "A reviewer can reproduce partition membership and isolate held-out or withdrawn records. With future labels or unknown rights, the affected use stays unresolved and the unaffected case remains testable."
+        }
+      ],
+      "state": "complete",
+      "evidence": [
+        {
+          "criterion_id": "AC-S02",
+          "path": "docs/plans/ai-engine-kaizen/evidence/S02/independent-review.md",
+          "tested_revision": "47187e3edb31b71d89739b0486f1e5e97972c458",
+          "sha256": "fad6bc3ece7a332d7ae24d3cf5247243f8c85d2f3542b14a6c6f6edb6a10a1c3",
+          "command": "Reproduce the case and apply the negative controls recorded in the acceptance walkthrough",
+          "result": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "S03",
+      "title": "Join evaluation evidence to a release decision",
+      "depends_on": [
+        "S01",
+        "S02"
+      ],
+      "scope": [
+        "05-testing-documentation/04-ai-eval-harness-spec",
+        "03-design-documentation/12-ai-model-card",
+        "docs/plans/ai-engine-kaizen/build.md",
+        "docs/plans/ai-engine-kaizen/build.contract.json",
+        "docs/plans/ai-engine-kaizen/evidence"
+      ],
+      "acceptance": [
+        {
+          "id": "AC-S03",
+          "description": "Join evaluation evidence to a release decision with a reproducible observable result",
+          "evidence_oracle": "On K1 recompute both classifiers’ results. A release recommendation cites its exact policy. On K2 a correct document with an unsupported answer fails the answer criterion while retrieval retains its own result. A judge favoring first position on identical-content pairs produces a calibration finding. No fixed vendor or judge rank can clear a failed deterministic product criterion. The K1 regression fixture rejects a mislabeled scorer and distinguishes MSE of 1/3 from R-squared of 7/8."
+        }
+      ],
+      "state": "complete",
+      "evidence": [
+        {
+          "criterion_id": "AC-S03",
+          "path": "docs/plans/ai-engine-kaizen/evidence/S03/independent-review.md",
+          "tested_revision": "2b855d4f2e0874dc4f9d670d3c9bdf4e1b57230a",
+          "sha256": "234a833be6ae2dbb1d0319e9b1b57b09516601e43a490cc50c4c0f75aa4257c1",
+          "command": "Reproduce the case and apply the negative controls recorded in the acceptance walkthrough",
+          "result": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "S04",
+      "title": "Specify a supervised build and operator recovery",
+      "depends_on": [
+        "S01",
+        "S03"
+      ],
+      "scope": [
+        "04-development-artifacts/05-ai-agent-coding-guidelines-addendum",
+        "06-deployment-operations/11-ai-feature-rollout-runbook",
+        "docs/plans/ai-engine-kaizen/build.md",
+        "docs/plans/ai-engine-kaizen/build.contract.json",
+        "docs/plans/ai-engine-kaizen/evidence"
+      ],
+      "acceptance": [
+        {
+          "id": "AC-S04",
+          "description": "Specify a supervised build and operator recovery with a reproducible observable result",
+          "evidence_oracle": "Using the filled K3 specification, a reviewer identifies the public entry point, independent oracle owner, expected failing behavior, correct retry behavior, the plausible wrong fix and the legacy-data invariant. The document assigns execution and actual revision receipts to D07/E05 and their reconciliation to C04. For K4 it names the operator, compatible artifact tuple and expected rollback outcome. A walkthrough can reject a specification that omits replay or legacy behavior before engineering begins."
+        }
+      ],
+      "state": "complete",
+      "evidence": [
+        {
+          "criterion_id": "AC-S04",
+          "path": "docs/plans/ai-engine-kaizen/evidence/S04/independent-review.md",
+          "tested_revision": "d56eefac9899ceba9623b826211ebcaf99451886",
+          "sha256": "91acfeaaa5b5da0dab5af3f0ead998c1c80a58823e2f6bb7c5d1cc98e6561668",
+          "command": "Reproduce the case and apply the negative controls recorded in the acceptance walkthrough",
+          "result": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "S05",
+      "title": "Prove the documentation handoff is usable",
+      "depends_on": [
+        "S02",
+        "S03",
+        "S04"
+      ],
+      "scope": [
+        "05-testing-documentation/04-ai-eval-harness-spec",
+        "tests",
+        "docs/plans/ai-engine-kaizen/build.md",
+        "docs/plans/ai-engine-kaizen/build.contract.json",
+        "docs/plans/ai-engine-kaizen/evidence"
+      ],
+      "acceptance": [
+        {
+          "id": "AC-S05",
+          "description": "Prove the documentation handoff is usable with a reproducible observable result",
+          "evidence_oracle": "Hand the packet to a fresh reader. The reader finds the same case ID and scoped decision for each valid case. A mismatched dataset revision and a missing outcome each prevent acceptance. Record the files and handoff revision."
+        }
+      ],
+      "state": "complete",
+      "evidence": [
+        {
+          "criterion_id": "AC-S05",
+          "path": "docs/plans/ai-engine-kaizen/evidence/S05/independent-review.md",
+          "tested_revision": "e1d764be0332b95670728ad3d8e28b029634660b",
+          "sha256": "2fbcb085a3771c71107fe5affa89b8f2979280736ea4de4728396d85167f6316",
+          "command": "Reproduce the case and apply the negative controls recorded in the acceptance walkthrough",
+          "result": "PASS"
+        }
+      ]
+    }
+  ]
+}

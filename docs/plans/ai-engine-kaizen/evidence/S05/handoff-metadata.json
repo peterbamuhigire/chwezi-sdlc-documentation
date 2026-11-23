@@ -1,0 +1,19 @@
+{
+  "fixture_digest": {
+    "path": "docs/plans/ai-engine-kaizen/evidence/S05/handoff.json",
+    "sha256": "400bbec95b3567ffa084435243573b609ee9e558212130a6c40b7dbb6759a5c0",
+    "casebook_path": "docs/plans/ai-engine-kaizen/casebook.md",
+    "casebook_sha256": "4cb684ba623c852ab61f0b80a970f4227469ce430eb2c62c406b138ada0a0c95",
+    "representation": "Repository blob bytes from the accepted build revision."
+  },
+  "output_paths": [
+    "02-requirements-engineering/14-ai-feature-prd-spec/references/ai-feature-prd-addendum.md",
+    "02-requirements-engineering/15-ai-data-and-knowledge-base-spec/references/ai-data-and-knowledge-base-spec-template.md",
+    "05-testing-documentation/04-ai-eval-harness-spec/references/ai-evaluation-release-evidence.md",
+    "03-design-documentation/12-ai-model-card/references/ai-model-card-template.md",
+    "04-development-artifacts/05-ai-agent-coding-guidelines-addendum/references/ai-agent-coding-guidelines-addendum-template.md",
+    "06-deployment-operations/11-ai-feature-rollout-runbook/references/ai-rollout-runbook-template.md"
+  ],
+  "limitations": "Fixture documentation and fresh-reader walkthrough only; no production behavior or user acceptance claimed. The focused invocation observed four passing assertions and separately hit the global coverage threshold because no engine module was exercised.",
+  "handoff_state": "Build accepted by Jidoka at 65d3f6fd587f96e411e6e18b10889c3661f6f1b3. This auxiliary metadata identifies the accepted source bytes."
+}

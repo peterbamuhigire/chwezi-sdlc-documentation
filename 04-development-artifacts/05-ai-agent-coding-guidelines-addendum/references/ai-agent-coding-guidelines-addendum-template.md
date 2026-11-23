@@ -131,3 +131,20 @@ def send_email(thread, body, to):                       # no decorator
     smtp.send(thread, body, to)                          # no idempotency, no timeout, no reversibility
     state.update({"last_sent": time.time()})             # mutates state in-place
 ```
+
+## Filled work order · K3 idempotent ticket import
+
+**SW-K3-01.** Fix duplicate status-history entries through the public ticket-import entry point. Accept event ID, ticket ID and requested status. Limit the implementation to import handling, transaction boundaries, compatibility with the existing ticket store and original test fixtures. Record impacted callers and the before and after revisions.
+
+The implementation owner receives the public contract, existing callers, legacy record shape and retry rules. The independent software reviewer owns the acceptance cases and the expected results. The implementing assistant may add diagnostics but cannot weaken a held-back assertion.
+
+| Input through the public importer | Expected observable result |
+|---|---|
+| E7, T1, review twice, identical payload | Same success outcome. One history entry |
+| E8, T1, closed after E7 | A second distinct entry. Reject a fix that deduplicates by ticket ID alone |
+| E7 repeated with a changed status | Conflict. No new entry |
+| Failure after reserving E7 but before appending history, then retry | Exactly one complete event and history entry |
+| Legacy ticket without saved event IDs, then E9 | Old history retained and one new entry |
+| Two concurrent deliveries of E7 | One committed effect |
+
+Reject a work order missing the retry or legacy invariant. Collect an original failure and a passing regression on separate tested revisions. D07 and E05 own implementation and revision-bound test evidence in their respective engines. C04 reconciles the producer receipts. At SRS stage these results are expected behavior, pending execution.

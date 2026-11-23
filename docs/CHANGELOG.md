@@ -22,6 +22,11 @@ Added a project-local driver route to the AI-agent operations runbook skill. Run
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2026-11-23] - AI PRD ticket-triage decision example
+
+- Added a filled synthetic K1 ticket-triage example with separate classifier, deterministic dispatch, and manual triage behavior; explicit unresolved deadline and label-owner fields; and a rollout boundary that does not invent a target.
+- Recorded S01 walkthrough evidence and currentness limitations in `docs/plans/ai-engine-kaizen/evidence/S01/`.
+
 ## [2026-11-16] - Owner acceptance and supervised plan continuation
 
 - Separate approved plan intent from executor progress; preserve user/buyer/operator evidence and require an owner decision for changed acceptance.

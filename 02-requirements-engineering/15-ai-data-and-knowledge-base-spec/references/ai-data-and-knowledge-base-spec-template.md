@@ -79,3 +79,23 @@ Lineage queries shall return: input doc-id, retrieval rank, prompt-registry tag,
 | DS-003 | AI-FR-003 | EVAL-ANL-300 | -- |
 | DS-004 | observability | -- | RT-S-LEAK-* |
 | DS-005 | AI-FR-002 (style) | EVAL-COMP-150 | -- |
+
+## Worked example · K1 ticket data and K2 maintenance corpus
+
+**Requirement** FR-K1-01. **Snapshot** tickets-v1. **Permitted use** offline synthetic dispatch evaluation. At dispatch the model can use the ticket text and ID. Adjudicated labels become available afterwards. Record both event time and label time. The proposed Support Operations Lead must confirm adjudication ownership. No production ticket is included.
+
+The table uses synthetic day numbers. Freeze training at the end of day 3 and evaluation at the end of day 6. Assign whole threads by their first eligible event. A later event in a training thread stays out of the temporal holdout. Within a thread keep the earliest equivalent text after comparing normalized text. Preserve the raw text and ID for inspection.
+
+| Row | Thread | Event day | Label day | Use permission | Rule and disposition |
+|---|---|---:|---:|---|---|
+| T1 | alpha | 1 | 2 | granted | Train. Earliest original example |
+| T2 | alpha | 2 | 2 | granted | Duplicate of T1 after whitespace normalization. Exclude |
+| T3 | beta | 3 | 5 | granted | Label arrived after the training cutoff. Quarantine for this training snapshot |
+| T4 | gamma | 4 | 5 | granted | Held out. Contains the test-only identifier AX-9 |
+| T5 | delta | 5 | 6 | unknown | Quarantine until permission is established |
+| T6 | alpha | 5 | 5 | granted | Cross-cutoff event in training thread. Exclude from training and holdout |
+| T7 | epsilon | 6 | pending | granted | Predict-only. Exclude from labeled outcome denominator |
+
+Fit the vocabulary on T1 only. AX-9 must remain absent from the fitted vocabulary. Drop the future closure-code field even where it is populated. Freeze the prediction and label tables separately. A pending label or an unknown use permission affects its own row. T4 remains eligible for the separate held-out check. Keep model calibration examples in separate groups from this holdout.
+
+For K2 use corpus **atlas-v2** and access class **Atlas maintenance, tenant A**. P2 revision 2 is effective and eligible. P1 revision 1 has been withdrawn, P3 is tenant B only, and P4 is a permitted but unrelated document. On withdrawal, remove P1 from the index, snippets and answer cache, then query using both old and new wording. Record the index revision and eligible IDs before evaluating the answer. If the caller has access only to an unrelated entry, return no supported answer. Keep the input record and withdrawal receipt under their corpus owner.

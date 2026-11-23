@@ -75,3 +75,16 @@ Consent capture: stored in tenant settings with timestamp and admin id. Re-promp
 | Percentage cohort step | SRE on-call | before each step |
 | GA | CPO + CTO + DPO + CISO | before stage 5 |
 | Post-launch close-out | AI Lead | after 30 d |
+
+## Filled operator drill · K4 compatible bundle rollback
+
+**OPS-K4-01.** The on-duty release operator owns restoration. The support lead owns user correction and replays a frozen eligible query after recovery. Record the release decision, timestamp, operation ID, component IDs and before/after response.
+
+| Bundle | Code, feature schema and vocabulary | Base, tokenizer and adapter | Prompt and index |
+|---|---|---|---|
+| G1 accepted | code-1, schema-1, vocab-1 | base-1, tok-1, adapter-1 | prompt-1, index-1 |
+| G2 candidate | code-2, schema-1, vocab-2 | base-2, tok-2, adapter-2 | prompt-2, index-2 |
+
+Before serving, validate the entire candidate tuple. Reject adapter-2 on base-1 even if the schema name matches. If index promotion stops mid-update, leave G1 serving or restore the complete G1 tuple. Replay the same promotion ID only after reading its recorded state. The expected outcome is one logical transition, no partial bundle and the same eligible G1 response on replay. Record its identity and observed caller result before declaring recovery.
+
+A change in input length with delayed labels calls for investigation. Keep task-quality impact unknown until outcome labels arrive. A difference between online and training transforms on the same frozen record establishes skew. Send a correction to the release operator, retain the failed tuple and decision receipt, and require a compatible re-promotion check. Engineering executes this drill and records observed results.
