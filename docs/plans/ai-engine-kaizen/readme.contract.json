@@ -19,8 +19,25 @@
           "evidence_oracle": "Every proposed material claim has an owner, real entry point, revision and a result with its environment. Unverified claims have explicit limits. Historic broad capabilities missing from the proposed outline are restored or given an intentional, resolvable destination."
         }
       ],
-      "state": "pending",
-      "evidence": []
+      "state": "complete",
+      "evidence": [
+        {
+          "criterion_id": "AC-SR1",
+          "path": "docs/plans/ai-engine-kaizen/evidence/SR1/claim-inventory.md",
+          "tested_revision": "65d3f6fd587f96e411e6e18b10889c3661f6f1b3",
+          "sha256": "a03b9d5071a9d662741a31d0f139aa90eeb173f8970b195f17cde8d76f8357bf",
+          "command": "Inventory proposed capability claims, owners, entry points, packet revisions, outcomes, environments, and existing README routes.",
+          "result": "PASS for the inventory and traced source revisions. The local documentation and fixture scope is recorded in the review."
+        },
+        {
+          "criterion_id": "AC-SR1",
+          "path": "docs/plans/ai-engine-kaizen/evidence/SR1/independent-result.md",
+          "tested_revision": "65d3f6fd587f96e411e6e18b10889c3661f6f1b3",
+          "sha256": "4bf600eb5d79440445ea57ef5b0cdfa2b7faaba50859278cf929463cf2c7a48f",
+          "command": "PowerShell local-link resolution and S01-S04 revision/receipt cross-check; Python README-anchor/link check and receipt digest check.",
+          "result": "PASS for the inventory and traced source revisions. The local documentation and fixture scope is recorded in the review."
+        }
+      ]
     },
     {
       "id": "SR2",
