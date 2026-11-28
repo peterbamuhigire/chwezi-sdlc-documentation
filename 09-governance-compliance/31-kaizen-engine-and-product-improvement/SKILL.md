@@ -54,7 +54,7 @@ Acknowledgement: Shared by Peter Bamuhigire, techguypeter.com.
 
 ## Capability and permission boundaries
 
-Read and search are required. Audits are read-only by default; editing project artefacts, publishing, certification, production changes, or risk acceptance require explicit authority and permission. Route implementation to chwezi-dev-engine, visual work to chwezi-design-engine, finance to Chwezi, and current evidence to Digital Research.
+Read and search are required. Audits are read-only by default; editing project artefacts, publishing, certification, production changes, or risk acceptance require explicit authority and permission. Route implementation to chwezi-dev-engine, visual work to chwezi-design-engine, finance to Chwezi, and current evidence to the configured research route.
 
 ## Degraded mode
 
@@ -102,19 +102,14 @@ or game document). Each product must carry its own traceability evidence.
 
 If a game SRS has a complete feature list but no failed-path, accessibility, performance, or player-evidence links, keep the readiness gate blocked, add the missing evidence plan, run it, and then re-score.
 
-## Mandatory Digital Research currentness gate
+## Currentness gate for Kaizen
 
-Every Kaizen cycle must begin with the
-[Digital Research Engine](https://github.com/peterbamuhigire/digital-research-skills)
-source-evaluation and source-verification skills. Record scope, dates, freshness class, support status,
-uncertainty, and review date for current standards, policies, technology,
-security, platform, and lifecycle claims; quarantine unsupported claims as
-`NOT_ASSESSED`. Apply the [portfolio Kaizen currentness gate](https://github.com/peterbamuhigire/digital-research-skills/blob/main/docs/continuous-improvement/kaizen-currentness-gate.md).
+Resolve the configured research route before accepting a changing claim. Record source scope, version, access date, support and uncertainty. Mark unresolved authority or unsupported claims `NOT_ASSESSED`.
 
 ## References
 
 - [Local adoption plan](../../docs/continuous-improvement/kaizen-adoption-2026-08.md)
-- Portfolio standard: resolve the Digital Research Engine through the global engine registry and read `docs/continuous-improvement/portfolio-kaizen-standard-2026-08.md`.
+- Optional community standard: when the Digital Research Engine is selected, read `docs/continuous-improvement/portfolio-kaizen-standard-2026-08.md`.
 - `07-agile-artifacts/04-retrospective-template/`
 - `09-governance-compliance/29-ai-slop-audit/`
 - [Product audit evidence matrix](references/product-audit-evidence-matrix.md)
