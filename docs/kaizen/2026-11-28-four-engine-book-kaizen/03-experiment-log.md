@@ -23,3 +23,20 @@ This rehearsal uses a synthetic maintenance portal release. The replacement appl
 ### Rehearsal stop condition
 
 A missing or duplicate work-order identifier, incorrect category assignment, unknown queue watermark, or failed user-path smoke check keeps writers paused and sends the decision to the incident commander.
+
+## Second-wave recovery replay
+
+At `de04d72`, the example already compared individual writes at a recorded cutoff. The prompt and skill only asked for reconciliation. A checklist that compared the row count and category totals could therefore satisfy their wording while dropping WO-103 and duplicating WO-101.
+
+Compare the expected work-order ID and category pairs through the agreed cutoff with the recovered pairs. Compare the observed queue outcomes by accepted ID against the expected outcomes for the same cutoff. In this rehearsal, each accepted ID must have exactly one outcome. Include service health in the resumption decision.
+
+| Rehearsal input | Expected operator decision |
+|---|---|
+| Build B fails before contraction. Build A is compatible with the observed schema. | Reverse the application release and run read and write smoke checks. |
+| Build B fails after contraction. All four IDs and category assignments match, with one queue outcome per accepted ID and a known cutoff. | Complete the forward-fix checks and obtain authorisation to resume. |
+| WO-101 appears twice and WO-103 is missing. Both use the same category. | Hold writers even though row and category counts match. |
+| All four IDs and categories match, but WO-104 has a duplicate queue outcome. | Hold writers and reconcile queue effects. |
+| All records match, but the queue cutoff is unknown. | Hold writers and escalate the missing evidence. |
+| The migration tool stops and observed migration state is unknown. | Escalate before retrying or reversing. |
+
+The contract change carries the existing rehearsal's evidence into the operative prompt and skill. The replay uses synthetic records. Live migration and autonomous generation were outside this trial.
