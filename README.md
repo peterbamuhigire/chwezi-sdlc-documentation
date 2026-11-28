@@ -59,7 +59,7 @@ For a delivery study across machines, the [test report](05-testing-documentation
 
 ## Capabilities
 
-For a migration that has already accepted writes, use the [deployment guide](06-deployment-operations/01-deployment-guide/SKILL.md) to choose recovery and reconcile the data.
+For a migration that has already accepted writes, start with the [deployment guide](06-deployment-operations/01-deployment-guide/SKILL.md). The [worked recovery rehearsal](docs/kaizen/2026-11-28-four-engine-book-kaizen/03-experiment-log.md#second-wave-recovery-replay) shows why matching totals can hide a lost write.
 
 The engine holds 160 skills in nine numbered phases, grouped under [What is inside](#what-is-inside). The [skill catalogue](docs/skill-catalogue.md) lists each one. The table under Find the right skill is the capability map: common tasks and the skill that handles each.
 
@@ -274,13 +274,13 @@ Each project lives in its own workspace at `projects/<ProjectName>/`. Canonical 
 
 ## Validation
 
-Run these from the repository root. The table keeps the measured 31 October and 5 November 2026 results. Current root-level results are stated in the overview below; the 535-test `engine/tests` result remains historical and was not rerun for the 15 November contract update. The earlier environment used Python 3.14.8 and Node.js 22. Pandoc, the Mermaid renderer, a browser and PowerShell were absent then.
+Run these from the repository root. The table preserves the measured 31 October and 5 November 2026 results. For the November 28 Windows rerun, including the failures and the clean-checkout package result, see the [validator ledger](docs/kaizen/2026-11-28-four-engine-book-kaizen/04-validation-record.md).
 
 `.github/workflows/engine.yml` runs most of the same commands on Python 3.11. It does not run the Node.js tests. Inside an activated virtual environment, `python` and `python3` are the same interpreter.
 
 On 2026-11-05 the first eleven commands in this table were re-run (Python 3.14.10, pytest 9.2.0, a fresh virtual environment with `PYTHONPATH=.`). They gave the results below, with `validate_plugin_packages.py` reporting 2,196 checkout entries and 1,290 package entries against the 5,000 limit and `validate_source_register.py` reporting 18 effective records as of that date. The six commands after them were not re-run and keep their 2026-10-31 results. Without `PYTHONPATH=.`, `engine/tests/test_agent_brief.py::test_script_writes_beside_the_handoff` fails with `ModuleNotFoundError: No module named 'engine'`.
 
-Current root checks on 2026-11-15: `python -X utf8 scripts/validate_engine.py` passes; `python -X utf8 scripts/validate_skill_engine.py --baseline tests/skill-quality-baseline.json` finds 160 active skills, no failures and 5 report-only size warnings; `python -X utf8 scripts/source_ingestion_guardrail.py` reports 0 findings. The root test suite has 33 passes. These results do not replace the historical `engine/tests` result.
+On 2026-11-15, `python -X utf8 scripts/validate_engine.py` passed. `python -X utf8 scripts/validate_skill_engine.py --baseline tests/skill-quality-baseline.json` found 160 active skills, no failures and five report-only size warnings. `python -X utf8 scripts/source_ingestion_guardrail.py` reported zero findings. The root test suite had 33 passes.
 
 | Command | Result on 2026-10-31, same on 2026-11-05 where re-run |
 |---|---|
@@ -317,7 +317,7 @@ Not run on that host, so `NOT_ASSESSED`:
 
 ## Quality and improvement
 
-The evidence for the October 2026 kaizen cycles is in the repository.
+Start with the [November 28 cycle report](docs/kaizen/2026-11-28-four-engine-book-kaizen/05-final-report.md) and its [re-audit handoff](docs/kaizen/2026-11-28-four-engine-book-kaizen/06-next-cycle.md).
 
 - [`docs/kaizen/2026-10-engine-kaizen/`](docs/kaizen/2026-10-engine-kaizen/) holds the 29 October cycle.
 - [`docs/kaizen/2026-10-engine-kaizen-pass-2/`](docs/kaizen/2026-10-engine-kaizen-pass-2/) holds the 31 October cycle (pass 2).
@@ -327,9 +327,7 @@ The evidence for the October 2026 kaizen cycles is in the repository.
 
 ### Latest published score
 
-The pass 2 final report (31 October 2026) gives 55.68 out of 100 raw and 55.68 out of 100 after the portfolio cap of 65. The 29 October cycle ended at 53.98. The pass 2 report also states a stricter initial cap of 45, under which the reported value is 45.
-
-The score is an unweighted mean of ten reviewer-judged dimensions. It is not a customer outcome and has had no independent acceptance review. The 95 target is not reached.
+The [November 28 scorecard](docs/kaizen/2026-11-28-four-engine-book-kaizen/01-baseline-scorecard.md) recorded 60.6 out of 100 raw and published. The cycle reviewer scored the first wave 63.6. These scores describe the sampled engine behaviour. The [October scores](#scores) use their own evidence and baseline rules.
 
 ### Open findings
 
@@ -347,18 +345,15 @@ These findings matter when you use the engine.
 
 ### Date-triggered gates
 
-`scripts/validate_source_register.py` fails when a source record has no review date or its review date has passed. Run with `--today YYYY-MM-DD`, it exits as follows:
+`scripts/validate_source_register.py` fails when a source record has no review date or its review date has passed. The [November 28 register](docs/kaizen/2026-11-28-four-engine-book-kaizen/standards-source-register.md) refreshes four platform claims. These are the verified boundaries with `--today YYYY-MM-DD` and the current registers.
 
 | Run date | Exit | Findings and the review dates behind them |
 |---|---:|---|
-| Up to 2026-11-29 | 0 | None. Due-soon notes, which do not fail, start 14 days before a review date, so from 2026-11-15. |
-| 2026-11-30 | 1 | 3: OpenAI plugin schema, OpenAI archive limit and Claude marketplace (review 2026-11-29). |
-| 2026-12-01 | 1 | 4: adds the Codex skill-list budget (review 2026-11-30). |
-| 2027-01-30 | 1 | 8: adds ISO/IEC 25010, Uganda regulations, model catalogue and dev-engine references (review 2027-01-29). |
-| 2027-02-01 | 1 | 14: adds ISO/IEC/IEEE 29148, Uganda DPPA, WCAG, Pandoc, Mermaid CLI and dev-engine aliases (review 2027-01-31). |
-| 2027-10-30 | 1 | 17: adds ISO/IEC/IEEE 42010, ISO/IEC/IEEE 29119-3 and ISO/IEC/IEEE 26514 (review 2027-10-29). |
+| 2026-12-01 | 0 | No overdue records. |
+| 2026-12-28 | 0 | OpenAI plugin schema, OpenAI archive limit, Claude marketplace and Codex skill-list budget are due for review. |
+| 2026-12-29 | 1 | Those four records are overdue. |
 
-To clear a finding, re-verify the claim against its primary source. Record it in a newer `docs/kaizen/<cycle>/standards-source-register.md`; a newer record supersedes an older one for the same claim identifier. The pass 2 notes propose the next re-audit for 2026-11-30.
+To clear a finding, re-verify the claim against its primary source and record the same claim ID in a newer `docs/kaizen/<cycle>/standards-source-register.md`.
 
 ### Changes after the October kaizen (1 to 7 November 2026)
 

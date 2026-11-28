@@ -185,9 +185,10 @@ Document configuration differences across environments:
 Provide the recovery steps for the observed state:
 - Decision criteria for triggering rollback
 - Service reversal order and compatibility with the current schema
-- Data recovery owner and last safe reversal point. If writes have been accepted since that point, preserve and reconcile them before a compensating change or forward fix. Escalate an unknown partial migration before retrying.
+- Data recovery owner and last safe reversal point. If writes have been accepted since that point, preserve them and reconcile the recovery inputs before approving a compensating change or forward fix. Escalate an unknown partial migration before retrying.
 - Configuration rollback
-- Verification of service health and reconciliation of accepted writes
+- Verification of service health before the recovery owner authorises resumption
+- For data recovery, record an agreed cutoff across the affected write acknowledgements, data and any queues. Match accepted writes by identifier to their expected recovered state and downstream effects. An unknown cutoff or any mismatch keeps affected writers paused pending the owner's decision.
 
 ### Step 7: Define Post-Deployment Verification
 
