@@ -15,6 +15,29 @@ import sys
 import time
 import uuid
 
+# Windows sharing denials (status watchers, antivirus) are retried for about 8 s
+# in total with capped backoff (15 Nov 2026: a 0.3 s budget killed a live Garage
+# agent job). Only the local file operation is retried, never the saved action.
+SHARING_RETRIES = 40
+
+
+def sharing_delay(attempt):
+    return min(0.25, 0.02 * (attempt + 1))
+
+
+def write_heartbeat(path, value):
+    """Best-effort liveness write. A heartbeat is rewritten every 0.25 s, so one denied
+    replace is harmless; letting it raise used to fail the job and the Windows job object
+    then killed the healthy agent (Aqar 18 Nov 2026, WinError 5 on result.json).
+    Start and terminal receipts still use write_json and must succeed."""
+    try:
+        write_json(path, value)
+        return True
+    except PermissionError:
+        if os.name != 'nt':
+            raise
+        return False
+
 
 def write_json(path, value):
     path = Path(path)
@@ -27,14 +50,15 @@ def write_json(path, value):
         os.fsync(stream.fileno())
     # Windows readers/AV may briefly deny replacement while holding the old file.
     # Retry only this local replace, never the operation whose receipt it records.
-    for attempt in range(8):
+    for attempt in range(SHARING_RETRIES):
         try:
             os.replace(temp, path)
             break
         except PermissionError:
-            if os.name != 'nt' or attempt == 7:
+            if os.name != 'nt' or attempt == SHARING_RETRIES - 1:
+                temp.unlink(missing_ok=True)
                 raise
-            time.sleep(0.01 * (attempt + 1))
+            time.sleep(sharing_delay(attempt))
     if os.name != 'nt':
         fd = os.open(path.parent, os.O_RDONLY)
         try:
@@ -47,13 +71,13 @@ def read_json(path):
     # Retry only a Windows sharing denial on this read, never the saved action.
     # Missing/corrupt evidence and persistent denial remain explicit failures.
     path = Path(path)
-    for attempt in range(8):
+    for attempt in range(SHARING_RETRIES):
         try:
             return json.loads(path.read_text(encoding='utf-8'))
         except PermissionError:
-            if os.name != 'nt' or attempt == 7:
+            if os.name != 'nt' or attempt == SHARING_RETRIES - 1:
                 raise
-            time.sleep(0.01 * (attempt + 1))
+            time.sleep(sharing_delay(attempt))
 
 
 class Busy(RuntimeError):
@@ -113,7 +137,9 @@ def held(path):
 
 def detached(argv, cwd, log):
     kwargs = {'start_new_session': True} if os.name != 'nt' else {
-        'creationflags': subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP,
+        # A hidden console (not DETACHED_PROCESS, which has none): console children such as git, php
+        # and the agent CLI inherit it instead of each opening a new visible window.
+        'creationflags': subprocess.CREATE_NO_WINDOW | subprocess.CREATE_NEW_PROCESS_GROUP,
         'startupinfo': subprocess.STARTUPINFO(),
     }
     if os.name == 'nt':
@@ -163,6 +189,53 @@ def windows_job():
     if not kernel.AssignProcessToJobObject(handle, kernel.GetCurrentProcess()):
         raise ctypes.WinError(ctypes.get_last_error())
     return handle  # Deliberately not closed until supervisor process exit.
+
+
+SUSPEND_GAP = 30.0  # seconds without a supervisor tick (normally 0.25 s) count as host sleep
+
+
+class ActiveClock:
+    """Job time that excludes host sleep or hibernation.
+
+    Aqar and Garage, 26 Nov 2026: a laptop went into Modern Standby for two hours.
+    The frozen gate then "timed out" on wake and blocked the run, and an agent
+    session lost most of its budget. The supervisor ticks every 0.25 s, so a gap
+    longer than SUSPEND_GAP between ticks is time the host was not running; it
+    is recorded as suspended, not spent. Wall-clock deltas work on every host
+    (Windows' monotonic clock counts sleep, Linux's does not); a backwards clock
+    step counts as zero.
+    """
+
+    def __init__(self, now=time.time, gap=SUSPEND_GAP):
+        self._now, self.gap = now, gap
+        self.last = now()
+        self.active = 0.0
+        self.suspended = 0.0
+
+    def tick(self):
+        now = self._now()
+        delta = max(0.0, now - self.last)
+        self.last = now
+        if delta > self.gap:
+            self.suspended += delta
+        else:
+            self.active += delta
+        return self.active
+
+
+def keep_awake():
+    """Ask Windows not to idle-sleep while this supervisor runs (best effort).
+
+    The request ends when the supervisor exits. It does not override a closed
+    lid, the power button or a user's explicit sleep; ActiveClock covers those.
+    """
+    if os.name != 'nt':
+        return False
+    try:
+        ES_CONTINUOUS, ES_SYSTEM_REQUIRED = 0x80000000, 0x00000001
+        return bool(ctypes.windll.kernel32.SetThreadExecutionState(ES_CONTINUOUS | ES_SYSTEM_REQUIRED))
+    except (AttributeError, OSError):
+        return False
 
 
 def tail(path, limit=4000):
@@ -350,17 +423,22 @@ def worker(folder):
                                      stdout=output, stderr=subprocess.STDOUT, env=env,
                                      start_new_session=(os.name != 'nt'))
             state['child_pid'] = child.pid
+            state['keep_awake'] = keep_awake()
+            clock = ActiveClock()
             terminal = None
             while child.poll() is None:
+                active = clock.tick()
+                if clock.suspended:
+                    state['suspended_seconds'] = round(clock.suspended, 1)
                 if (folder / 'CANCEL').exists():
                     terminal = 'cancelled'
-                elif time.time() - started >= spec['timeout']:
+                elif active >= spec['timeout']:
                     terminal = 'timed_out'
                 if terminal:
                     child.kill()
                     break
                 state['heartbeat_at'] = time.time()
-                write_json(folder / 'result.json', state)
+                write_heartbeat(folder / 'result.json', state)
                 time.sleep(0.25)
             code = child.wait()
             if os.name != 'nt':

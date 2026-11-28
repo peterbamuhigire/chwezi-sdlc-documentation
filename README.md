@@ -1,16 +1,14 @@
 # Chwezi SDLC Documentation
 
-For delivery studies across machines, record runner revisions, test exposure and observed limit events in the [test report](05-testing-documentation/03-test-report/SKILL.md).
+Use this engine to turn a project decision into a requirement, a test and a record of what happened. Its 160 skills cover the software lifecycle from the product brief to deployment and audit. A Python kernel checks project documents at phase gates and builds a styled DOCX.
 
-Chwezi SDLC Documentation is a library of 160 skills and a Python validation kernel for software-lifecycle documentation. Each skill tells a coding agent how to write one document, from a product requirements document (PRD) to an auditor-ready evidence pack.
+For a conventional project, start with [project setup](#start-here) or [find the document you need](#find-the-right-skill).
+For an AI feature or an AI-assisted change, follow the [worked cases](#worked-ai-and-software-cases).
+Each case links the requirement to its evidence and decision. Missing approvals or measurements remain open.
 
-The kernel checks a project's documents against phase gates and builds them into a styled `.docx`. The engine is for product owners, business analysts, architects, delivery teams, testers, operators and compliance reviewers on waterfall, Agile or hybrid projects.
-
-Use it when a project needs requirements, design, test, deployment, user or governance documents that trace to one another. It records missing stakeholder decisions as open questions rather than inventing requirements. It supports engineering, legal and compliance work; it replaces none of them.
-
-Use the [software delivery specialist guide](docs/delivery-specialists.md) to assign responsibility from discovery to production and agree the evidence due at handoff.
-
-For document work, select [editorial specialists](docs/editorial-specialists.md) according to the audience, format and publication stage.
+Use the [delivery specialist guide](docs/delivery-specialists.md) to assign engineering and verification responsibilities.
+Use the [editorial specialist guide](docs/editorial-specialists.md) to choose a reviewer for the audience and publication stage.
+For a delivery study across machines, the [test report](05-testing-documentation/03-test-report/SKILL.md) records runner revisions, exposure and observed limits.
 
 ## At a glance
 
@@ -18,8 +16,7 @@ For document work, select [editorial specialists](docs/editorial-specialists.md)
 - **Eleven domain packs** under `domains/` add sector context: healthcare, finance, government, agriculture, logistics, Uganda and five more.
 - **A validation kernel**, `python3 -m engine`, runs deterministic gates for phases 01 to 09 and a hybrid gate.
 - **Resumable execution guidance**, added 2026-11-15, gives Claude and Codex runners a bounded contract for task IDs, dependencies, scoped writes, acceptance evidence, recovery and concise handoffs. It does not change either runtime's model policy.
-- **535 tests passed and 5 skipped** under `engine/tests` on Windows on 19 November 2026, with 96.43% coverage against the 90% floor. The separate `tests/` suite passed 43 tests and 8 subtests.
-- **Current root checks:** 33 root tests passed; 160 skills validated with no failures and 5 report-only size warnings; source-ingestion guardrail reports 0 findings. The 535-test engine suite above is the historical 2026-11-05 result and was not rerun for this update.
+- **Validation.** The [validation guide](#validation) lists the skill, project and test checks. Dated suite results describe the revision and environment on which they ran.
 - **Routing proxy:** 73 of 73 fixtures rank the expected skill in the top three, and 65 of 73 rank it first (re-run 2026-11-06). The proxy is lexical, not live routing.
 - **Latest published score:** 55.68 out of 100 after pass 2 on 2026-10-31. It is a reviewer judgement, not a customer outcome.
 
@@ -69,6 +66,25 @@ Release 2.0.0 adds durable job supervision, separate slice and completion gates,
 From `auto-agents`, run `./run.ps1` or `run.cmd` after following [ENGINE.md](auto-agents/ENGINE.md).
 The shared runtime passed 64 tests on 15 November 2026. Both CLIs passed bounded smoke checks;
 real quota-reset and power-cut recovery remain unassessed. [RECOVERY.md](auto-agents/RECOVERY.md) explains the optional logon helper.
+
+### Worked AI and software cases
+
+Pick a row, open the entry document, then compare the resulting decision with the same case ID in the [four-case handoff](docs/plans/ai-engine-kaizen/evidence/S05/handoff.json).
+
+| Task | Where to work | Expected decision in the synthetic case |
+|---|---|---|
+| K1. Decide whether to release a ticket classifier | Start with the [AI feature PRD](02-requirements-engineering/14-ai-feature-prd-spec/references/ai-feature-prd-addendum.md). Trace the decision deadline, label owner and review capacity into the [evaluation](05-testing-documentation/04-ai-eval-harness-spec/references/ai-evaluation-release-evidence.md) and the [model card](03-design-documentation/12-ai-model-card/references/ai-model-card-template.md). | Under CAP-2 reject the candidate. Under CAP-ALL defer pending more evidence. |
+| K2. Diagnose a knowledge-base answer | Use the [data and corpus specification](02-requirements-engineering/15-ai-data-and-knowledge-base-spec/references/ai-data-and-knowledge-base-spec-template.md) for the eligible corpus revision and the [evaluation record](05-testing-documentation/04-ai-eval-harness-spec/references/ai-evaluation-release-evidence.md) for retrieval and answer support. | Passage P2 ranks first. The five-day answer still fails the support check. |
+| K3. Review an AI-assisted change to a retryable importer | Follow SW-K3-01 in the [coding guidelines addendum](04-development-artifacts/05-ai-agent-coding-guidelines-addendum/references/ai-agent-coding-guidelines-addendum-template.md). Check the public entry point against an independent expected result for retry, conflict, legacy data and an interrupted write. | Each event produces one committed effect. A distinct event E8 survives. |
+| K4. Hand a failed release to the operator | Follow the [rollout and rollback runbook](06-deployment-operations/11-ai-feature-rollout-runbook/references/ai-rollout-runbook-template.md). Identify the compatible bundle and the frozen query used for the recovery check. | Restore the whole G1 bundle and compare the query result before resuming. |
+
+From a checkout with the development dependencies installed, run the focused handoff check.
+
+```sh
+python -m pytest -q -o addopts= tests/test_ai_kaizen_handoff.py
+```
+
+The four assertions check the fixture contract and reject a stale revision, missing outcome and broken evaluation link. They exercise documentation and synthetic data. A production release still needs measured system behaviour, the responsible owner's decision and an execution record.
 
 ### Find the right skill
 

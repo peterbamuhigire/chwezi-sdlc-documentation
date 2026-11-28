@@ -148,10 +148,20 @@ class RecoveryTests(unittest.TestCase):
     def test_adapters_preserve_explicit_arguments_and_add_no_bypass(self):
         import driver
         with patch.object(driver, 'executable', side_effect=lambda name: name):
-            self.assertEqual(driver.agent_command({'runner':'codex','runner_args':['--json']}), ['codex','exec','--json','-'])
-            self.assertEqual(driver.agent_command({'runner':'claude','runner_args':['--output-format','json']}), ['claude','-p','--output-format','json'])
-            cfg={'runner':'claude','runner_args_by_runner':{'codex':['--model','example-model'],'claude':[]}}
+            pre={'skills':'preload','subagents':'inherit'}
+            self.assertEqual(driver.agent_command({**pre,'runner':'codex','runner_args':['--json']}), ['codex','exec','--json','-'])
+            self.assertEqual(driver.agent_command({**pre,'runner':'claude','runner_args':['--output-format','json']}), ['claude','-p','--output-format','json'])
+            cfg={**pre,'runner':'claude','runner_args_by_runner':{'codex':['--model','example-model'],'claude':[]}}
             self.assertEqual(driver.agent_command(cfg), ['claude','-p'])
+            # Defaults (skills=on-demand, subagents=economy) insert only the skill profile and, for Claude,
+            # the subagent file, before the owner's arguments. Codex has no subagent arguments.
+            self.assertEqual(driver.agent_command({'runner':'codex','runner_args':['--json']}), ['codex','exec','-p',driver.CODEX_SKILL_PROFILE,'--json','-'])
+            argv=driver.agent_command({'runner':'claude','runner_args':['--output-format','json']})
+            self.assertEqual((argv[:3], argv[4], argv[6:]), (['claude','-p','--settings'], '--agents', ['--output-format','json']))
+            self.assertTrue(argv[3].endswith('skills-on-demand.claude.json'))
+            self.assertTrue(argv[5].endswith('subagents-economy.claude.json'))
+            argv=driver.agent_command({'runner':'claude','subagents':'inherit','runner_args':[]})
+            self.assertNotIn('--agents', argv)
 
     def test_preflight_checks_readiness_without_starting_a_job(self):
         self.assertEqual(self.d.preflight(self.cfg), 0)
@@ -210,6 +220,162 @@ subprocess.run(['git','commit','-qm','slice'],check=True)
         self.fake.write_text("raise RuntimeError('Completed plan needs verification, not an agent')")
         self.assertEqual(self.run_driver(), 0)
         self.assertTrue(marker.exists())
+
+    def sleep_during_first_gate(self):
+        import durable, execution
+        real = durable.wait
+        seen = {'gates': 0}
+        def wait(folder, *args, **kwargs):
+            result = real(folder, *args, **kwargs)
+            if durable.read_spec(folder)['argv'] == self.cfg['verify'][0]:
+                seen['gates'] += 1
+                if seen['gates'] == 1:  # the host slept through the first gate run
+                    result = {**result, 'state': 'timed_out', 'exit_code': 1, 'suspended_seconds': 7200.0}
+            return result
+        return patch.object(execution.durable, 'wait', wait), seen
+
+    def test_gate_timed_out_by_host_sleep_is_replayed_and_budget_extended(self):
+        self.cfg['verification_replay_safe'] = True
+        patcher, seen = self.sleep_during_first_gate()
+        with patcher:
+            self.assertEqual(self.run_driver(), 0, self.last_output if hasattr(self, 'last_output') else '')
+        status = json.loads((self.base / 'status.json').read_text())
+        self.assertEqual(status['state'], 'done')
+        self.assertEqual(seen['gates'], 2)
+        self.assertGreater(status['deadline'] - status['started_at'], 3600 + 7000)
+        events = (self.base / 'events.jsonl').read_text()
+        self.assertIn('"host_suspended"', events)
+        self.assertIn('"verification_replay"', events)
+
+    def test_gate_timed_out_by_host_sleep_blocks_without_replay_safety(self):
+        patcher, _ = self.sleep_during_first_gate()
+        with patcher:
+            self.assertEqual(self.run_driver(), 2)
+        self.assertIn('timed_out', json.loads((self.base / 'status.json').read_text())['reason'])
+
+    def test_gate_cut_short_by_run_budget_stops_and_recover_reruns_it(self):
+        # Aqar 27 Nov 2026: a gate started 2 min before the deadline timed out and blocked the run.
+        import durable, execution
+        self.cfg.update(verification_timeout_seconds=10 ** 6, recovery_policy='local-only',  # gate limit > budget left
+                        verification_replay_safe=True)
+        real, seen = durable.wait, {'gates': 0}
+        def wait(folder, *args, **kwargs):
+            result = real(folder, *args, **kwargs)
+            if durable.read_spec(folder)['argv'] == self.cfg['verify'][0]:
+                seen['gates'] += 1
+                if seen['gates'] == 1:
+                    result = {**result, 'state': 'timed_out', 'exit_code': 1}
+            return result
+        with patch.object(execution.durable, 'wait', wait):
+            self.assertEqual(self.run_driver(), 0)
+            status = json.loads((self.base / 'status.json').read_text())
+            self.assertEqual(status['state'], 'stopped')
+            self.assertIn('budget reached during verification', status['reason'])
+            self.assertIn('"budget_cut_gate"', (self.base / 'events.jsonl').read_text())
+            self.assertEqual(self.run_driver(recover=True), 0, self.last_output)
+        self.assertEqual(json.loads((self.base / 'status.json').read_text())['state'], 'done')
+        self.assertEqual(seen['gates'], 2)
+
+    def cut_first_session(self, marker):
+        # First session leaves uncommitted work (cut off); the next one commits it and finishes.
+        self.fake.write_text('''import pathlib,subprocess,sys
+sys.stdin.read()
+m=pathlib.Path(%r)
+pathlib.Path('partial.txt').write_text('work in progress',encoding='utf8')
+if not m.exists():
+    m.write_text('once')
+    sys.exit(0)
+pathlib.Path('auto-agents/PLAN.md').write_text('STATUS: DONE\\n',encoding='utf8')
+subprocess.run(['git','add','-A'],check=True)
+subprocess.run(['git','commit','-qm','finish'],check=True)
+''' % str(marker), encoding='utf8')
+        import durable, execution
+        real, seen = durable.wait, {'sessions': 0}
+        def wait(folder, *args, **kwargs):
+            result = real(folder, *args, **kwargs)
+            if durable.read_spec(folder)['argv'] == [sys.executable, str(self.fake)]:
+                seen['sessions'] += 1
+                if seen['sessions'] == 1:
+                    result = {**result, 'state': 'timed_out', 'exit_code': 1}
+            return result
+        return patch.object(execution.durable, 'wait', wait), seen
+
+    def test_session_cut_short_by_run_budget_stops_and_recover_reconciles(self):
+        # Garage 27 Nov 2026: a session cut off at the deadline, recovery attempts used, blocked the run.
+        self.cfg.update(session_timeout_seconds=10 ** 6, recovery_policy='local-only', max_recovery_attempts=0)
+        patcher, seen = self.cut_first_session(self.root.parent / 'cut-once')
+        with patcher:
+            self.assertEqual(self.run_driver(), 0, self.last_output if hasattr(self, 'last_output') else '')
+            status = json.loads((self.base / 'status.json').read_text())
+            self.assertEqual(status['state'], 'stopped')
+            self.assertIn('budget reached during an agent session', status['reason'])
+            self.assertIn('"budget_cut_session"', (self.base / 'events.jsonl').read_text())
+            self.assertEqual(self.run_driver(recover=True), 0, self.last_output)
+        self.assertEqual(json.loads((self.base / 'status.json').read_text())['state'], 'done')
+        self.assertEqual(seen['sessions'], 2)
+
+    def test_session_timeout_within_budget_still_blocks_without_attempts(self):
+        self.cfg.update(session_timeout_seconds=60, recovery_policy='local-only', max_recovery_attempts=0)
+        patcher, _ = self.cut_first_session(self.root.parent / 'cut-once')
+        with patcher:
+            self.assertEqual(self.run_driver(), 2)
+        self.assertIn('agent timed_out', json.loads((self.base / 'status.json').read_text())['reason'])
+
+    def test_gate_timeout_within_budget_still_blocks(self):
+        import durable, execution
+        self.cfg['verification_timeout_seconds'] = 60  # the gate's own limit, well inside the budget
+        real = durable.wait
+        def wait(folder, *args, **kwargs):
+            result = real(folder, *args, **kwargs)
+            if durable.read_spec(folder)['argv'] == self.cfg['verify'][0]:
+                result = {**result, 'state': 'timed_out', 'exit_code': 1}
+            return result
+        with patch.object(execution.durable, 'wait', wait):
+            self.assertEqual(self.run_driver(), 2)
+        self.assertIn('timed_out', json.loads((self.base / 'status.json').read_text())['reason'])
+
+    def block_then_owner_marks(self, owner_first_line):
+        plan = self.root / self.cfg['plan']
+        plan.write_text('STATUS: BLOCKED - owner decision needed\n')
+        git(self.root, 'add', self.cfg['plan'])
+        git(self.root, 'commit', '-qm', 'blocked')
+        self.assertEqual(self.run_driver(), 2)
+        self.assertEqual(json.loads((self.base / 'status.json').read_text())['state'], 'blocked')
+        plan.write_text(owner_first_line + '\n')
+        git(self.root, 'add', self.cfg['plan'])
+        git(self.root, 'commit', '-qm', 'owner resolves')
+
+    def test_owner_completed_plan_closes_blocked_run_as_done(self):
+        # Writing engine 24 Nov 2026: the owner finished a blocked plan on main and the run stayed blocked.
+        self.block_then_owner_marks('STATUS: DONE')
+        self.assertEqual(self.run_driver(resume=True), 0)
+        status = json.loads((self.base / 'status.json').read_text())
+        self.assertEqual((status['state'], status['closed_by'], status['closed_from']), ('done', 'owner', 'blocked'))
+        self.assertIn('owner decision needed', status['reason'])
+        self.assertIn('"closed"', (self.base / 'events.jsonl').read_text())
+        self.assertEqual(self.run_driver(resume=True), 0)  # idempotent: a done run stays done
+
+    def test_blocked_run_stays_blocked_until_owner_marks_done(self):
+        self.block_then_owner_marks('STATUS: BLOCKED - still waiting')
+        self.assertEqual(self.run_driver(resume=True), 0)
+        self.assertEqual(json.loads((self.base / 'status.json').read_text())['state'], 'blocked')
+
+    def test_unmerged_runner_commit_prevents_owner_close(self):
+        self.fake.write_text('''import pathlib,subprocess,sys
+sys.stdin.read()
+pathlib.Path('work.txt').write_text('runner work')
+p=pathlib.Path('auto-agents/PLAN.md')
+p.write_text('STATUS: BLOCKED - owner decision needed\\n')
+subprocess.run(['git','add','work.txt',str(p)],check=True)
+subprocess.run(['git','commit','-qm','runner slice'],check=True)
+''')
+        self.assertEqual(self.run_driver(), 2)
+        plan = self.root / self.cfg['plan']
+        plan.write_text('STATUS: DONE\n')
+        git(self.root, 'add', self.cfg['plan'])
+        git(self.root, 'commit', '-qm', 'owner marks done without the runner slice')
+        self.assertEqual(self.run_driver(resume=True), 0)
+        self.assertEqual(json.loads((self.base / 'status.json').read_text())['state'], 'blocked')
 
     def test_wait_resume_retains_deadline_and_retry_time(self):
         import execution

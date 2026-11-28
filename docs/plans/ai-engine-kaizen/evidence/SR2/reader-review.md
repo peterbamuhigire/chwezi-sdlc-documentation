@@ -1,0 +1,5 @@
+# SDLC reader walkthrough
+
+The separate read-only reviewer used the README at f10ff25f89cc4f0fa81aad372403f7c99dba8efa. The K1 PRD, evaluation and model-card links led to a rejection under CAP-2 (five alerts for two slots) and a deferred CAP-ALL decision pending owner, deadline and representative evidence. SW-K3-01 led to the coding addendum, including one history effect on replay of E7, a conflict for a changed payload, and retention of the distinct E8 event. The reviewer located project creation and validation for the Acme healthcare project and the explanation of expected incomplete-workspace findings.
+
+Verdict: pass for navigation and the supplied decision oracles. This was a reader walkthrough, with command execution independently checked in SR3. An initial metrics run found 22 long source lines against a maximum of 20. Wrapping two introductory paragraphs preserved their wording. The recheck met all six limits. Customer acceptance and production performance were outside these checks.
