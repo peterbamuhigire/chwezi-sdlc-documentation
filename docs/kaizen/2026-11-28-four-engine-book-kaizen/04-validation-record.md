@@ -65,7 +65,7 @@ Python 3.13.7, Node 24.8.0 and Pandoc 3.9.0.2. The main test run used `PYTHONPAT
 | `python ../chwezi-engine-agents/scripts/check_readme_preservation.py . de04d72 810f615` | 0 | No lost README targets or commands and no broken tracked or in-page anchors. |
 | Strict token-budget lint, Codex model policy and `git diff --check` | 0 each | No new warnings or failures. |
 
-The first scratch archive command failed because PowerShell split the output argument. Quoting the complete option and extracting with Python's `zipfile` CLI recovered the isolated check. The editorial pass found no blocking filler, unsupported package or standards claim, or source-material leak in the changed content. The root reviewer independently checked the recovery semantics and reproduced the December 1 source-gate pass. Production use, hosted installation and Linux execution remain `NOT_ASSESSED`.
+The first scratch archive command failed because PowerShell split the output argument. Quoting the complete option and extracting with Python's `zipfile` CLI recovered the isolated check. The editorial pass found no blocking filler, unsupported package or standards claim, or source-material leak in the changed content. The root reviewer independently checked the recovery semantics and reproduced the December 1 source-gate pass. Production use, hosted installation and the full Linux kernel suite remain `NOT_ASSESSED`.
 
 
 ﻿# Independent review of SDLC deployment and routing changes
@@ -94,3 +94,7 @@ The synthetic section used Git Bash and Pandoc to build a DOCX. Build exit 0, ZI
 
 
 After integration the actual checkout also passed the December 1 register simulation (22 effective records). The second wave corrected the owning Kaizen skill to follow the same research route as the top-level instructions.
+
+### Linux recheck
+
+A clean tracked archive of `7174f3f` ran on Alpine Linux 3.23.8 x86_64 with Python 3.12.16 on 28 November 2026. The engine contract passed. The source-register check for 1 December passed for 22 effective records. The package gate passed with 1,359 files and 160 active skill paths. The full Linux kernel suite and a live deployment remain unassessed.
