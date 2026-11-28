@@ -13,7 +13,7 @@ This skill produces a step-by-step deployment guide that defines pre-deployment 
 
 ## Quality Reminder
 
-Every deployment step shall include the literal command or action to execute with expected duration. Every deployment guide shall include a complete rollback procedure that reverses deployment steps in order. Configuration shall distinguish dev, staging, and production environments explicitly. Flag deployment gaps rather than fabricating operational details.
+Every deployment step shall include the literal command or action to execute with expected duration. Every deployment guide shall include a recovery decision for each deployment step, including how the operator preserves writes after an irreversible migration. Configuration shall distinguish dev, staging, and production environments explicitly. Flag deployment gaps rather than fabricating operational details.
 
 ## Standards
 

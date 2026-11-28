@@ -1,6 +1,6 @@
 ## Unattended development
 
-When this engine changes `auto-agents`, update the canonical copy in `skills-engine-agents` first, regenerate its manifest, run its tests, then discover and update the installed project and engine copies with its managed `propagate.py --apply` workflow. Preserve each copy?s config, plan and local edits; report blocked or missing targets. Batch necessary host plugin-cache refreshes at the end of the change; preserve hook trust checks and report any required review. See `auto-agents/README.md`.
+The community runtime is maintained in `chwezi-engine-agents` (formerly `skills-engine-agents`). This checkout consumes that distribution. Independently maintained runtimes have separate release owners. Follow `auto-agents/README.md` for authorised updates and preserve installation-specific settings, plans and local changes.
 
 For an owner-authorised long-running development plan, use `auto-agents/README.md` and `auto-agents/config.json`. Prepare a committed, scoped plan and project-specific verification commands first. Respect existing runtime permissions, project controls, data boundaries and publication settings. Do not run this and `scripts/autorun` concurrently on shared resources.
 
@@ -53,14 +53,9 @@ Load `rules/common/core.md` and `rules/common/phase-handoff.md` alongside the
 routed skill for any non-trivial task; they are short and do not replace the
 skill, only set the baseline the skill operates within.
 
-## Mandatory Digital Research currentness gate for Kaizen
+## Currentness gate for Kaizen
 
-Every Kaizen audit, skill edit, reference update, validator change, and
-standardisation decision MUST begin with the Digital Research Engine (resolve
-its checkout through the engine-routing table). Read its `source-evaluation` and
-`source-verification` skills and the currentness gate reference
-`docs/continuous-improvement/kaizen-currentness-gate.md` (in the Digital Research
-Engine, not this repository).
+Resolve the host's configured research route for source evaluation and verification. Use the community Digital Research checkout when explicitly selected. If the required authority cannot be resolved, record the affected decision as `NOT_ASSESSED`.
 
 Before admitting any standard, policy, law, technology, platform capability,
 software version, command, security control, benchmark, or lifecycle claim,
@@ -68,11 +63,6 @@ record source scope, publication/version date, access date, freshness class,
 review date, support status, and uncertainty. Use current authoritative
 primary sources; quarantine stale/ambiguous/unsupported claims and mark them
 `NOT_ASSESSED`. Books are durable concept inputs only.
-
-Before admitting any standard edition, law, platform capability, version or metric threshold into a
-skill or generated requirement, follow the Digital Research Engine currentness gate described in
-`AGENTS.md` (source-evaluation, source-verification, dated evidence, `NOT_ASSESSED` when unverified).
-Books are durable concept inputs only.
 
 This repository is a dual-compatible skill system for Claude Code and Codex. The portable unit is any directory that contains a `SKILL.md`.
 

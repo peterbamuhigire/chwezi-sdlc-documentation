@@ -34,7 +34,7 @@ metadata:
 
 | Artefact | Consumer | Observable acceptance condition |
 |---|---|---|
-| Deployment Guide | Release engineers and operators | An authorised operator can deploy and roll back using versioned commands, named gates, and observable health checks. |
+| Deployment Guide | Release engineers and operators | An authorised operator can deploy and recover using versioned commands, named gates, and observable health checks. |
 | Decision and gap register | Reviewer and downstream phase owner | Every assumption, rejected option, unresolved dependency, waiver, and owner is explicit. |
 | Validation evidence | Release or governance reviewer | Checks identify command or method, date, result, evidence location, and all unassessed items. |
 
@@ -94,9 +94,11 @@ If files, execution, network, rendering, environment access, fonts, or current e
 
 ## Worked Example
 
-Given an approved project source and a conflicting implementation detail, record both with provenance, stop the affected branch, and obtain the accountable owner's decision. Then update the relevant contract, define a reproducible acceptance check, and retain its observed result. The artefact is accepted only when an authorised operator can deploy and roll back using versioned commands, named gates, and observable health checks.
+Given an approved project source and a conflicting implementation detail, record both with provenance, stop the affected branch, and obtain the accountable owner's decision. Then update the relevant contract, define a reproducible acceptance check, and retain its observed result. The artefact is accepted only when an authorised operator can deploy and recover using versioned commands, named gates, and observable health checks.
 
 ## References
+
+Morris (2021), *Infrastructure as Code*, second edition. Apply incremental change and recovery planning separately to the service and its persistent data.
 
 - [logic.prompt](logic.prompt) - load only when its template, logic, or detail is needed.
 - [README.md](README.md) - load only when its template, logic, or detail is needed.
@@ -180,12 +182,12 @@ Document configuration differences across environments:
 
 ### Step 6: Define Rollback Procedure
 
-Provide step-by-step reversal instructions:
+Provide the recovery steps for the observed state:
 - Decision criteria for triggering rollback
-- Service rollback sequence (reverse of deployment order)
-- Database rollback (restore from backup or reverse migration)
+- Service reversal order and compatibility with the current schema
+- Data recovery owner and last safe reversal point. If writes have been accepted since that point, preserve and reconcile them before a compensating change or forward fix. Escalate an unknown partial migration before retrying.
 - Configuration rollback
-- Verification that rollback restored previous state
+- Verification of service health and reconciliation of accepted writes
 
 ### Step 7: Define Post-Deployment Verification
 
@@ -210,7 +212,7 @@ The generated `Deployment_Guide.md` shall contain these sections in order: Docum
 | Pitfall | Remedy |
 |---------|--------|
 | Deployment steps without exact commands | Every step shall include the literal command or action to execute |
-| Missing rollback procedure | Every deployment guide shall include a complete reversal procedure |
+| Missing rollback procedure | Every deployment guide shall specify a verified recovery path for each change |
 | No environment differentiation | Configuration shall distinguish dev, staging, and prod explicitly |
 | Post-deployment verification omitted | Every guide shall define health checks and smoke tests |
 | Rollback ignores data and queues | Classify migrations as reversible, compensating-only, or forward-fix-only; include cache and queue recovery |
@@ -220,7 +222,7 @@ The generated `Deployment_Guide.md` shall contain these sections in order: Docum
 - [ ] `Deployment_Guide.md` exists in `projects/<ProjectName>/<phase>/<document>/` with all seven sections populated.
 - [ ] Pre-deployment checklist includes backup verification and stakeholder notification.
 - [ ] Deployment steps are numbered with exact commands and expected durations.
-- [ ] Rollback procedure reverses every deployment step.
+- [ ] Each step has a recovery owner, trigger, safe action and verification.
 - [ ] Post-deployment verification defines health checks and smoke tests.
 - [ ] Environment matrix covers dev, staging, and production.
 - [ ] Release markers, alert watch list, and observation owner are specified for production changes.

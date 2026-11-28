@@ -59,6 +59,8 @@ For a delivery study across machines, the [test report](05-testing-documentation
 
 ## Capabilities
 
+For a migration that has already accepted writes, use the [deployment guide](06-deployment-operations/01-deployment-guide/SKILL.md) to choose recovery and reconcile the data.
+
 The engine holds 160 skills in nine numbered phases, grouped under [What is inside](#what-is-inside). The [skill catalogue](docs/skill-catalogue.md) lists each one. The table under Find the right skill is the capability map: common tasks and the skill that handles each.
 
 The local [unattended runner](auto-agents/README.md) executes a configured, committed plan with Codex or Claude.
